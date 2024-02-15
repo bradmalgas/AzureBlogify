@@ -5,8 +5,7 @@ trigger:
 - none
 
 variables:
-   ARM_Connection: $(azureResourceManagerConnection)
-   sub_Id: $(subcriptionId)
+  - group: Deployment Variables
 
 pool: Default
 
@@ -19,8 +18,8 @@ stages:
     - task: AzureResourceManagerTemplateDeployment@3
       inputs:
         deploymentScope: 'Resource Group'
-        azureResourceManagerConnection: '$(ARM_Connection)'
-        subscriptionId: '$(sub_Id)'
+        azureResourceManagerConnection: '$(azureResourceManagerConnection)'
+        subscriptionId: '$(subcriptionId)'
         action: 'Create Or Update Resource Group'
         resourceGroupName: 'AzureBlogify'
         location: 'West Europe'
