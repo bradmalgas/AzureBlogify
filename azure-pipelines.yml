@@ -1,23 +1,27 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# A minimal pipeline that provisions a static web app
+
 
 trigger:
-- main
+- none
 
 pool: Default
 
 stages:
-- stage: TestPipeline
+- stage: ProvisionStaticWebApp
   jobs:
-  - job: EchoText
-    displayName: Run a few echos to test pipeline
+  - job: ProvisionStaticWebApp
+    displayName: Provision Static Web App for Front-end
     steps:
-    - script: echo Hello, world!
-      displayName: 'Run a one-line script'
-
-    - script: |
-        echo Add other tasks to build, test, and deploy your project.
-        echo See https://aka.ms/yaml
-      displayName: 'Run a multi-line script'
+    - task: AzureResourceManagerTemplateDeployment@3
+      inputs:
+        deploymentScope: 'Resource Group'
+        azureResourceManagerConnection: '$(azureResourceManagerConnection)'
+        subscriptionId: '$(subcriptionId)'
+        action: 'Create Or Update Resource Group'
+        resourceGroupName: 'AzureBlogify'
+        location: 'West Europe'
+        templateLocation: 'Linked artifact'
+        csmFile: './azuredeploy.json'
+        csmParametersFile: './azuredeploy.parameters.json'
+        deploymentMode: 'Incremental'
+        deploymentName: 'ProvisionStaticWebApp'
