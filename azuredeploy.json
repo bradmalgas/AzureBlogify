@@ -1,0 +1,43 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "type": "string"
+        },
+        "location": {
+            "type": "string"
+        },
+        "tags": {
+            "type": "object"
+        },
+        "skuName": {
+            "type": "string"
+        },
+        "skuTier": {
+            "type": "string"
+        },
+        "areStaticSitesDistributedBackendsEnabled": {
+            "type": "bool"
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Web/staticSites",
+            "apiVersion": "2022-09-01",
+            "name": "[parameters('name')]",
+            "location": "[parameters('location')]",
+            "tags": "[parameters('tags')]",
+            "sku": {
+                "name": "[parameters('skuName')]",
+                "tier": "[parameters('skuTier')]"
+            },
+            "properties": {                
+                "areStaticSitesDistributedBackendsEnabled": "[parameters('areStaticSitesDistributedBackendsEnabled')]"
+            }
+        }
+    ],
+    "outputs": {}
+}
