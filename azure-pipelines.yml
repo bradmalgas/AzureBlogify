@@ -21,10 +21,18 @@ stages:
         azureResourceManagerConnection: '$(azureResourceManagerConnection)'
         subscriptionId: '$(subcriptionId)'
         action: 'Create Or Update Resource Group'
-        resourceGroupName: 'AzureBlogify'
+        resourceGroupName: '$(resourceGroupName)'
         location: 'West Europe'
         templateLocation: 'Linked artifact'
         csmFile: './azuredeploy.json'
         csmParametersFile: './azuredeploy.parameters.json'
         deploymentMode: 'Incremental'
         deploymentName: 'ProvisionStaticWebApp'
+        overrideParameters:
+          -webAppName "$(webAppName)"
+          -appServicePlanName "$(appServicePlanName)"
+          -storageAccountName "$(storageAccountName)"
+          -functionAppName "$(functionAppName)"
+          -location "$(location)"
+          -subcriptionId "$(subcriptionId)"
+          -resourceGroupName "$(resourceGroupName)"
