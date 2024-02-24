@@ -2,25 +2,64 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "name": {
-            "value": "AzureBlogify"
+        "webAppName": {
+            "value": "REPLACE-IN-PIPELINE"
         },
         "location": {
-            "value": "westeurope"
+            "value": "REPLACE-IN-PIPELINE"
         },
         "tags": {
             "value": {
                 "Website Type": "Blog"            
             }
         },
-        "skuName": {
+        "app-skuName": {
             "value": "Free"
         },
-        "skuTier": {
+        "app-skuTier": {
             "value": "Free"
         },
         "areStaticSitesDistributedBackendsEnabled": {
             "value": false
+        },
+        "appServicePlanName": {
+            "value": "REPLACE-IN-PIPELINE"
+        },
+        "numberOfWorkers": {
+            "value": "1"
+        },
+        "workerSize": {
+            "value": "0"
+        },
+        "workerSizeId": {
+            "value": "0"
+        },
+        "plan-sku": {
+            "value": "Dynamic"
+        },
+        "plan-skuCode": {
+            "value": "Y1"
+        },
+        "storageAccountName": {
+            "value": "REPLACE-IN-PIPELINE"
+        },
+        "functionAppName": {
+            "value": "REPLACE-IN-PIPELINE"
+        },
+        "use32BitWorkerProcess": {
+            "value": false
+        },
+        "ftpsState": {
+            "value": "FtpsOnly"
+        },
+        "netFrameworkVersion": {
+            "value": "v8.0"
+        },
+        "resourceGroupName": {
+            "value": "REPLACE-IN-PIPELINE"
+        },
+        "subscriptionId": {
+            "value": "REPLACE-IN-PIPELINE"
         }
     }
 }
