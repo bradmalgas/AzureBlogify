@@ -19,7 +19,7 @@ stages:
       inputs:
         deploymentScope: 'Resource Group'
         azureResourceManagerConnection: '$(azureResourceManagerConnection)'
-        subscriptionId: '$(subcriptionId)'
+        subscriptionId: '$(subscriptionId)'
         action: 'Create Or Update Resource Group'
         resourceGroupName: '$(resourceGroupName)'
         location: 'West Europe'
@@ -34,5 +34,5 @@ stages:
           -storageAccountName "$(storageAccountName)"
           -functionAppName "$(functionAppName)"
           -location "$(location)"
-          -subcriptionId "$(subcriptionId)"
+          -subscriptionId "$(subscriptionId)"
           -resourceGroupName "$(resourceGroupName)"
