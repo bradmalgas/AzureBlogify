@@ -1,0 +1,33 @@
+<script setup lang="ts">
+import CloseIcon from './icons/CloseIcon.vue';
+import MenuIcon from './icons/MenuIcon.vue';
+import { ref } from 'vue';
+
+const isClosed = ref(true);
+
+const toggleSideNav = () => {
+    isClosed.value = !isClosed.value;
+};
+</script>
+
+<template>
+    <div class="relative z-20">
+        <div v-if="isClosed">
+            <MenuIcon @click="toggleSideNav()" />
+        </div>
+        <div v-else class="fixed inset-0 z-30 bg-babyblue w-screen p-5 pt-8 relative">
+            <div class="absolute top-3 right-5">
+                <CloseIcon @click="toggleSideNav()" />
+            </div>
+            <div class="grid gap-4 text-xl rounded">
+                <router-link to="/" key="home">Home</router-link>
+                <router-link to="/about" key="about">About</router-link>
+                <router-link to="/posts" key="posts">Post</router-link>
+                <router-link to="/about" key="contact">Contact</router-link>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+<style lang="postcss" scoped></style>
