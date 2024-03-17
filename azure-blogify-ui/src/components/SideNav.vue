@@ -13,11 +13,11 @@ const toggleSideNav = () => {
 <template>
     <div class="relative z-20">
         <div v-if="isClosed">
-            <MenuIcon @click="toggleSideNav()" />
+            <MenuIcon class="h-6" @click="toggleSideNav()" />
         </div>
         <div v-else class="fixed inset-0 z-30 bg-babyblue w-screen p-5 pt-8 relative">
-            <div class="absolute top-3 right-5">
-                <CloseIcon @click="toggleSideNav()" />
+            <div class="absolute top-3 right-8">
+                <CloseIcon class="h-6" @click="toggleSideNav()" />
             </div>
             <div class="grid gap-4 text-xl rounded">
                 <router-link to="/" key="home">Home</router-link>

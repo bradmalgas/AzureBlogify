@@ -7,15 +7,15 @@ import SideNav from './SideNav.vue';
 </script>
 
 <template>
-    <div class="bg-babyblue truncate hidden md:flex justify-between items-center">
-        <div class="px-3 lg:hidden">
+    <div class="bg-babyblue truncate hidden md:flex justify-between items-center py-1">
+        <div class="px-3">
             <SideNav class="icon" />
         </div>
-        <div>
+        <div class="lg:pl-5">
             <router-link to="/" class="">
                 <div class="flex items-center">
-                    <LogoSmall class="logo h-full w-full object-cover" />
-                    <h1 class="text-xl font-semibold">AzureBlogify</h1>
+                    <LogoSmall class="max-h-[52px] h-full w-full object-cover" />
+                    <h1 class="lg:text-xl text-xl font-semibold">AzureBlogify</h1>
                 </div>
             </router-link>
         </div>
@@ -25,17 +25,17 @@ import SideNav from './SideNav.vue';
             <router-link to="/posts" key="posts">Post</router-link>
             <router-link to="/about" key="contact">Contact</router-link>
         </div>
-        <div class=" flex bg-gray-200 rounded-[13px] p-1 mr-3">
+        <div class=" flex bg-gray-200 rounded-[13px] p-2 mr-3">
             <input class="bg-gray-200 rounded-[13px] min-w-52" type="text" placeholder="Search..">
-            <SearchIcon class="h-8 pr-2" />
+            <SearchIcon class="h-6 pr-2" />
         </div>
     </div>
-    <div class="flex justify-between items-center bg-babyblue overflow-hidden md:hidden min-w-80">
+    <div class="flex justify-between items-center bg-babyblue overflow-hidden md:hidden min-w-80 py-1">
         <div class="px-3">
             <SideNav />
         </div>
         <div class="flex items-center relative h-full">
-            <LogoSmall class="logo h-full w-full object-cover" />
+            <LogoSmall class="max-h-[52px] h-full w-full object-cover" />
             <p class="text-lg font-semibold">AzureBlogify</p>
         </div>
         <div class="px-3">
@@ -45,11 +45,4 @@ import SideNav from './SideNav.vue';
 </template>
 
 <style lang="postcss" scoped>
-.nav-bar-item {
-    @apply float-left text-center p-3 text-lg rounded text-white hover:text-blue-300
-}
-
-.logo {
-    max-height: 56px;
-}
 </style>
