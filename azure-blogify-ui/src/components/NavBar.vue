@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import LogoSmall from './icons/LogoSmall.vue';
-import LogoMedium from './icons/LogoMedium.vue';
-import LogoLarge from './icons/LogoLarge.vue';
 import SearchIcon from './icons/SearchIcon.vue';
 import SideNav from './SideNav.vue';
 </script>

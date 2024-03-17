@@ -15,7 +15,7 @@ const toggleSideNav = () => {
         <div v-if="isClosed">
             <MenuIcon class="h-6" @click="toggleSideNav()" />
         </div>
-        <div v-else class="fixed inset-0 z-30 bg-babyblue w-screen p-5 pt-8 relative">
+        <div v-else class="inset-0 z-30 bg-babyblue w-screen p-5 pt-8 relative">
             <div class="absolute top-3 right-8">
                 <CloseIcon class="h-6" @click="toggleSideNav()" />
             </div>
