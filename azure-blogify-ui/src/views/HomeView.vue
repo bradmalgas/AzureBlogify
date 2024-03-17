@@ -4,7 +4,9 @@ import FeaturedPost from '@/components/FeaturedPost.vue';
 </script>
 
 <template>
-  <div class="flex flex-col justify-center mx-10">
-    <FeaturedPost class="pt-3"/>
+  <div class="mx-10">
+    <div class="flex justify-center">
+      <FeaturedPost class="pt-3"/>
+    </div>
   </div>
 </template>
