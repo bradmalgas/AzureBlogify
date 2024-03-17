@@ -1,14 +1,10 @@
 <script setup lang="ts">
-import { useCounterStore } from '@/stores/counter';
+import FeaturedPost from '@/components/FeaturedPost.vue';
 
-const store = useCounterStore()
-const increment = () => { store.increment() }
 </script>
 
 <template>
-  <main>  
-  <div class="text-3xl">Page Vists = {{store.count}} </div>  
-  <button @click="increment" class="border-solid border-2 border-sky-500">Add count</button>  
-  <p>This is the Home page that will contain all the latest blog posts.</p>
-  </main>
+  <div class="flex flex-col justify-center mx-10">
+    <FeaturedPost class="pt-3"/>
+  </div>
 </template>
