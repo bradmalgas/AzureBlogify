@@ -1,6 +1,6 @@
 <script setup>
 import FeaturedPost from '@/components/FeaturedPost.vue';
-import PostItem from '@/components/PostItem.vue';
+import PostListItem from '@/components/PostListItem.vue';
 import { ref } from 'vue'
 
 const posts = ref([
@@ -46,10 +46,15 @@ const posts = ref([
   <div class="flex flex-col items-center pt-11 mx-10">
     <div class="space-y-3">
       <FeaturedPost title="Breaking news: Being a genius coder who drinks a lot has been linked with 100% chance of being a gazillionaire!" date="20 April 1998"/>
-      <PostItem v-for="post in posts"
+      <router-link v-for="post in posts"
         :key="post.id"
-        :title="post.title"
-        :date="post.date"/>
+        :to="'/post/'+post.id">
+        <PostListItem
+          class="my-5"
+          :key="post.id"
+          :title="post.title"
+          :date="post.date"/>
+      </router-link>
     </div>
   </div>
 </template>
