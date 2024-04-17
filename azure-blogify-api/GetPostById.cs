@@ -7,16 +7,18 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using static azure_blogify_api.GetAllPosts;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace azure_blogify_api
 {
-    public static class GetAllPosts
+    public static class GetPostById
     {
-        [FunctionName("GetAllPosts")]
+        [FunctionName("GetPostById")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation($"HTTP trigger: Get All Posts. [{DateTime.Now}]");
@@ -67,14 +69,18 @@ namespace azure_blogify_api
                 }
             };
 
-            return new OkObjectResult(posts);
-        }
+            string id = req.Query["id"];
 
-        public class Post
-        {
-            public string Id { get; set; }
-            public string Title { get; set; }
-            public DateTime Date { get; set; }
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            dynamic data = JsonConvert.DeserializeObject(requestBody);
+            id = id ?? data?.id;
+
+            if (!string.IsNullOrEmpty(id)) {
+                var post = posts.FirstOrDefault(x => x.Id == id);
+                return new OkObjectResult(post);
+            }
+
+            return new NotFoundObjectResult(id);
         }
     }
 }
