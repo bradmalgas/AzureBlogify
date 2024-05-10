@@ -43,10 +43,8 @@ stages:
     steps:
     - script: dotnet restore
       displayName: 'Restore NuGet packages'
-
     - script: dotnet build --configuration Release
       displayName: 'Build solution'
-
     - script: dotnet publish --configuration Release --output $(Build.ArtifactStagingDirectory)
       displayName: 'Publish application'
   - job: DeployFunctionApp
