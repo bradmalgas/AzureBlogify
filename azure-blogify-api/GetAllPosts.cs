@@ -15,7 +15,7 @@ namespace azure_blogify_api
     public static class GetAllPosts
     {
         [FunctionName("GetAllPosts")]
-        public static async Task<IActionResult> Run(
+        public static Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
@@ -67,7 +67,7 @@ namespace azure_blogify_api
                 }
             };
 
-            return await new OkObjectResult(posts);
+            return new OkObjectResult(posts);
         }
 
         public class Post
