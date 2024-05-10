@@ -56,7 +56,7 @@ stages:
           - task: PublishPipelineArtifact@1
             displayName: "Publish artifact"
             inputs:
-              targetPath: '$(Build.ArtifactStagingDirectory)/$(functionAppName)'
+              targetPath: '$(Build.ArtifactStagingDirectory)/$(functionAppName).zip'
               artifactName: '$(functionAppName)'
       - job: DeployFunctionApp
         displayName: Deploy Function App
