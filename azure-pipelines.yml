@@ -35,8 +35,8 @@ stages:
   #           -location "$(location)"
   #           -subscriptionId "$(subscriptionId)"
   #           -resourceGroupName "$(resourceGroupName)"
-  # - stage: DeployFunctionApp
-  #   jobs:
+  - stage: DeployFunctionApp
+    jobs:
   #     - job: PublishFunctionApp
   #       displayName: Build & Publish Function App
   #       steps:
