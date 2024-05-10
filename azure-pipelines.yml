@@ -57,7 +57,7 @@ stages:
             displayName: "Publish artifact"
             inputs:
               targetPath: '$(Build.ArtifactStagingDirectory)/$(functionAppName)'
-              artifactName: '$(functionAppName).zip'
+              artifactName: '$(functionAppName)'
       - job: DeployFunctionApp
         displayName: Deploy Function App
         dependsOn: PublishFunctionApp
@@ -69,4 +69,4 @@ stages:
               connectedServiceNameARM: "$(azureResourceManagerConnection)"
               appType: "functionApp"
               appName: "$(functionAppName)"
-              package: "$(Build.ArtifactStagingDirectory)/$(functionAppName).zip"
+              package: "$(Build.ArtifactStagingDirectory)/$(functionAppName)"
