@@ -9,60 +9,64 @@ variables:
 pool: Azure Pipelines
 
 stages:
-  # - stage: ProvisionInfrastructure
-  #   jobs:
-  #   - job: ProvisionInfrastructure
-  #     displayName: Provisioning Infrastrcutres
-  #     steps:
-  #     - task: AzureResourceManagerTemplateDeployment@3
-  #       inputs:
-  #         deploymentScope: 'Resource Group'
-  #         azureResourceManagerConnection: '$(azureResourceManagerConnection)'
-  #         subscriptionId: '$(subscriptionId)'
-  #         action: 'Create Or Update Resource Group'
-  #         resourceGroupName: '$(resourceGroupName)'
-  #         location: 'West Europe'
-  #         templateLocation: 'Linked artifact'
-  #         csmFile: './azuredeploy.json'
-  #         csmParametersFile: './azuredeploy.parameters.json'
-  #         deploymentMode: 'Incremental'
-  #         deploymentName: 'ProvisionInfrastructure'
-  #         overrideParameters:
-  #           -webAppName "$(webAppName)"
-  #           -appServicePlanName "$(appServicePlanName)"
-  #           -storageAccountName "$(storageAccountName)"
-  #           -functionAppName "$(functionAppName)"
-  #           -location "$(location)"
-  #           -subscriptionId "$(subscriptionId)"
-  #           -resourceGroupName "$(resourceGroupName)"
+  - stage: ProvisionInfrastructure
+    jobs:
+    - job: ProvisionInfrastructure
+      displayName: Provisioning Infrastrcutres
+      steps:
+      - task: AzureResourceManagerTemplateDeployment@3
+        inputs:
+          deploymentScope: 'Resource Group'
+          azureResourceManagerConnection: '$(azureResourceManagerConnection)'
+          subscriptionId: '$(subscriptionId)'
+          action: 'Create Or Update Resource Group'
+          resourceGroupName: '$(resourceGroupName)'
+          location: 'West Europe'
+          templateLocation: 'Linked artifact'
+          csmFile: './azuredeploy.json'
+          csmParametersFile: './azuredeploy.parameters.json'
+          deploymentMode: 'Incremental'
+          deploymentName: 'ProvisionInfrastructure'
+          overrideParameters:
+            -webAppName "$(webAppName)"
+            -appServicePlanName "$(appServicePlanName)"
+            -storageAccountName "$(storageAccountName)"
+            -functionAppName "$(functionAppName)"
+            -location "$(location)"
+            -subscriptionId "$(subscriptionId)"
+            -resourceGroupName "$(resourceGroupName)"
   - stage: DeployFunctionApp
     jobs:
-  #     - job: PublishFunctionApp
-  #       displayName: Build & Publish Function App
-  #       steps:
-  #         - script: dotnet restore $(functionAppName)/$(functionAppName).csproj
-  #           displayName: "Restore NuGet packages"
-  #         - script: dotnet build $(functionAppName)/$(functionAppName).csproj --configuration Release
-  #           displayName: "Build solution"
-  #         - script: dotnet publish $(functionAppName)/$(functionAppName).csproj --configuration Release --output $(Build.ArtifactStagingDirectory)/$(functionAppName) --self-contained false
-  #           displayName: "Publish application"
-  #         - task: ArchiveFiles@2
-  #           displayName: "Archive files"
-  #           inputs:
-  #             rootFolderOrFile: "$(Build.ArtifactStagingDirectory)/$(functionAppName)"
-  #             includeRootFolder: false
-  #             archiveFile: "$(Build.ArtifactStagingDirectory)/$(functionAppName).zip"
-  #             replaceExistingArchive: true
-  #         - task: PublishPipelineArtifact@1
-  #           displayName: "Publish artifact"
-  #           inputs:
-  #             targetPath: '$(Build.ArtifactStagingDirectory)/$(functionAppName).zip'
-  #             artifactName: '$(functionAppName)'
+      - job: PublishFunctionApp
+        displayName: Build & Publish Function App
+        steps:
+          - script: dotnet restore $(functionAppName)/$(functionAppName).csproj
+            displayName: "Restore NuGet packages"
+          - script: dotnet build $(functionAppName)/$(functionAppName).csproj --configuration Release
+            displayName: "Build solution"
+          - script: dotnet publish $(functionAppName)/$(functionAppName).csproj --configuration Release --output $(Build.ArtifactStagingDirectory) --self-contained false
+            displayName: "Publish application"
+          - task: ArchiveFiles@2
+            displayName: "Archive files"
+            inputs:
+              rootFolderOrFile: "$(Build.ArtifactStagingDirectory)"
+              includeRootFolder: false
+              archiveFile: "$(Build.ArtifactStagingDirectory)/$(functionAppName).zip"
+              replaceExistingArchive: true
+          - task: PublishPipelineArtifact@1
+            displayName: "Publish artifact"
+            inputs:
+              targetPath: '$(Build.ArtifactStagingDirectory)/$(functionAppName).zip'
+              artifactName: '$(functionAppName)'
       - job: DeployFunctionApp
         displayName: Deploy Function App
-        # dependsOn: PublishFunctionApp
+        dependsOn: PublishFunctionApp
         condition: succeeded()
         steps:
+          - download: current
+            artifact: $(functionAppName)
+            displayName: "Download artifact"
+            path: '$(Build.ArtifactStagingDirectory)/$(functionAppName).zip'
           - task: AzureFunctionApp@2
             displayName: "Deploy function app"
             inputs:
