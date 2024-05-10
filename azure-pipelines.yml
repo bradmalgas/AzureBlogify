@@ -69,4 +69,4 @@ stages:
               connectedServiceNameARM: "$(azureResourceManagerConnection)"
               appType: "functionApp"
               appName: "$(functionAppName)"
-              package: "$(Build.ArtifactStagingDirectory)/$(functionAppName)/$(functionAppName).zip"
+              package: "$(Build.ArtifactStagingDirectory)/$(functionAppName)"
