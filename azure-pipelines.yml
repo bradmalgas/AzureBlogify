@@ -41,6 +41,16 @@ stages:
   - job: PublishFunctionApp
     displayName: Build & Publish Function App
     steps:
+    - task: Cache@2
+      inputs:
+        key: 'npm | "$(Agent.OS)" | package-lock.json'
+        restoreKeys: |
+            npm | "$(Agent.OS)"
+        path: '$(npm_config_cache)'
+        cacheHitVar: CACHE_RESTORED
+        displayName: Cache npm  
+        - script: npm cache clean --force
+          displayName: 'Clear npm cache'
     # - task: DotNetCoreCLI@2
     #   displayName: 'Restore NuGet packages'
     #   inputs:
