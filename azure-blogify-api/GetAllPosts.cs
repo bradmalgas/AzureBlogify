@@ -15,7 +15,7 @@ namespace azure_blogify_api
     public static class GetAllPosts
     {
         [FunctionName("GetAllPosts")]
-        public static Task<IActionResult> Run(
+        public static IActionResult Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
