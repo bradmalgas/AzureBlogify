@@ -60,7 +60,7 @@ stages:
   #             artifactName: '$(functionAppName)'
       - job: DeployFunctionApp
         displayName: Deploy Function App
-        dependsOn: PublishFunctionApp
+        # dependsOn: PublishFunctionApp
         condition: succeeded()
         steps:
           - task: AzureFunctionApp@2
