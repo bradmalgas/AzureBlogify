@@ -61,6 +61,8 @@ stages:
         modifyOutputPath: true
   - job: DeployFunctionApp
     displayName: Deploy Function App
+    dependsOn: PublishFunctionApp
+    condition: succeeded()
     steps:
     - task: AzureFunctionApp@2
       displayName: 'Deploy function app'
