@@ -67,7 +67,7 @@ namespace azure_blogify_api
                 }
             };
 
-            return new OkObjectResult(posts);
+            return await new OkObjectResult(posts);
         }
 
         public class Post
