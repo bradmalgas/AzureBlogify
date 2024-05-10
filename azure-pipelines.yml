@@ -58,4 +58,4 @@ stages:
         connectedServiceNameARM: '$(azureResourceManagerConnection)'
         appType: 'functionApp'
         appName: '$(functionAppName)'
-        package: '$(System.DefaultWorkingDirectory)/$(functionAppName)/$(functionAppName).zip'
+        package: '$(System.DefaultWorkingDirectory)/$(functionAppName)/bin/Release/net6.0'
