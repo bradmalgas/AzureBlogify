@@ -45,7 +45,7 @@ stages:
       displayName: 'Restore NuGet packages'
     - script: dotnet build $(functionAppName)/$(functionAppName).csproj --configuration Release
       displayName: 'Build solution'
-    - script: dotnet publish $(functionAppName)/$(functionAppName).csproj --configuration Release --output $(Build.ArtifactStagingDirectory) --self-contained false
+    - script: dotnet publish $(functionAppName)/$(functionAppName).csproj --configuration Release --output $(Build.ArtifactStagingDirectory)/$(functionAppName) --self-contained false
       displayName: 'Publish application'
     - task: ArchiveFiles@2
       displayName: 'Archive files'
