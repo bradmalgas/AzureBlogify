@@ -38,7 +38,7 @@ stages:
           -resourceGroupName "$(resourceGroupName)"
 - stage: DeployFunctionApp
   jobs:
-  - job: Build&PublishFunctionApp
+  - job: PublishFunctionApp
     displayName: Build & Publish Function App
     steps:
     - task: DotNetCoreCLI@2
