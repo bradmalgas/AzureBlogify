@@ -53,6 +53,11 @@ stages:
               includeRootFolder: false
               archiveFile: "$(Build.ArtifactStagingDirectory)/$(functionAppName).zip"
               replaceExistingArchive: true
+          - task: PublishPipelineArtifact@1
+            displayName: "Publish artifact"
+            inputs:
+              targetPath: '$(Build.ArtifactStagingDirectory)/$(functionAppName)'
+              artifactName: '$(functionAppName).zip'
       - job: DeployFunctionApp
         displayName: Deploy Function App
         dependsOn: PublishFunctionApp
