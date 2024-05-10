@@ -41,11 +41,11 @@ stages:
   - job: PublishFunctionApp
     displayName: Build & Publish Function App
     steps:
-    - script: dotnet restore
+    - script: dotnet restore $(functionAppName)/$(functionAppName).sln
       displayName: 'Restore NuGet packages'
-    - script: dotnet build --configuration Release
+    - script: dotnet build $(functionAppName)/$(functionAppName).sln --configuration Release
       displayName: 'Build solution'
-    - script: dotnet publish --configuration Release --output $(Build.ArtifactStagingDirectory)
+    - script: dotnet publish $(functionAppName)/$(functionAppName).sln --configuration Release --output $(Build.ArtifactStagingDirectory)
       displayName: 'Publish application'
   - job: DeployFunctionApp
     displayName: Deploy Function App
