@@ -10,9 +10,9 @@ variables:
 pool: Default
 
 stages:
-- stage: ProvisionStaticWebApp
+- stage: ProvisionInfrastructure
   jobs:
-  - job: ProvisionStaticWebApp
+  - job: ProvisionInfrastructure
     displayName: Provision Static Web App for Front-end
     steps:
     - task: AzureResourceManagerTemplateDeployment@3
@@ -27,7 +27,7 @@ stages:
         csmFile: './azuredeploy.json'
         csmParametersFile: './azuredeploy.parameters.json'
         deploymentMode: 'Incremental'
-        deploymentName: 'ProvisionStaticWebApp'
+        deploymentName: 'ProvisionInfrastructure'
         overrideParameters:
           -webAppName "$(webAppName)"
           -appServicePlanName "$(appServicePlanName)"
@@ -36,3 +36,36 @@ stages:
           -location "$(location)"
           -subscriptionId "$(subscriptionId)"
           -resourceGroupName "$(resourceGroupName)"
+- stage: DeployFunctionApp
+  jobs:
+  - job: Build&PublishFunctionApp
+    displayName: Build & Publish Function App
+    steps:
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore NuGet packages'
+      inputs:
+        command: 'restore'
+        projects: '$(System.DefaultWorkingDirectory)/$(functionAppName)/$(functionAppName).sln'
+    - task: DotNetCoreCLI@2
+      displayName: 'Build solution'
+      inputs:
+        command: 'build'
+        projects: '$(System.DefaultWorkingDirectory)/$(functionAppName)/$(functionAppName).sln'
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish solution'
+      inputs:
+        command: 'publish'
+        publishWebProjects: true
+        projects: '$(System.DefaultWorkingDirectory)/$(functionAppName)/$(functionAppName).sln'
+        zipAfterPublish: true
+        modifyOutputPath: true
+  - job: DeployFunctionApp
+    displayName: Deploy Function App
+    steps:
+    - task: AzureFunctionApp@2
+      displayName: 'Deploy function app'
+      inputs:
+        connectedServiceNameARM: '$(azureResourceManagerConnection)'
+        appType: 'functionApp'
+        appName: '$(functionAppName)'
+        package: '$(System.DefaultWorkingDirectory)/$(functionAppName)/$(functionAppName).zip'
