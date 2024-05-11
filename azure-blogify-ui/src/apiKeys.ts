@@ -1,1 +1,0 @@
-export const azureFunctionApKey: string = "YOUR_API_KEY_HERE";
