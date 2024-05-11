@@ -67,47 +67,55 @@ stages:
                 $publishPath = '$(Pipeline.Workspace)'  # Update this path as per your pipeline configuration
                 Write-Host "Contents of Pipeline.Workspace:"
                 Get-ChildItem -Path $publishPath
-      - job: DeployFunctionApp
-        displayName: Deploy Function App
-        dependsOn: PublishFunctionApp
-        condition: succeeded()
-        steps:
-          - task: PowerShell@2
-            displayName: "List artifacts in Build.ArtifactStagingDirectory"
+                    # - task: AzureFunctionApp@2
+          - task: AzureFunctionApp@2
+            displayName: "Deploy function app"
             inputs:
-              targetType: 'inline'
-              script: |
-                $publishPath = '$(Build.ArtifactStagingDirectory)'  # Update this path as per your pipeline configuration
-                Write-Host "Contents of Build.ArtifactStagingDirectory:"
-                Get-ChildItem -Path $publishPath
-          - task: PowerShell@2
-            displayName: "List artifacts in Pipeline.Workspace"
-            inputs:
-              targetType: 'inline'
-              script: |
-                $publishPath = '$(Pipeline.Workspace)'  # Update this path as per your pipeline configuration
-                Write-Host "Contents of Pipeline.Workspace:"
-                Get-ChildItem -Path $publishPath
-          - task: PowerShell@2
-            displayName: "List artifacts in System.DefaultWorkingDirectory"
-            inputs:
-              targetType: 'inline'
-              script: |
-                $publishPath = '$(System.DefaultWorkingDirectory)'  # Update this path as per your pipeline configuration
-                Write-Host "Contents of System.DefaultWorkingDirectory:"
-                Get-ChildItem -Path $publishPath
-          - task: PowerShell@2
-            displayName: "List artifacts in ./"
-            inputs:
-              targetType: 'inline'
-              script: |
-                $publishPath = './'  # Update this path as per your pipeline configuration
-                Write-Host "Contents of ./:"
-                Get-ChildItem -Path $publishPath
-          # - task: AzureFunctionApp@2
-          #   displayName: "Deploy function app"
-          #   inputs:
-          #     connectedServiceNameARM: "$(azureResourceManagerConnection)"
-          #     appType: "functionApp"
-          #     appName: "$(functionAppName)"
-          #     package: "$(Pipeline.Workspace)/drop/$(functionAppName).zip"
+              connectedServiceNameARM: "$(azureResourceManagerConnection)"
+              appType: "functionApp"
+              appName: "$(functionAppName)"
+              package: "$(Pipeline.Workspace)/drop/$(functionAppName).zip"
+      # - job: DeployFunctionApp
+      #   displayName: Deploy Function App
+      #   dependsOn: PublishFunctionApp
+      #   condition: succeeded()
+      #   steps:
+      #     - task: PowerShell@2
+      #       displayName: "List artifacts in Build.ArtifactStagingDirectory"
+      #       inputs:
+      #         targetType: 'inline'
+      #         script: |
+      #           $publishPath = '$(Build.ArtifactStagingDirectory)'  # Update this path as per your pipeline configuration
+      #           Write-Host "Contents of Build.ArtifactStagingDirectory:"
+      #           Get-ChildItem -Path $publishPath
+      #     - task: PowerShell@2
+      #       displayName: "List artifacts in Pipeline.Workspace"
+      #       inputs:
+      #         targetType: 'inline'
+      #         script: |
+      #           $publishPath = '$(Pipeline.Workspace)'  # Update this path as per your pipeline configuration
+      #           Write-Host "Contents of Pipeline.Workspace:"
+      #           Get-ChildItem -Path $publishPath
+      #     - task: PowerShell@2
+      #       displayName: "List artifacts in System.DefaultWorkingDirectory"
+      #       inputs:
+      #         targetType: 'inline'
+      #         script: |
+      #           $publishPath = '$(System.DefaultWorkingDirectory)'  # Update this path as per your pipeline configuration
+      #           Write-Host "Contents of System.DefaultWorkingDirectory:"
+      #           Get-ChildItem -Path $publishPath
+      #     - task: PowerShell@2
+      #       displayName: "List artifacts in ./"
+      #       inputs:
+      #         targetType: 'inline'
+      #         script: |
+      #           $publishPath = './'  # Update this path as per your pipeline configuration
+      #           Write-Host "Contents of ./:"
+      #           Get-ChildItem -Path $publishPath
+      #     # - task: AzureFunctionApp@2
+      #     #   displayName: "Deploy function app"
+      #     #   inputs:
+      #     #     connectedServiceNameARM: "$(azureResourceManagerConnection)"
+      #     #     appType: "functionApp"
+      #     #     appName: "$(functionAppName)"
+      #     #     package: "$(Pipeline.Workspace)/drop/$(functionAppName).zip"
