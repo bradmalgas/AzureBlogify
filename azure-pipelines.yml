@@ -1,7 +1,7 @@
 # A minimal pipeline that provisions a static web app
 
 trigger:
-  - none
+  - fix/deploy-function-app-issue
 
 variables:
   - group: Deployment Variables
