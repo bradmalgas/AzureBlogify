@@ -9,32 +9,32 @@ variables:
 pool: Azure Pipelines
 
 stages:
-  - stage: ProvisionInfrastructure
-    jobs:
-    - job: ProvisionInfrastructure
-      displayName: Provisioning Infrastrcutres
-      steps:
-      - task: AzureResourceManagerTemplateDeployment@3
-        inputs:
-          deploymentScope: 'Resource Group'
-          azureResourceManagerConnection: '$(azureResourceManagerConnection)'
-          subscriptionId: '$(subscriptionId)'
-          action: 'Create Or Update Resource Group'
-          resourceGroupName: '$(resourceGroupName)'
-          location: 'West Europe'
-          templateLocation: 'Linked artifact'
-          csmFile: './azuredeploy.json'
-          csmParametersFile: './azuredeploy.parameters.json'
-          deploymentMode: 'Incremental'
-          deploymentName: 'ProvisionInfrastructure'
-          overrideParameters:
-            -webAppName "$(webAppName)"
-            -appServicePlanName "$(appServicePlanName)"
-            -storageAccountName "$(storageAccountName)"
-            -functionAppName "$(functionAppName)"
-            -location "$(location)"
-            -subscriptionId "$(subscriptionId)"
-            -resourceGroupName "$(resourceGroupName)"
+  # - stage: ProvisionInfrastructure
+  #   jobs:
+  #   - job: ProvisionInfrastructure
+  #     displayName: Provisioning Infrastrcutres
+  #     steps:
+  #     - task: AzureResourceManagerTemplateDeployment@3
+  #       inputs:
+  #         deploymentScope: 'Resource Group'
+  #         azureResourceManagerConnection: '$(azureResourceManagerConnection)'
+  #         subscriptionId: '$(subscriptionId)'
+  #         action: 'Create Or Update Resource Group'
+  #         resourceGroupName: '$(resourceGroupName)'
+  #         location: 'West Europe'
+  #         templateLocation: 'Linked artifact'
+  #         csmFile: './azuredeploy.json'
+  #         csmParametersFile: './azuredeploy.parameters.json'
+  #         deploymentMode: 'Incremental'
+  #         deploymentName: 'ProvisionInfrastructure'
+  #         overrideParameters:
+  #           -webAppName "$(webAppName)"
+  #           -appServicePlanName "$(appServicePlanName)"
+  #           -storageAccountName "$(storageAccountName)"
+  #           -functionAppName "$(functionAppName)"
+  #           -location "$(location)"
+  #           -subscriptionId "$(subscriptionId)"
+  #           -resourceGroupName "$(resourceGroupName)"
   - stage: DeployFunctionApp
     jobs:
       - job: PublishFunctionApp
