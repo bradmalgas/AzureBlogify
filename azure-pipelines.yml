@@ -67,21 +67,14 @@ stages:
         displayName: Deploy Static Web App
         steps:
         - task: PowerShell@2
-          displayName: "List files in $(webAppName)"
+          displayName: "List files in $(System.DefaultWorkingDirectory)"
           inputs:
             targetType: 'inline'
             script: |
-              $publishPath = '$(webAppName)'  # Update this path as per your pipeline configuration
-              Write-Host "Contents of $(webAppName):"
+              $publishPath = '$(System.DefaultWorkingDirectory)'  # Update this path as per your pipeline configuration
+              Write-Host "Contents of $(System.DefaultWorkingDirectory):"
               Get-ChildItem -Path $publishPath
-        - task: PowerShell@2
-          displayName: "List files in $(functionAppName)"
-          inputs:
-            targetType: 'inline'
-            script: |
-              $publishPath = '$(functionAppName)'  # Update this path as per your pipeline configuration
-              Write-Host "Contents of $(functionAppName):"
-              Get-ChildItem -Path $publishPath
+
           # - task: AzureStaticWebApp@0
         #   inputs:
         #     app_location: '$(webAppName)'
