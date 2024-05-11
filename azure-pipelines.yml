@@ -63,13 +63,11 @@ stages:
         dependsOn: PublishFunctionApp
         condition: succeeded()
         steps:
-          - download: current
-            artifact: $(functionAppName)
-            displayName: "Download artifact"
-            path: '$(Build.ArtifactStagingDirectory)/$(functionAppName).zip'
           - task: AzureFunctionApp@2
             displayName: "Deploy function app"
             inputs:
-              connectedServiceNameARM: "$(azureResourceManagerConnection)"
-              appType: "functionApp"
-              appName: "$(functionAppName)"
+              connectedServiceNameARM: '$(azureResourceManagerConnection)'
+              appType: 'functionApp'
+              appName: '$(functionAppName)'
+              package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+              deploymentMethod: 'auto'
