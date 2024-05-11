@@ -1,7 +1,7 @@
 # A minimal pipeline that provisions a static web app
 
 trigger:
-  - fix/deploy-function-app-issue
+  - none
 
 variables:
   - group: Deployment Variables
@@ -9,36 +9,36 @@ variables:
 pool: Azure Pipelines
 
 stages:
-  # - stage: ProvisionInfrastructure
-  #   jobs:
-  #   - job: ProvisionInfrastructure
-  #     displayName: Provisioning Infrastrcutres
-  #     steps:
-  #     - task: AzureResourceManagerTemplateDeployment@3
-  #       inputs:
-  #         deploymentScope: 'Resource Group'
-  #         azureResourceManagerConnection: '$(azureResourceManagerConnection)'
-  #         subscriptionId: '$(subscriptionId)'
-  #         action: 'Create Or Update Resource Group'
-  #         resourceGroupName: '$(resourceGroupName)'
-  #         location: 'West Europe'
-  #         templateLocation: 'Linked artifact'
-  #         csmFile: './azuredeploy.json'
-  #         csmParametersFile: './azuredeploy.parameters.json'
-  #         deploymentMode: 'Incremental'
-  #         deploymentName: 'ProvisionInfrastructure'
-  #         overrideParameters:
-  #           -webAppName "$(webAppName)"
-  #           -appServicePlanName "$(appServicePlanName)"
-  #           -storageAccountName "$(storageAccountName)"
-  #           -functionAppName "$(functionAppName)"
-  #           -location "$(location)"
-  #           -subscriptionId "$(subscriptionId)"
-  #           -resourceGroupName "$(resourceGroupName)"
+  - stage: ProvisionInfrastructure
+    jobs:
+    - job: ProvisionInfrastructure
+      displayName: Provisioning Infrastrcutres
+      steps:
+      - task: AzureResourceManagerTemplateDeployment@3
+        inputs:
+          deploymentScope: 'Resource Group'
+          azureResourceManagerConnection: '$(azureResourceManagerConnection)'
+          subscriptionId: '$(subscriptionId)'
+          action: 'Create Or Update Resource Group'
+          resourceGroupName: '$(resourceGroupName)'
+          location: 'West Europe'
+          templateLocation: 'Linked artifact'
+          csmFile: './azuredeploy.json'
+          csmParametersFile: './azuredeploy.parameters.json'
+          deploymentMode: 'Incremental'
+          deploymentName: 'ProvisionInfrastructure'
+          overrideParameters:
+            -webAppName "$(webAppName)"
+            -appServicePlanName "$(appServicePlanName)"
+            -storageAccountName "$(storageAccountName)"
+            -functionAppName "$(functionAppName)"
+            -location "$(location)"
+            -subscriptionId "$(subscriptionId)"
+            -resourceGroupName "$(resourceGroupName)"
   - stage: DeployFunctionApp
     jobs:
       - job: PublishFunctionApp
-        displayName: Build & Publish Function App
+        displayName: Deploy Function App
         steps:
           - script: dotnet restore $(functionAppName)/$(functionAppName).csproj
             displayName: "Restore NuGet packages"
@@ -54,68 +54,9 @@ stages:
               archiveType: "zip"
               archiveFile: "$(Pipeline.Workspace)/$(functionAppName).zip"
               replaceExistingArchive: true
-          - task: PublishPipelineArtifact@1
-            displayName: "Publish artifact"
-            inputs:
-              targetPath: '$(Pipeline.Workspace)/$(functionAppName).zip'
-              artifactName: 'drop'
-          - task: PowerShell@2
-            displayName: "List artifacts in Pipeline.Workspace"
-            inputs:
-              targetType: 'inline'
-              script: |
-                $publishPath = '$(Pipeline.Workspace)'  # Update this path as per your pipeline configuration
-                Write-Host "Contents of Pipeline.Workspace:"
-                Get-ChildItem -Path $publishPath
-                    # - task: AzureFunctionApp@2
           - task: AzureFunctionApp@2
             displayName: "Deploy function app"
             inputs:
               connectedServiceNameARM: "$(azureResourceManagerConnection)"
               appType: "functionApp"
               appName: "$(functionAppName)"
-              package: "$(Pipeline.Workspace)/$(functionAppName).zip"
-      # - job: DeployFunctionApp
-      #   displayName: Deploy Function App
-      #   dependsOn: PublishFunctionApp
-      #   condition: succeeded()
-      #   steps:
-      #     - task: PowerShell@2
-      #       displayName: "List artifacts in Build.ArtifactStagingDirectory"
-      #       inputs:
-      #         targetType: 'inline'
-      #         script: |
-      #           $publishPath = '$(Build.ArtifactStagingDirectory)'  # Update this path as per your pipeline configuration
-      #           Write-Host "Contents of Build.ArtifactStagingDirectory:"
-      #           Get-ChildItem -Path $publishPath
-      #     - task: PowerShell@2
-      #       displayName: "List artifacts in Pipeline.Workspace"
-      #       inputs:
-      #         targetType: 'inline'
-      #         script: |
-      #           $publishPath = '$(Pipeline.Workspace)'  # Update this path as per your pipeline configuration
-      #           Write-Host "Contents of Pipeline.Workspace:"
-      #           Get-ChildItem -Path $publishPath
-      #     - task: PowerShell@2
-      #       displayName: "List artifacts in System.DefaultWorkingDirectory"
-      #       inputs:
-      #         targetType: 'inline'
-      #         script: |
-      #           $publishPath = '$(System.DefaultWorkingDirectory)'  # Update this path as per your pipeline configuration
-      #           Write-Host "Contents of System.DefaultWorkingDirectory:"
-      #           Get-ChildItem -Path $publishPath
-      #     - task: PowerShell@2
-      #       displayName: "List artifacts in ./"
-      #       inputs:
-      #         targetType: 'inline'
-      #         script: |
-      #           $publishPath = './'  # Update this path as per your pipeline configuration
-      #           Write-Host "Contents of ./:"
-      #           Get-ChildItem -Path $publishPath
-      #     # - task: AzureFunctionApp@2
-      #     #   displayName: "Deploy function app"
-      #     #   inputs:
-      #     #     connectedServiceNameARM: "$(azureResourceManagerConnection)"
-      #     #     appType: "functionApp"
-      #     #     appName: "$(functionAppName)"
-      #     #     package: "$(Pipeline.Workspace)/drop/$(functionAppName).zip"
