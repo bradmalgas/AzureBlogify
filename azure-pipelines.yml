@@ -70,4 +70,4 @@ stages:
               connectedServiceNameARM: "$(azureResourceManagerConnection)"
               appType: "functionApp"
               appName: "$(functionAppName)"
-              package: "$(Pipeline.Workspace)/drop/$(functionAppName).zipß"
+              package: "$(Pipeline.Workspace)/drop/$(functionAppName).zip"
