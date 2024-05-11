@@ -26,7 +26,7 @@ namespace azure_blogify_api
             {
                 new Post() {
                     Id = "1",
-                    Title = "Quisque aliquam lorem nec arcu convallis scelerisque. Ut laoreet pharetra imperdiet. Vivamus dignissim fringilla augue sed accumsan. In sollicitudin urna.",
+                    Title = "27 year old Johannesburg woman Tania Koetsie convicted for being a perfectionist who wants a draft website to have real words and full sentences.",
                     Date = DateTime.ParseExact("20 May 2024", dateFormat, CultureInfo.InvariantCulture)
                 },
                 new Post()
