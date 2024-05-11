@@ -66,19 +66,19 @@ stages:
       - job: DeployStaticWebApp
         displayName: Deploy Static Web App
         steps:
-        - task: PowerShell@2
-          displayName: "List files in $(System.DefaultWorkingDirectory)"
-          inputs:
-            targetType: 'inline'
-            script: |
-              $publishPath = '$(System.DefaultWorkingDirectory)'  # Update this path as per your pipeline configuration
-              Write-Host "Contents of $(System.DefaultWorkingDirectory):"
-              Get-ChildItem -Path $publishPath
-
-          # - task: AzureStaticWebApp@0
+        # - task: PowerShell@2
+        #   displayName: "List files in $(System.DefaultWorkingDirectory)"
         #   inputs:
-        #     app_location: '$(webAppName)'
-        #     output_location: '$(Build.ArtifactStagingDirectory)'
-        #     api_location: '$(functionAppName)'
-        #     api_build_command: '--configuration Release --output $(Build.ArtifactStagingDirectory) --self-contained false'
-        #     azure_static_web_apps_api_token: $(deploymentToken)
+        #     targetType: 'inline'
+        #     script: |
+        #       $publishPath = '$(System.DefaultWorkingDirectory)'  # Update this path as per your pipeline configuration
+        #       Write-Host "Contents of $(System.DefaultWorkingDirectory):"
+        #       Get-ChildItem -Path $publishPath
+
+          - task: AzureStaticWebApp@0
+          inputs:
+            app_location: '$(webAppName)'
+            output_location: '$(Build.ArtifactStagingDirectory)'
+            api_location: '$(functionAppName)'
+            api_build_command: '--configuration Release --output $(Build.ArtifactStagingDirectory) --self-contained false'
+            azure_static_web_apps_api_token: $(deploymentToken)
