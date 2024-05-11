@@ -13,7 +13,7 @@ const loading = ref(false);
 const fetchData = async () => {
   loading.value = true;
   try {
-    const response = await fetch("https://azure-blogify-api.azurewebsites.net/api/GetPostById?code="+azureFunctionApKey+"&id="+props.id);
+    const response = await fetch("/api/GetPostById?code="+"&id="+props.id);
     if (!response.ok)
     {
       throw new Error('Failed to fetch data.');
