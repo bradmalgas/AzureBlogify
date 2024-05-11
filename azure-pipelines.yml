@@ -57,15 +57,15 @@ stages:
           - task: PublishPipelineArtifact@1
             displayName: "Publish artifact"
             inputs:
-              targetPath: '$(Build.ArtifactStagingDirectory)/$(functionAppName).zip'
+              targetPath: '$(Pipeline.Workspace)/$(functionAppName).zip'
               artifactName: 'drop'
           - task: PowerShell@2
-            displayName: "List artifacts in Build.ArtifactStagingDirectory"
+            displayName: "List artifacts in Pipeline.Workspace"
             inputs:
               targetType: 'inline'
               script: |
-                $publishPath = '$(Build.ArtifactStagingDirectory)'  # Update this path as per your pipeline configuration
-                Write-Host "Contents of Build.ArtifactStagingDirectory:"
+                $publishPath = '$(Pipeline.Workspace)'  # Update this path as per your pipeline configuration
+                Write-Host "Contents of Pipeline.Workspace:"
                 Get-ChildItem -Path $publishPath
       - job: DeployFunctionApp
         displayName: Deploy Function App
