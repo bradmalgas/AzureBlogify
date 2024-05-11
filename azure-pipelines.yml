@@ -74,7 +74,7 @@ stages:
               connectedServiceNameARM: "$(azureResourceManagerConnection)"
               appType: "functionApp"
               appName: "$(functionAppName)"
-              package: "$(Pipeline.Workspace)/drop/$(functionAppName).zip"
+              package: "$(Pipeline.Workspace)/$(functionAppName).zip"
       # - job: DeployFunctionApp
       #   displayName: Deploy Function App
       #   dependsOn: PublishFunctionApp
