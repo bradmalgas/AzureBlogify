@@ -78,7 +78,6 @@ stages:
         - task: AzureStaticWebApp@0
           inputs:
             app_location: '$(webAppName)'
-            output_location: 'drop'
             api_location: '$(functionAppName)'
             api_build_command: '--configuration Release --output $(Build.ArtifactStagingDirectory) --self-contained false'
             azure_static_web_apps_api_token: $(deploymentToken)
