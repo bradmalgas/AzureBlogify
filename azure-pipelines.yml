@@ -75,7 +75,7 @@ stages:
         #       Write-Host "Contents of $(System.DefaultWorkingDirectory):"
         #       Get-ChildItem -Path $publishPath
 
-          - task: AzureStaticWebApp@0
+        - task: AzureStaticWebApp@0
           inputs:
             app_location: '$(webAppName)'
             output_location: '$(Build.ArtifactStagingDirectory)'
