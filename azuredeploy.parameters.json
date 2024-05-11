@@ -60,9 +60,6 @@
         },
         "subscriptionId": {
             "value": "REPLACE-IN-PIPELINE"
-        },
-        "deploymentToken": {
-            "value": "REPLACE_IN_PIPELINE"
         }
     }
 }
