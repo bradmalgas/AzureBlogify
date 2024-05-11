@@ -2,7 +2,6 @@
 import FeaturedPost from '@/components/FeaturedPost.vue';
 import PostListItem from '@/components/PostListItem.vue';
 import { onMounted, ref } from 'vue';
-import { azureFunctionApKey } from '../apiKeys.ts'
 
 const responseData = ref(null);
 const error = ref(null);

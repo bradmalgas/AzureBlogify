@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { azureFunctionApKey } from '../apiKeys.ts'
 
 const props = defineProps({
     id: String
