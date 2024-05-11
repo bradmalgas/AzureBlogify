@@ -64,18 +64,18 @@ stages:
         dependsOn: PublishFunctionApp
         condition: succeeded()
         steps:
-            - task: PowerShell@2
-            displayName: 'List artifacts in published directory'
+          - task: PowerShell@2
+            displayName: "List artifacts in published directory"
             inputs:
               targetType: 'inline'
               script: |
                 $publishPath = '$(Build.ArtifactStagingDirectory)'  # Update this path as per your pipeline configuration
                 Write-Host "Contents of published directory:"
                 Get-ChildItem -Path $publishPath
-          # - task: AzureFunctionApp@2
-          #   displayName: "Deploy function app"
-          #   inputs:
-          #     connectedServiceNameARM: "$(azureResourceManagerConnection)"
-          #     appType: "functionApp"
-          #     appName: "$(functionAppName)"
-          #     package: "$(Pipeline.Workspace)/drop/$(functionAppName).zip"
+          - task: AzureFunctionApp@2
+            displayName: "Deploy function app"
+            inputs:
+              connectedServiceNameARM: "$(azureResourceManagerConnection)"
+              appType: "functionApp"
+              appName: "$(functionAppName)"
+              package: "$(Pipeline.Workspace)/drop/$(functionAppName).zip"
