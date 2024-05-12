@@ -19,9 +19,7 @@ import SideNav from './SideNav.vue';
         </div>
         <div class="hidden lg:flex space-x-6 ml-auto mr-20">
             <router-link to="/" key="home">Home</router-link>
-            <router-link to="/about" key="about">About</router-link>
-            <router-link to="/" key="posts">Post</router-link>
-            <router-link to="/" key="contact">Contact</router-link>
+            <router-link to="/about" key="about">About</router-link>    
         </div>
         <div class=" flex bg-gray-200 rounded-[13px] p-2 mr-3">
             <input class="bg-gray-200 rounded-[13px] min-w-52" type="text" placeholder="Search..">
