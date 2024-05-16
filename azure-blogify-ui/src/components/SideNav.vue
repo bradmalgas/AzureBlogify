@@ -20,10 +20,10 @@ const toggleSideNav = () => {
                 <CloseIcon class="h-6" @click="toggleSideNav()" />
             </div>
             <div class="grid gap-4 text-xl rounded">
-                <router-link to="/" key="home">Home</router-link>
-                <router-link to="/about" key="about">About</router-link>
-                <router-link to="/posts" key="posts">Post</router-link>
-                <router-link to="/about" key="contact">Contact</router-link>
+                <router-link to="/" key="home" @click="toggleSideNav()">Home</router-link>
+                <router-link to="/about" key="about" @click="toggleSideNav()">About</router-link>
+                <router-link to="/posts" key="posts" @click="toggleSideNav()">Post</router-link>
+                <router-link to="/about" key="contact" @click="toggleSideNav()">Contact</router-link>
             </div>
         </div>
     </div>
