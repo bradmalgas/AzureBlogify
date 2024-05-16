@@ -1,27 +1,19 @@
 <script setup lang="ts">
-import LogoMedium from './icons/LogoMedium.vue';
+import GitHubIcon from './icons/GitHubIcon.vue';
+import LinkedInLogo from './icons/LinkedInLogo.vue';
+import TwitterIcon from './icons/TwitterIcon.vue';
 </script>
 
 <template>
-    <div class="footer">
-        <div class="float-right">
-            <router-link to="/" class="nav-bar-item">Home</router-link>
-            <router-link to="/about" class="nav-bar-item">About</router-link>            
-            <input type="text" placeholder="Search.." class="searchbar">
+    <div class="flex flex-col h-[120px] bg-babyblue items-center py-5 space-y-3">
+        <p class="text-xs font-light">Copyright © 2024 Brad Malgas</p>
+        <div class="flex space-x-5">
+            <a href="https://twitter.com/_brvd_" target="_blank"><TwitterIcon class="w-7"/></a>
+            <a href="https://github.com/bradmalgas" target="_blank"><GitHubIcon class="w-7"/></a>
+            <a href="https://www.linkedin.com/in/brad-malgas/" target="_blank"><LinkedInLogo class="w-7"/></a>
         </div>
     </div>
 </template>
 
 <style lang="postcss" scoped>
-.nav-bar-item{
-    @apply float-left text-center p-3 text-lg rounded text-white hover:text-blue-300
-}
-
-.searchbar{
-    @apply float-right p-1 mt-2 mr-4 text-lg
-}
-
-.footer{
-    @apply fixed w-full bottom-0 left-0 bg-blue-950 py-3 truncate
-}
 </style>
