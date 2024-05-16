@@ -5,7 +5,7 @@ import SideNav from './SideNav.vue';
 </script>
 
 <template>
-    <div class="bg-babyblue truncate hidden md:flex justify-between items-center py-1">
+    <div class="bg-babyblue truncate hidden md:flex justify-between items-center py-1 lg:sticky top-0">
         <div class="px-3">
             <SideNav class="icon" />
         </div>

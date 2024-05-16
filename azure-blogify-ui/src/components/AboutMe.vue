@@ -2,7 +2,6 @@
 import GitHubIcon from './icons/GitHubIcon.vue';
 import LinkedInLogo from './icons/LinkedInLogo.vue';
 import TwitterIcon from './icons/TwitterIcon.vue';
-import YouTubeIcon from './icons/YouTubeIcon.vue';
 
 </script>
 
