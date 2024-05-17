@@ -35,3 +35,4 @@ stages:
             -location "$(location)"
             -subscriptionId "$(subscriptionId)"
             -resourceGroupName "$(resourceGroupName)"
+            -cosmosAccountName "$(cosmosAccountName)"
