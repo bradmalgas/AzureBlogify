@@ -225,11 +225,6 @@
             "apiVersion": "2024-02-15-preview",
             "name": "[format('{0}/{1}/{2}', toLower(parameters('cosmosAccountName')), parameters('databaseName'), parameters('containerName'))]",
             "properties": {
-                "options": {
-                    "autoscaleSettings": {
-                        "maxThroughput": 1000
-                    }
-                },
                 "resource": {
                 "id": "[parameters('containerName')]",
                 "partitionKey": {
