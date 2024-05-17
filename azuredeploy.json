@@ -229,7 +229,7 @@
                 "id": "[parameters('containerName')]",
                 "partitionKey": {
                     "paths": [
-                    "/Id"
+                    "id"
                     ],
                     "kind": "Hash"
                 }
