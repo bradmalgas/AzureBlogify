@@ -226,13 +226,32 @@
             "name": "[format('{0}/{1}/{2}', toLower(parameters('cosmosAccountName')), parameters('databaseName'), parameters('containerName'))]",
             "properties": {
                 "resource": {
-                "id": "[parameters('containerName')]",
-                "partitionKey": {
-                    "paths": [
-                    "/Id"
-                    ],
-                    "kind": "Hash"
-                }
+                    "id": "[parameters('containerName')]",
+                    "partitionKey": {
+                        "paths": [
+                            "/category"
+                        ],
+                        "kind": "Hash"
+                    },
+                    "indexingPolicy": {
+                        "indexingMode": "consistent",
+                        "includedPaths": [
+                            {
+                                "path": "/date/?"
+                            },
+                            {
+                                "path": "/category/?"
+                            },
+                            {
+                                "path": "/postId/?"
+                            }
+                        ],
+                        "excludedPaths": [
+                        {
+                            "path": "/*"
+                        }
+                        ]
+                    }
                 }
             },
             "dependsOn": [
