@@ -12,7 +12,7 @@ stages:
   - stage: ProvisionInfrastructure
     jobs:
     - job: ProvisionInfrastructure
-      displayName: Provisioning Infrastrcutres
+      displayName: Provisioning Infrastructure
       steps:
       - task: AzureResourceManagerTemplateDeployment@3
         inputs:
