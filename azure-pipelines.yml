@@ -37,3 +37,4 @@ stages:
             -resourceGroupName "$(resourceGroupName)"
             -cosmosAccountName "$(cosmosAccountName)"
             -databaseName "$(databaseName)"
+            -containerName "$(containerName)"

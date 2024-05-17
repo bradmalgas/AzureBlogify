@@ -66,6 +66,9 @@
         },
         "databaseName": {
             "value": "REPLACE-IN-PIPELINE"
+        },
+        "containerName": {
+            "value": "REPLACE-IN-PIPELINE"
         }
     }
 }
