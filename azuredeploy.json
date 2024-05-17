@@ -64,6 +64,9 @@
         },
         "databaseName": {
             "type": "string"
+        },
+        "containerName": {
+            "type": "string"
         }
     },
     "functions": [],
@@ -200,23 +203,47 @@
             }
         },
         {
-        "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
-        "apiVersion": "2024-02-15-preview",
-        "name": "[format('{0}/{1}', toLower(parameters('cosmosAccountName')), parameters('databaseName'))]",
-        "properties": {
-            "resource": {
-            "id": "[parameters('databaseName')]"
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+            "apiVersion": "2024-02-15-preview",
+            "name": "[format('{0}/{1}', toLower(parameters('cosmosAccountName')), parameters('databaseName'))]",
+            "properties": {
+                "resource": {
+                "id": "[parameters('databaseName')]"
+                },
+                "options": {
+                    "autoscaleSettings": {
+                        "maxThroughput": 1000
+                    }
+                }
             },
-            "options": {
-            "autoscaleSettings": {
-                "maxThroughput": 1000
-            }
-            }
+            "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts', toLower(parameters('cosmosAccountName')))]"
+            ]
         },
-        "dependsOn": [
-            "[resourceId('Microsoft.DocumentDB/databaseAccounts', toLower(parameters('cosmosAccountName')))]"
-        ]
-        }
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+            "apiVersion": "2024-02-15-preview",
+            "name": "[format('{0}/{1}/{2}', toLower(parameters('cosmosAccountName')), parameters('databaseName'), parameters('containerName'))]",
+            "properties": {
+                "options": {
+                    "autoscaleSettings": {
+                        "maxThroughput": 1000
+                    }
+                },
+                "resource": {
+                "id": "[parameters('containerName')]",
+                "partitionKey": {
+                    "paths": [
+                    "/Id"
+                    ],
+                    "kind": "Hash"
+                }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', toLower(parameters('cosmosAccountName')), parameters('databaseName'))]"
+            ]
+            }
     ],
     "outputs": {}
 }
