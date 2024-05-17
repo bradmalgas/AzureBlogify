@@ -58,6 +58,9 @@
         },
         "subscriptionId": {
             "type": "string"
+        },
+        "cosmosAccountName": {
+            "type": "string"
         }
     },
     "functions": [],
@@ -167,6 +170,30 @@
                 "publicNetworkAccess": "Enabled",
                 "httpsOnly": true,
                 "serverFarmId": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourcegroups/', parameters('resourceGroupName'), '/providers/Microsoft.Web/serverfarms/', parameters('appServicePlanName'))]"
+            }
+        },
+        {
+            "apiVersion": "2024-02-15-preview",
+            "kind": "GlobalDocumentDB",
+            "type": "Microsoft.DocumentDb/databaseAccounts",
+            "name": "[parameters('cosmosAccountName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "databaseAccountOfferType": "Standard",
+                "locations": [
+                    {
+                        "id": "[concat(parameters('cosmosAccountName'), '-', parameters('location'))]",
+                        "failoverPriority": 0,
+                        "locationName": "[parameters('location')]"
+                    }
+                ],
+                "isVirtualNetworkFilterEnabled": false,
+                "minimalTlsVersion": "Tls12",
+                "enableMultipleWriteLocations": false,
+                "enableFreeTier": true,
+                "capacity": {
+                    "totalThroughputLimit": 1000
+                }
             }
         }
     ],
