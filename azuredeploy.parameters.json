@@ -60,6 +60,15 @@
         },
         "subscriptionId": {
             "value": "REPLACE-IN-PIPELINE"
+        },
+        "cosmosAccountName": {
+            "value": "REPLACE-IN-PIPELINE"
+        },
+        "databaseName": {
+            "value": "REPLACE-IN-PIPELINE"
+        },
+        "containerName": {
+            "value": "REPLACE-IN-PIPELINE"
         }
     }
 }

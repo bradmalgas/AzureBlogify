@@ -58,6 +58,15 @@
         },
         "subscriptionId": {
             "type": "string"
+        },
+        "cosmosAccountName": {
+            "type": "string"
+        },
+        "databaseName": {
+            "type": "string"
+        },
+        "containerName": {
+            "type": "string"
         }
     },
     "functions": [],
@@ -168,7 +177,87 @@
                 "httpsOnly": true,
                 "serverFarmId": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourcegroups/', parameters('resourceGroupName'), '/providers/Microsoft.Web/serverfarms/', parameters('appServicePlanName'))]"
             }
-        }
+        },
+        {
+            "apiVersion": "2024-02-15-preview",
+            "kind": "GlobalDocumentDB",
+            "type": "Microsoft.DocumentDb/databaseAccounts",
+            "name": "[parameters('cosmosAccountName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "databaseAccountOfferType": "Standard",
+                "locations": [
+                    {
+                        "id": "[concat(parameters('cosmosAccountName'), '-', parameters('location'))]",
+                        "failoverPriority": 0,
+                        "locationName": "[parameters('location')]"
+                    }
+                ],
+                "isVirtualNetworkFilterEnabled": false,
+                "minimalTlsVersion": "Tls12",
+                "enableMultipleWriteLocations": false,
+                "enableFreeTier": true,
+                "capacity": {
+                    "totalThroughputLimit": 1000
+                }
+            }
+        },
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+            "apiVersion": "2024-02-15-preview",
+            "name": "[format('{0}/{1}', toLower(parameters('cosmosAccountName')), parameters('databaseName'))]",
+            "properties": {
+                "resource": {
+                "id": "[parameters('databaseName')]"
+                },
+                "options": {
+                    "autoscaleSettings": {
+                        "maxThroughput": 1000
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts', toLower(parameters('cosmosAccountName')))]"
+            ]
+        },
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+            "apiVersion": "2024-02-15-preview",
+            "name": "[format('{0}/{1}/{2}', toLower(parameters('cosmosAccountName')), parameters('databaseName'), parameters('containerName'))]",
+            "properties": {
+                "resource": {
+                    "id": "[parameters('containerName')]",
+                    "partitionKey": {
+                        "paths": [
+                            "/category"
+                        ],
+                        "kind": "Hash"
+                    },
+                    "indexingPolicy": {
+                        "indexingMode": "consistent",
+                        "includedPaths": [
+                            {
+                                "path": "/date/?"
+                            },
+                            {
+                                "path": "/category/?"
+                            },
+                            {
+                                "path": "/postId/?"
+                            }
+                        ],
+                        "excludedPaths": [
+                        {
+                            "path": "/*"
+                        }
+                        ]
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', toLower(parameters('cosmosAccountName')), parameters('databaseName'))]"
+            ]
+            }
     ],
     "outputs": {}
 }
