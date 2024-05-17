@@ -36,3 +36,4 @@ stages:
             -subscriptionId "$(subscriptionId)"
             -resourceGroupName "$(resourceGroupName)"
             -cosmosAccountName "$(cosmosAccountName)"
+            -databaseName "$(databaseName)"

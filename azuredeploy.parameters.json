@@ -63,6 +63,9 @@
         },
         "cosmosAccountName": {
             "value": "REPLACE-IN-PIPELINE"
+        },
+        "databaseName": {
+            "value": "REPLACE-IN-PIPELINE"
         }
     }
 }
