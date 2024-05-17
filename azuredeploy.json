@@ -61,6 +61,9 @@
         },
         "cosmosAccountName": {
             "type": "string"
+        },
+        "databaseName": {
+            "type": "string"
         }
     },
     "functions": [],
@@ -195,6 +198,24 @@
                     "totalThroughputLimit": 1000
                 }
             }
+        },
+        {
+        "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+        "apiVersion": "2024-02-15-preview",
+        "name": "[format('{0}/{1}', toLower(parameters('cosmosAccountName')), parameters('databaseName'))]",
+        "properties": {
+            "resource": {
+            "id": "[parameters('databaseName')]"
+            },
+            "options": {
+            "autoscaleSettings": {
+                "maxThroughput": 1000
+            }
+            }
+        },
+        "dependsOn": [
+            "[resourceId('Microsoft.DocumentDB/databaseAccounts', toLower(parameters('cosmosAccountName')))]"
+        ]
         }
     ],
     "outputs": {}
