@@ -4,11 +4,11 @@ import FooterInfo from './components/FooterInfo.vue';
 </script>
 
 <template>
-  <NavBar/>
-  <RouterView/>
-  <FooterInfo/>
+  <div class="min-h-screen flex flex-col">
+    <NavBar />
+    <RouterView class="flex-grow"/>
+    <FooterInfo />
+  </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

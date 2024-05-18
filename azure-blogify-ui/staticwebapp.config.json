@@ -1,0 +1,20 @@
+{
+  "trailingSlash": "auto",
+  "routes": [
+    {
+      "route": "/"
+    },
+    {
+      "route": "/about"
+    },
+    {
+      "route": "/post/:category/:id"
+    },
+    {
+      "route": "/api/*"
+    }
+  ],
+  "navigationFallback": {
+    "rewrite": "/index.html"
+  }
+}

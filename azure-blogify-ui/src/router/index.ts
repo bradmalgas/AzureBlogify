@@ -19,7 +19,11 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
-      path: '/post/:id', component: PostItemView, props: true
+      path: '/post/:category/:id', component: PostItemView, props: true
+    },
+    {
+      path: '/:catchAll(.*)',
+      component: () => import('../views/NotFoundView.vue')
     }
   ]
 })
