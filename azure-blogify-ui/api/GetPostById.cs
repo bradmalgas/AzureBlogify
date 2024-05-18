@@ -13,20 +13,23 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.Azure.Cosmos;
 using System.Data.Common;
+using System.Web;
 
 namespace api
 {
     public static class GetPostById
     {
-        [FunctionName("GetById")]
+        [FunctionName("GetPostById")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
             string id = req.Query["id"];
-            string partitionKey = req.Query["partitionKey"];
+            string category = req.Query["category"];
 
-            if (String.IsNullOrEmpty(id) || string.IsNullOrEmpty(partitionKey)) return new NotFoundResult();
+            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(category)) return new NotFoundResult();
+
+            string partitionKey = HttpUtility.UrlDecode(category);
 
             log.LogInformation($"HTTP trigger: Get By Id. [{DateTime.Now}]");
 
