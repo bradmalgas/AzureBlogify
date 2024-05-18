@@ -2,8 +2,6 @@
 
 trigger:
 - main
-pr:
-  - none
 
 variables:
   - group: Deployment Variables
