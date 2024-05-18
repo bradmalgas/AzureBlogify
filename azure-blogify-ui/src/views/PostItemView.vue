@@ -2,7 +2,8 @@
 import { ref, onMounted } from 'vue';
 
 const props = defineProps({
-    id: String
+    id: String,
+    category: String
 });
 
 const postItem = ref({});
@@ -12,7 +13,7 @@ const loading = ref(false);
 const fetchData = async () => {
   loading.value = true;
   try {
-    const response = await fetch("/api/GetPostById?code="+"&id="+props.id);
+    const response = await fetch("/api/GetPostById?"+"id="+props.id+"&category="+props.category);
     if (!response.ok)
     {
       throw new Error('Failed to fetch data.');

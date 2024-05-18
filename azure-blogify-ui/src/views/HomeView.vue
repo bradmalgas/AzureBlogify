@@ -35,7 +35,7 @@ onMounted(async () => {
       <FeaturedPost title="Breaking news: Being a genius coder who drinks a lot has been linked with 100% chance of being a gazillionaire!" date="20 April 1998"/>
       <router-link v-for="post in responseData"
         :key="post.id"
-        :to="'/post/'+post.id">
+        :to="'/post/'+post.category+'/'+post.id">
         <PostListItem
           class="my-5"
           :key="post.id"
