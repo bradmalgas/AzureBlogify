@@ -24,8 +24,11 @@ namespace api
             ILogger log)
         {
             string id = req.Query["id"];
+            string partitionKey = req.Query["partitionKey"];
 
-            log.LogInformation($"HTTP trigger: Get All Posts. [{DateTime.Now}]");
+            if (String.IsNullOrEmpty(id) || string.IsNullOrEmpty(partitionKey)) return new NotFoundResult();
+
+            log.LogInformation($"HTTP trigger: Get By Id. [{DateTime.Now}]");
 
             CosmosClient client = new(
                 connectionString: Environment.GetEnvironmentVariable("COSMOS_CONNECTION_STRING")!
@@ -36,7 +39,7 @@ namespace api
 
             ItemResponse<Post> readItemResponse = await blogPosts.ReadItemAsync<Post>(
                 id: id,
-                partitionKey: new PartitionKey("Test articles")
+                partitionKey: new PartitionKey(partitionKey)
             );
 
             Post responseMessage = readItemResponse.Resource;
