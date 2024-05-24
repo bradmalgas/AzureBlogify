@@ -16,7 +16,7 @@
     },
     {
       "route": "/api/*",
-      "methods": ["GET", "PUT", "POST", "PATCH", "DELETE"],
+      "methods": ["PUT", "POST", "PATCH", "DELETE"],
       "allowedRoles": ["administrator"]
     }
   ],
