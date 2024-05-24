@@ -12,12 +12,11 @@
     },
     {
       "route": "/api/*",
-      "methods": ["GET"],
-      "allowedRoles": ["authenticated"]
+      "methods": ["GET"]
     },
     {
       "route": "/api/*",
-      "methods": ["PUT", "POST", "PATCH", "DELETE"],
+      "methods": ["GET", "PUT", "POST", "PATCH", "DELETE"],
       "allowedRoles": ["administrator"]
     }
   ],
