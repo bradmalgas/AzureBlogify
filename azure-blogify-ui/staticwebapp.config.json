@@ -11,7 +11,14 @@
       "route": "/post/:category/:id"
     },
     {
-      "route": "/api/*"
+      "route": "/api/*",
+      "methods": ["GET"],
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/api/*",
+      "methods": ["PUT", "POST", "PATCH", "DELETE"],
+      "allowedRoles": ["administrator"]
     }
   ],
   "navigationFallback": {
