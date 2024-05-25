@@ -89,7 +89,8 @@
                 "tier": "[parameters('app-skuTier')]"
             },
             "properties": {                
-                "areStaticSitesDistributedBackendsEnabled": "[parameters('areStaticSitesDistributedBackendsEnabled')]"
+                "areStaticSitesDistributedBackendsEnabled": "[parameters('areStaticSitesDistributedBackendsEnabled')]",
+                "stagingEnvironmentPolicy": "Enabled"
             }
         },
         {
