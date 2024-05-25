@@ -69,6 +69,12 @@
         },
         "containerName": {
             "value": "REPLACE-IN-PIPELINE"
+        },
+        "blobServiceName": {
+            "value": "REPLACE-IN-PIPELINE"
+        },
+        "blobContainerName": {
+            "value": "REPLACE-IN-PIPELINE"
         }
     }
 }
