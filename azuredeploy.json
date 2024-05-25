@@ -88,7 +88,7 @@
                 "name": "[parameters('app-skuName')]",
                 "tier": "[parameters('app-skuTier')]"
             },
-            "properties": {                
+            "properties": {
                 "areStaticSitesDistributedBackendsEnabled": "[parameters('areStaticSitesDistributedBackendsEnabled')]",
                 "stagingEnvironmentPolicy": "Enabled"
             }
@@ -114,7 +114,7 @@
             }
         },
         {
-            "apiVersion": "2022-05-01",
+            "apiVersion": "2023-01-01",
             "type": "Microsoft.Storage/storageAccounts",
             "name": "[parameters('storageAccountName')]",
             "location": "[parameters('location')]",
@@ -128,7 +128,8 @@
                 "minimumTlsVersion": "TLS1_2",
                 "defaultToOAuthAuthentication": true
             }
-        },{
+        },
+        {
             "type": "Microsoft.Storage/storageAccounts/blobServices",
             "apiVersion": "2023-01-01",
             "name": "[format('{0}/{1}', parameters('storageAccountName'),parameters('blobServiceName'))]",
@@ -198,7 +199,7 @@
             "name": "[format('{0}/{1}', toLower(parameters('cosmosAccountName')), parameters('databaseName'))]",
             "properties": {
                 "resource": {
-                "id": "[parameters('databaseName')]"
+                    "id": "[parameters('databaseName')]"
                 },
                 "options": {
                     "autoscaleSettings": {
@@ -237,9 +238,9 @@
                             }
                         ],
                         "excludedPaths": [
-                        {
-                            "path": "/*"
-                        }
+                            {
+                                "path": "/*"
+                            }
                         ]
                     }
                 }
@@ -247,7 +248,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', toLower(parameters('cosmosAccountName')), parameters('databaseName'))]"
             ]
-            }
+        }
     ],
     "outputs": {}
 }
