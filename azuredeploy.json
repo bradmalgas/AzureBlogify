@@ -158,7 +158,7 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2023-01-01",
-            "name": "[parameters('blobContainerName')]",
+            "name": "[format('{0}/{1}', parameters('storageAccountName'),parameters('blobContainerName'))]",
             "properties": {
                 "enableNfsV3AllSquash": false,
                 "enableNfsV3RootSquash": false,
