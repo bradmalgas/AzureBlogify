@@ -67,6 +67,12 @@
         },
         "containerName": {
             "type": "string"
+        },
+        "blobServiceName": {
+            "type": "string"
+        },
+        "blobContainerName": {
+            "type": "string"
         }
     },
     "functions": [],
@@ -120,6 +126,45 @@
                 "supportsHttpsTrafficOnly": true,
                 "minimumTlsVersion": "TLS1_2",
                 "defaultToOAuthAuthentication": true
+            }
+        },{
+            "type": "Microsoft.Storage/storageAccounts/blobServices",
+            "apiVersion": "2023-01-01",
+            "name": "[parameters('blobServiceName')]",
+            "properties": {
+                "changeFeed": {
+                    "enabled": false
+                },
+                "containerDeleteRetentionPolicy": {
+                    "allowPermanentDelete": true
+                },
+                "defaultServiceVersion": "string",
+                "deleteRetentionPolicy": {
+                    "allowPermanentDelete": true
+                },
+                "isVersioningEnabled": false,
+                "lastAccessTimeTrackingPolicy": {
+                    "blobType": [ "blockBlob" ],
+                    "enable": true,
+                    "name": "AccessTimeTracking",
+                    "trackingGranularityInDays": 1
+                },
+                "restorePolicy": {
+                    "enabled": false
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+            "apiVersion": "2023-01-01",
+            "name": "[parameters('blobContainerName')]",
+            "properties": {
+                "enableNfsV3AllSquash": false,
+                "enableNfsV3RootSquash": false,
+                "immutableStorageWithVersioning": {
+                    "enabled": false
+                },
+                "publicAccess": "Blob"
             }
         },
         {
