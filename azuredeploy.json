@@ -79,41 +79,6 @@
     "variables": {},
     "resources": [
         {
-            "type": "Microsoft.Web/staticSites",
-            "apiVersion": "2022-09-01",
-            "name": "[parameters('webAppName')]",
-            "location": "[parameters('location')]",
-            "tags": "[parameters('tags')]",
-            "sku": {
-                "name": "[parameters('app-skuName')]",
-                "tier": "[parameters('app-skuTier')]"
-            },
-            "properties": {
-                "areStaticSitesDistributedBackendsEnabled": "[parameters('areStaticSitesDistributedBackendsEnabled')]",
-                "stagingEnvironmentPolicy": "Enabled"
-            }
-        },
-        {
-            "apiVersion": "2022-09-01",
-            "name": "[parameters('appServicePlanName')]",
-            "type": "Microsoft.Web/serverfarms",
-            "location": "[parameters('location')]",
-            "kind": "",
-            "tags": {},
-            "properties": {
-                "name": "[parameters('appServicePlanName')]",
-                "workerSize": "[parameters('workerSize')]",
-                "workerSizeId": "[parameters('workerSizeId')]",
-                "numberOfWorkers": "[parameters('numberOfWorkers')]",
-                "reserved": false,
-                "zoneRedundant": false
-            },
-            "sku": {
-                "Tier": "[parameters('plan-Sku')]",
-                "Name": "[parameters('plan-skuCode')]"
-            }
-        },
-        {
             "apiVersion": "2023-01-01",
             "type": "Microsoft.Storage/storageAccounts",
             "name": "[parameters('storageAccountName')]",
@@ -248,6 +213,41 @@
             "dependsOn": [
                 "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', toLower(parameters('cosmosAccountName')), parameters('databaseName'))]"
             ]
+        },
+        {
+            "type": "Microsoft.Web/staticSites",
+            "apiVersion": "2022-09-01",
+            "name": "[parameters('webAppName')]",
+            "location": "[parameters('location')]",
+            "tags": "[parameters('tags')]",
+            "sku": {
+                "name": "[parameters('app-skuName')]",
+                "tier": "[parameters('app-skuTier')]"
+            },
+            "properties": {
+                "areStaticSitesDistributedBackendsEnabled": "[parameters('areStaticSitesDistributedBackendsEnabled')]",
+                "stagingEnvironmentPolicy": "Enabled"
+            }
+        },
+        {
+            "apiVersion": "2022-09-01",
+            "name": "[parameters('appServicePlanName')]",
+            "type": "Microsoft.Web/serverfarms",
+            "location": "[parameters('location')]",
+            "kind": "",
+            "tags": {},
+            "properties": {
+                "name": "[parameters('appServicePlanName')]",
+                "workerSize": "[parameters('workerSize')]",
+                "workerSizeId": "[parameters('workerSizeId')]",
+                "numberOfWorkers": "[parameters('numberOfWorkers')]",
+                "reserved": false,
+                "zoneRedundant": false
+            },
+            "sku": {
+                "Tier": "[parameters('plan-Sku')]",
+                "Name": "[parameters('plan-skuCode')]"
+            }
         }
     ],
     "outputs": {}
