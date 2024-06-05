@@ -78,35 +78,67 @@
     "functions": [],
     "variables": {},
     "resources": [
-    {
-      "type": "Microsoft.Storage/storageAccounts",
-      "apiVersion": "2023-01-01",
-      "name": "[parameters('storageAccountName')]",
-      "location": "[parameters('location')]",
-      "sku": {
-        "name": "Standard_LRS"
-      },
-      "kind": "StorageV2",
-      "properties": {
-        "accessTier": "Hot"
-      }
-    },
-    {
-      "type": "Microsoft.Storage/storageAccounts/blobServices",
-      "apiVersion": "2023-01-01",
-      "name": "[format('{0}/{1}', parameters('storageAccountName'), parameters('blobServiceName'))]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
-      ]
-    },
-    {
-      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-      "apiVersion": "2023-01-01",
-      "name": "[format('{0}/{1}/{2}', parameters('storageAccountName'), parameters('blobServiceName'), parameters('blobContainerName'))]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), parameters('blobServiceName'))]"
-      ]
-    }
-  ],
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2023-01-01",
+            "name": "[parameters('storageAccountName')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "Standard_LRS"
+            },
+            "kind": "StorageV2",
+            "properties": {
+                "supportsHttpsTrafficOnly": true,
+                "minimumTlsVersion": "TLS1_2",
+                "defaultToOAuthAuthentication": true
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices",
+            "apiVersion": "2023-01-01",
+            "name": "[format('{0}/{1}', parameters('storageAccountName'), parameters('blobServiceName'))]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+            ],
+            "properties": {
+                "changeFeed": {
+                    "enabled": false
+                },
+                "containerDeleteRetentionPolicy": {
+                    "allowPermanentDelete": true
+                },
+                "defaultServiceVersion": "string",
+                "deleteRetentionPolicy": {
+                    "allowPermanentDelete": true
+                },
+                "isVersioningEnabled": false,
+                "lastAccessTimeTrackingPolicy": {
+                    "blobType": [ "blockBlob" ],
+                    "enable": true,
+                    "name": "AccessTimeTracking",
+                    "trackingGranularityInDays": 1
+                },
+                "restorePolicy": {
+                    "enabled": false
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+            "apiVersion": "2023-01-01",
+            "name": "[format('{0}/{1}/{2}', parameters('storageAccountName'), parameters('blobServiceName'), parameters('blobContainerName'))]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), parameters('blobServiceName'))]"
+            ],
+            "properties": {
+                "enableNfsV3AllSquash": false,
+                "enableNfsV3RootSquash": false,
+                "immutableStorageWithVersioning": {
+                    "enabled": false
+                },
+                "publicAccess": "Blob"
+            }
+        }
+    ],
     "outputs": {}
 }
