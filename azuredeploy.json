@@ -78,182 +78,35 @@
     "functions": [],
     "variables": {},
     "resources": [
-        {
-            "apiVersion": "2023-01-01",
-            "type": "Microsoft.Storage/storageAccounts",
-            "name": "[parameters('storageAccountName')]",
-            "location": "[parameters('location')]",
-            "kind": "StorageV2",
-            "tags": {},
-            "sku": {
-                "name": "Standard_LRS"
-            },
-            "properties": {
-                "supportsHttpsTrafficOnly": true,
-                "minimumTlsVersion": "TLS1_2",
-                "defaultToOAuthAuthentication": true
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/blobServices",
-            "dependsOn": ["[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"],
-            "apiVersion": "2023-01-01",
-            "name": "[format('{0}/{1}', parameters('storageAccountName'),parameters('blobServiceName'))]",
-            "properties": {
-                "changeFeed": {
-                    "enabled": false
-                },
-                "containerDeleteRetentionPolicy": {
-                    "allowPermanentDelete": true
-                },
-                "defaultServiceVersion": "string",
-                "deleteRetentionPolicy": {
-                    "allowPermanentDelete": true
-                },
-                "isVersioningEnabled": false,
-                "lastAccessTimeTrackingPolicy": {
-                    "blobType": [ "blockBlob" ],
-                    "enable": true,
-                    "name": "AccessTimeTracking",
-                    "trackingGranularityInDays": 1
-                },
-                "restorePolicy": {
-                    "enabled": false
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), parameters('blobServiceName'))]"
-                ],
-            "apiVersion": "2023-01-01",
-            "name": "[format('{0}/{1}/{2}', parameters('storageAccountName'),parameters('blobServiceName'),parameters('blobContainerName'))]",
-            "properties": {
-                "enableNfsV3AllSquash": false,
-                "enableNfsV3RootSquash": false,
-                "immutableStorageWithVersioning": {
-                    "enabled": false
-                },
-                "publicAccess": "Blob"
-            }
-        },
-        {
-            "apiVersion": "2024-02-15-preview",
-            "kind": "GlobalDocumentDB",
-            "type": "Microsoft.DocumentDb/databaseAccounts",
-            "name": "[parameters('cosmosAccountName')]",
-            "location": "[parameters('location')]",
-            "properties": {
-                "databaseAccountOfferType": "Standard",
-                "locations": [
-                    {
-                        "id": "[concat(parameters('cosmosAccountName'), '-', parameters('location'))]",
-                        "failoverPriority": 0,
-                        "locationName": "[parameters('location')]"
-                    }
-                ],
-                "isVirtualNetworkFilterEnabled": false,
-                "minimalTlsVersion": "Tls12",
-                "enableMultipleWriteLocations": false,
-                "enableFreeTier": true,
-                "capacity": {
-                    "totalThroughputLimit": 1000
-                }
-            }
-        },
-        {
-            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
-            "apiVersion": "2024-02-15-preview",
-            "name": "[format('{0}/{1}', toLower(parameters('cosmosAccountName')), parameters('databaseName'))]",
-            "properties": {
-                "resource": {
-                    "id": "[parameters('databaseName')]"
-                },
-                "options": {
-                    "autoscaleSettings": {
-                        "maxThroughput": 1000
-                    }
-                }
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.DocumentDB/databaseAccounts', toLower(parameters('cosmosAccountName')))]"
-            ]
-        },
-        {
-            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
-            "apiVersion": "2024-02-15-preview",
-            "name": "[format('{0}/{1}/{2}', toLower(parameters('cosmosAccountName')), parameters('databaseName'), parameters('containerName'))]",
-            "properties": {
-                "resource": {
-                    "id": "[parameters('containerName')]",
-                    "partitionKey": {
-                        "paths": [
-                            "/category"
-                        ],
-                        "kind": "Hash"
-                    },
-                    "indexingPolicy": {
-                        "indexingMode": "consistent",
-                        "includedPaths": [
-                            {
-                                "path": "/date/?"
-                            },
-                            {
-                                "path": "/category/?"
-                            },
-                            {
-                                "path": "/postId/?"
-                            }
-                        ],
-                        "excludedPaths": [
-                            {
-                                "path": "/*"
-                            }
-                        ]
-                    }
-                }
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', toLower(parameters('cosmosAccountName')), parameters('databaseName'))]"
-            ]
-        },
-        {
-            "type": "Microsoft.Web/staticSites",
-            "apiVersion": "2022-09-01",
-            "name": "[parameters('webAppName')]",
-            "location": "[parameters('location')]",
-            "tags": "[parameters('tags')]",
-            "sku": {
-                "name": "[parameters('app-skuName')]",
-                "tier": "[parameters('app-skuTier')]"
-            },
-            "properties": {
-                "areStaticSitesDistributedBackendsEnabled": "[parameters('areStaticSitesDistributedBackendsEnabled')]",
-                "stagingEnvironmentPolicy": "Enabled"
-            }
-        },
-        {
-            "apiVersion": "2022-09-01",
-            "name": "[parameters('appServicePlanName')]",
-            "type": "Microsoft.Web/serverfarms",
-            "location": "[parameters('location')]",
-            "kind": "",
-            "tags": {},
-            "properties": {
-                "name": "[parameters('appServicePlanName')]",
-                "workerSize": "[parameters('workerSize')]",
-                "workerSizeId": "[parameters('workerSizeId')]",
-                "numberOfWorkers": "[parameters('numberOfWorkers')]",
-                "reserved": false,
-                "zoneRedundant": false
-            },
-            "sku": {
-                "Tier": "[parameters('plan-Sku')]",
-                "Name": "[parameters('plan-skuCode')]"
-            }
-        }
-    ],
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2023-01-01",
+      "name": "[parameters('storageAccountName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "accessTier": "Hot"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices",
+      "apiVersion": "2023-01-01",
+      "name": "[format('{0}/{1}', parameters('storageAccountName'), 'default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "2023-01-01",
+      "name": "[format('{0}/{1}/{2}', parameters('storageAccountName'), 'default', parameters('blobContainerName'))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), 'default')]"
+      ]
+    }
+  ],
     "outputs": {}
 }
