@@ -41,24 +41,6 @@
         "storageAccountName": {
             "type": "string"
         },
-        "functionAppName": {
-            "type": "string"
-        },
-        "use32BitWorkerProcess": {
-            "type": "bool"
-        },
-        "ftpsState": {
-            "type": "string"
-        },
-        "netFrameworkVersion": {
-            "type": "string"
-        },
-        "resourceGroupName": {
-            "type": "string"
-        },
-        "subscriptionId": {
-            "type": "string"
-        },
         "cosmosAccountName": {
             "type": "string"
         },
@@ -66,6 +48,12 @@
             "type": "string"
         },
         "containerName": {
+            "type": "string"
+        },
+        "blobServiceName": {
+            "type": "string"
+        },
+        "blobContainerName": {
             "type": "string"
         }
     },
@@ -82,7 +70,7 @@
                 "name": "[parameters('app-skuName')]",
                 "tier": "[parameters('app-skuTier')]"
             },
-            "properties": {                
+            "properties": {
                 "areStaticSitesDistributedBackendsEnabled": "[parameters('areStaticSitesDistributedBackendsEnabled')]"
             }
         },
@@ -107,20 +95,49 @@
             }
         },
         {
-            "apiVersion": "2022-05-01",
             "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2023-01-01",
             "name": "[parameters('storageAccountName')]",
             "location": "[parameters('location')]",
-            "kind": "StorageV2",
-            "tags": {},
             "sku": {
                 "name": "Standard_LRS"
             },
+            "kind": "StorageV2",
             "properties": {
                 "supportsHttpsTrafficOnly": true,
                 "minimumTlsVersion": "TLS1_2",
                 "defaultToOAuthAuthentication": true
             }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices",
+            "apiVersion": "2023-01-01",
+            "name": "[format('{0}/{1}', parameters('storageAccountName'), parameters('blobServiceName'))]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+            ],
+            "properties": {
+                "containerDeleteRetentionPolicy": {
+                    "allowPermanentDelete": true
+                },
+                "deleteRetentionPolicy": {
+                    "allowPermanentDelete": true
+                },
+                "lastAccessTimeTrackingPolicy": {
+                    "blobType": [ "blockBlob" ],
+                    "enable": true,
+                    "name": "AccessTimeTracking",
+                    "trackingGranularityInDays": 1
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+            "apiVersion": "2023-01-01",
+            "name": "[format('{0}/{1}/{2}', parameters('storageAccountName'), parameters('blobServiceName'), parameters('blobContainerName'))]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), parameters('blobServiceName'))]"
+            ]
         },
         {
             "apiVersion": "2024-02-15-preview",
@@ -152,7 +169,7 @@
             "name": "[format('{0}/{1}', toLower(parameters('cosmosAccountName')), parameters('databaseName'))]",
             "properties": {
                 "resource": {
-                "id": "[parameters('databaseName')]"
+                    "id": "[parameters('databaseName')]"
                 },
                 "options": {
                     "autoscaleSettings": {
@@ -191,9 +208,9 @@
                             }
                         ],
                         "excludedPaths": [
-                        {
-                            "path": "/*"
-                        }
+                            {
+                                "path": "/*"
+                            }
                         ]
                     }
                 }
@@ -201,7 +218,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', toLower(parameters('cosmosAccountName')), parameters('databaseName'))]"
             ]
-            }
+        }
     ],
     "outputs": {}
 }
