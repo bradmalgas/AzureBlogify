@@ -107,7 +107,6 @@
                 "containerDeleteRetentionPolicy": {
                     "allowPermanentDelete": true
                 },
-                "defaultServiceVersion": "string",
                 "deleteRetentionPolicy": {
                     "allowPermanentDelete": true
                 },
