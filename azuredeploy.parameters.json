@@ -43,24 +43,6 @@
         "storageAccountName": {
             "value": "REPLACE-IN-PIPELINE"
         },
-        "functionAppName": {
-            "value": "REPLACE-IN-PIPELINE"
-        },
-        "use32BitWorkerProcess": {
-            "value": false
-        },
-        "ftpsState": {
-            "value": "FtpsOnly"
-        },
-        "netFrameworkVersion": {
-            "value": "v8.0"
-        },
-        "resourceGroupName": {
-            "value": "REPLACE-IN-PIPELINE"
-        },
-        "subscriptionId": {
-            "value": "REPLACE-IN-PIPELINE"
-        },
         "cosmosAccountName": {
             "value": "REPLACE-IN-PIPELINE"
         },

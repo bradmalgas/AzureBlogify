@@ -41,24 +41,6 @@
         "storageAccountName": {
             "type": "string"
         },
-        "functionAppName": {
-            "type": "string"
-        },
-        "use32BitWorkerProcess": {
-            "type": "bool"
-        },
-        "ftpsState": {
-            "type": "string"
-        },
-        "netFrameworkVersion": {
-            "type": "string"
-        },
-        "resourceGroupName": {
-            "type": "string"
-        },
-        "subscriptionId": {
-            "type": "string"
-        },
         "cosmosAccountName": {
             "type": "string"
         },
