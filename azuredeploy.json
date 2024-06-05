@@ -121,10 +121,7 @@
             "name": "[format('{0}/{1}/{2}', parameters('storageAccountName'), parameters('blobServiceName'), parameters('blobContainerName'))]",
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), parameters('blobServiceName'))]"
-            ],
-            "properties": {
-                "publicAccess": "Blob"
-            }
+            ]
         }
     ],
     "outputs": {}
