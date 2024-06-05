@@ -124,8 +124,10 @@
         },
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-            "dependsOn": ["[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
-            "[resourceId('Microsoft.Storage/storageAccounts/blobServices', format('{0}/{1}', parameters('storageAccountName'),parameters('blobServiceName')))]"],
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), parameters('blobServiceName'))]"
+                ],
             "apiVersion": "2023-01-01",
             "name": "[format('{0}/{1}/{2}', parameters('storageAccountName'),parameters('blobServiceName'),parameters('blobContainerName'))]",
             "properties": {
