@@ -24,7 +24,8 @@ namespace api
             ILogger log)
         {
             // Continuation used to facilitate pagination
-            string continuationToken = req.Query["contToken"];
+            string contToken = req.Query["contToken"];
+            var continuationToken = string.IsNullOrEmpty(contToken) ? null : JsonConvert.DeserializeObject(req.Query["contToken"]);
 
             int pageSize = int.TryParse(req.Query["pageSize"], out int size) ? size : 10;
             List<Post> posts = new List<Post>();
@@ -36,9 +37,9 @@ namespace api
             var requestOptions = new QueryRequestOptions { MaxItemCount = pageSize };
 
             // Use continuation token if available
-            FeedIterator<Post> feed = string.IsNullOrEmpty(continuationToken)
+            FeedIterator<Post> feed = continuationToken == null
                 ? blogPosts.GetItemQueryIterator<Post>(queryDefinition, requestOptions: requestOptions)
-                : blogPosts.GetItemQueryIterator<Post>(queryDefinition, continuationToken, requestOptions);
+                : blogPosts.GetItemQueryIterator<Post>(queryDefinition, JsonConvert.SerializeObject(continuationToken), requestOptions);
 
             // Check if there are posts to return
             if (feed.HasMoreResults)
@@ -47,7 +48,7 @@ namespace api
                 posts.AddRange(response);
                 // If there are more results available, return posts with the new continuation token
                 if(response.ContinuationToken != null) {
-                    var newContinuationToken = JsonConvert.DeserializeObject(response.ContinuationToken);
+                    var newContinuationToken = response.ContinuationToken;
                     return new OkObjectResult(new { posts, continuationToken = newContinuationToken });
                 }
             }
