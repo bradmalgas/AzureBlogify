@@ -8,4 +8,5 @@ public record Post
     public string category { get; set; }
     public DateTime date { get; set; }
     public string? Content { get; set; }
+    public string? CoverImageUrl { get; set; }
 }
