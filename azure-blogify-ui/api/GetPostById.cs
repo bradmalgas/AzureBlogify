@@ -6,13 +6,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using static api.GetAllPosts;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using Microsoft.Azure.Cosmos;
-using System.Data.Common;
 using System.Web;
 
 namespace api

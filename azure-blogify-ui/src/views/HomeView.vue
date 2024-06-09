@@ -10,7 +10,7 @@ const loading = ref(false);
 const fetchData = async () => {
   loading.value = true;
   try {
-    const response = await fetch("/api/GetAllPosts");
+    const response = await fetch("/api/GetPosts");
     if (!response.ok)
     {
       throw new Error('Failed to fetch data.');
