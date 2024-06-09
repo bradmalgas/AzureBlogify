@@ -25,6 +25,23 @@ async function fetchData(params) {
     postItem.value = data;
     postItem.value.date = await stringToDate(data.date);
     document.title = `${postItem.value.title} - AzureBlogify`;
+
+    // Set Open Graph meta tags (for link-sharing)
+    const metaTags = [
+      { property: 'og:title', content: postItem.value.title },
+      { property: 'og:image', content: postItem.value.coverImageUrl },
+      { property: 'og:url', content: window.location.href }
+    ];
+
+    metaTags.forEach(tag => {
+      let element = document.querySelector(`meta[property="${tag.property}"]`);
+      if (!element) {
+        element = document.createElement('meta');
+        element.setAttribute('property', tag.property);
+        document.head.appendChild(element);
+      }
+        element.setAttribute('content', tag.content);
+    });
   } catch (err) {
     error.value = err.toString();
   } finally {
