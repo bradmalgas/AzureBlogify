@@ -80,7 +80,7 @@ async function stringToDate(date) {
             </div>
           </div>
         </div>
-        <img class="my-3 max-h-36" :src="postItem.coverImageUrl" alt="">
+        <img class="my-3 md:max-h-72 max-h-36" :src="postItem.coverImageUrl" alt="">
         <div class="mt-5">
           <article class="prose prose-sm lg:prose-lg my-3" v-html="postContent">
           </article>
