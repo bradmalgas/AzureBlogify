@@ -32,7 +32,7 @@ postItem.value.date = await stringToDate(data.date);
 };
 
 async function stringToDate(date) {
-  return formatDate(date, "dd MMMM yyyy, hh:mm");
+  return formatDate(date, "dd MMM, yyyy");
 }
 </script>
 
