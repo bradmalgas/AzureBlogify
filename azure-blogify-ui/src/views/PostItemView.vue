@@ -3,6 +3,7 @@ import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import markdownit from 'markdown-it'
 import NotFoundView from './NotFoundView.vue';
+import { formatDate } from 'date-fns';
 
 const route = useRoute();
 
@@ -22,17 +23,22 @@ async function fetchData(params) {
     const data = await response.json();
     postContent.value = md.render(data.content);
     postItem.value = data;
+postItem.value.date = await stringToDate(data.date);
   } catch (err) {
     error.value = err.toString();
   } finally {
     loading.value = false;
   }
 };
+
+async function stringToDate(date) {
+  return formatDate(date, "dd MMMM yyyy, hh:mm");
+}
 </script>
 
 
 <template>
-  <div class="flex flex-col items-center pt-11 mx-10">
+  <div class="flex flex-col items-center mx-10">
     <div v-if="loading">
       <p class="md:text-xl">Loading ...</p>
     </div>
