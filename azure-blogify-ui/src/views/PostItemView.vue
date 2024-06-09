@@ -4,6 +4,8 @@ import { useRoute } from 'vue-router';
 import markdownit from 'markdown-it'
 import NotFoundView from './NotFoundView.vue';
 import { formatDate } from 'date-fns';
+import ShareLinks from '../components/ShareLinks.vue';
+
 
 const route = useRoute();
 
@@ -78,6 +80,7 @@ async function stringToDate(date) {
               <p class="md:text-lg text-base">{{ postItem.author }}</p>
               <p class="md:text- text-sm font-light">{{ postItem.date }}</p>
             </div>
+            <ShareLinks v-if="postItem" :title="postItem.title"/>
           </div>
         </div>
         <img class="my-3 md:max-h-72 max-h-36" :src="postItem.coverImageUrl" alt="">
