@@ -1,7 +1,9 @@
 # Pipeline to deploy a static web app that has a manage Azure Function
 
 trigger:
-- main
+  - main
+pr:
+  - none
 
 variables:
   - group: Deployment Variables
@@ -14,10 +16,10 @@ stages:
       - job: DeployStaticWebApp
         displayName: Deploy Static Web App
         steps:
-        - task: AzureStaticWebApp@0
-          inputs:
-            app_location: '$(webAppName)'
-            output_location: 'dist'
-            api_location: '$(webAppName)/api'
-            api_build_command: '--configuration Release --output $(Build.ArtifactStagingDirectory) --self-contained false'
-            azure_static_web_apps_api_token: $(deploymentToken)
+          - task: AzureStaticWebApp@0
+            inputs:
+              app_location: "$(webAppName)"
+              output_location: "dist"
+              api_location: "$(webAppName)/api"
+              api_build_command: "--configuration Release --output $(Build.ArtifactStagingDirectory) --self-contained false"
+              azure_static_web_apps_api_token: $(deploymentToken)
