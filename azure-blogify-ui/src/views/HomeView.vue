@@ -16,7 +16,7 @@ const fetchData = async () => {
       throw new Error('Failed to fetch data.');
     }
     const data = await response.json()
-    responseData.value = data;
+    responseData.value = data.posts;
   } catch (err) {
     error.value = err.message;
   } finally {
