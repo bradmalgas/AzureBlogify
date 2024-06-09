@@ -24,6 +24,7 @@ async function fetchData(params) {
     postContent.value = md.render(data.content);
     postItem.value = data;
     postItem.value.date = await stringToDate(data.date);
+    document.title = `${postItem.value.title} - AzureBlogify`;
   } catch (err) {
     error.value = err.toString();
   } finally {
@@ -62,7 +63,7 @@ async function stringToDate(date) {
             </div>
           </div>
         </div>
-        <img class="my-3 h-96" :src="postItem.coverImageUrl" alt="">
+        <img class="my-3 max-h-36" :src="postItem.coverImageUrl" alt="">
         <div class="mt-5">
           <article class="prose prose-sm lg:prose-lg my-3" v-html="postContent">
           </article>
