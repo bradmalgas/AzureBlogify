@@ -5,11 +5,11 @@
         </div>
     </button>
     <div class="hidden md:flex share-pane p-4 border border-gray-300 rounded">
-        <h2 class="text-lg font-bold mb-4">Share this post:</h2>
+        <h2 class="text-lg font-bold mb-4 mr-3">Share this post:</h2>
         <button @click="shareOnFacebook" class="share-button bg-blue-500 text-white mb-2">Share on Facebook</button>
         <button @click="shareOnTwitter" class="share-button bg-blue-400 text-white mb-2">Share on Twitter</button>
         <button @click="shareOnLinkedIn" class="share-button bg-blue-800 text-white mb-2">Share on LinkedIn</button>
-        <button @click="shareViaEmail" class="share-button bg-gray-500 text-white">Share via Email</button>
+        <button @click="shareViaEmail" class="share-button bg-gray-500 text-white mb-2">Share via Email</button>
     </div>
 </template>
 
