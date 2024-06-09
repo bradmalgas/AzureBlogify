@@ -24,6 +24,7 @@ async function fetchData(params) {
     postContent.value = md.render(data.content);
     postItem.value = data;
     postItem.value.date = await stringToDate(data.date);
+    document.title = `${postItem.value.title} - AzureBlogify`;
   } catch (err) {
     error.value = err.toString();
   } finally {
