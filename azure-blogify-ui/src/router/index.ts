@@ -26,6 +26,11 @@ const router = createRouter({
       component: () => import('../views/NotFoundView.vue')
     }
   ]
-})
+});
+
+router.beforeEach((to, from, next) => {
+  document.title = (to.meta.title as string) || 'AzureBlogify';
+  next();
+});
 
 export default router
