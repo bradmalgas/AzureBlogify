@@ -32,15 +32,12 @@ onMounted(async () => {
 <template>
   <div class="flex flex-col items-center pt-11 mx-10">
     <div class="space-y-3">
-      <FeaturedPost title="Breaking news: Being a genius coder who drinks a lot has been linked with 100% chance of being a gazillionaire!" date="20 April 1998"/>
-      <router-link v-for="post in responseData"
-        :key="post.id"
-        :to="'/post/'+post.category+'/'+post.id">
-        <PostListItem
-          class="my-5"
-          :key="post.id"
-          :title="post.title"
-          :date="post.date"/>
+      <FeaturedPost
+        title="Breaking news: Being a genius coder who drinks a lot has been linked with 100% chance of being a gazillionaire!"
+        date="20 April 1998" />
+      <router-link v-for="post in responseData" :key="post.id" :to="'/post/' + post.category + '/' + post.id">
+        <PostListItem class="my-5" :key="post.id" :title="post.title" :category="post.category" :date="post.date"
+          :coverImageUrl="post.coverImageUrl" />
       </router-link>
     </div>
   </div>
