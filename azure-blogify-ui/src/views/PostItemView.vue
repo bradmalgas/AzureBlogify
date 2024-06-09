@@ -23,7 +23,7 @@ async function fetchData(params) {
     const data = await response.json();
     postContent.value = md.render(data.content);
     postItem.value = data;
-postItem.value.date = await stringToDate(data.date);
+    postItem.value.date = await stringToDate(data.date);
   } catch (err) {
     error.value = err.toString();
   } finally {
@@ -48,8 +48,7 @@ async function stringToDate(date) {
     <div v-if="postItem" class="flex justify-center my-3">
       <div class="flex flex-col items-center pt-5 max-w-[1024px]">
         <div class="w-full">
-                    <h1
-            class="flex lg:max-w-[600px] max-w-[510px] sm:max-sm:max-w-[200px] md:text-5xl text-3xl my-1 font-bold">
+          <h1 class="flex lg:max-w-[600px] max-w-[510px] sm:max-sm:max-w-[200px] md:text-5xl text-3xl my-1 font-bold">
             {{ postItem.title }}
           </h1>
           <div class="flex space-x-4 my-5">
@@ -63,7 +62,7 @@ async function stringToDate(date) {
             </div>
           </div>
         </div>
-<img class="my-3 h-96" :src="postItem.coverImageUrl" alt="">
+        <img class="my-3 h-96" :src="postItem.coverImageUrl" alt="">
         <div class="mt-5">
           <article class="prose prose-sm lg:prose-lg my-3" v-html="postContent">
           </article>
