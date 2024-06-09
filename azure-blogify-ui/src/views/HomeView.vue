@@ -15,8 +15,7 @@ const fetchData = async () => {
     let url = `/api/GetPosts?pageSize=${pageSize.value}`;
     if (continuationToken.value) url += `&contToken=${continuationToken.value}`;
     const response = await fetch(url);
-    if (!response.ok)
-    {
+    if (!response.ok) {
       throw new Error('Failed to fetch data.');
     }
     const data = await response.json();
@@ -35,16 +34,20 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center pt-11 mx-10">
+  <div v-if="responseData" class="flex flex-col items-center mx-10">
     <div class="space-y-3 mb-8">
-      <FeaturedPost
-        title="Breaking news: Being a genius coder who drinks a lot has been linked with 100% chance of being a gazillionaire!"
-        date="20 April 1998" />
-      <router-link v-for="post in responseData" :key="post.id" :to="'/post/' + post.category + '/' + post.id">
+      <router-link v-if="responseData.length > 0" :to="'/post/' + responseData[0].category + '/' + responseData[0].id">
+        <FeaturedPost class="my-5" :key="responseData[0].id" :title="responseData[0].title"
+          :category="responseData[0].category" :date="responseData[0].date"
+          :coverImageUrl="responseData[0].coverImageUrl" />
+      </router-link>
+      <router-link v-for="post in responseData.slice(1)" :key="post.id" :to="'/post/' + post.category + '/' + post.id">
         <PostListItem class="my-5" :key="post.id" :title="post.title" :category="post.category" :date="post.date"
           :coverImageUrl="post.coverImageUrl" />
       </router-link>
-      <button v-if="continuationToken && !loading" class="border-solid border-2 border-black rounded-lg w-full h-12 md:text-lg text-base" @click="fetchData">More Posts</button>
+      <button v-if="continuationToken && !loading"
+        class="border-solid border-2 border-black rounded-lg w-full h-12 md:text-lg text-base" @click="fetchData">More
+        Posts</button>
     </div>
   </div>
 </template>
