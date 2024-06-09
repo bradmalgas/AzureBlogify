@@ -44,7 +44,7 @@ onMounted(async () => {
         <PostListItem class="my-5" :key="post.id" :title="post.title" :category="post.category" :date="post.date"
           :coverImageUrl="post.coverImageUrl" />
       </router-link>
-      <button v-if="continuationToken && !loading" class="border-solid border-2 border-black rounded-lg w-full h-12 text-lg" @click="fetchData">More Posts</button>
+      <button v-if="continuationToken && !loading" class="border-solid border-2 border-black rounded-lg w-full h-12 md:text-lg text-base" @click="fetchData">More Posts</button>
     </div>
   </div>
 </template>
