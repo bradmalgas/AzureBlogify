@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import markdownit from 'markdown-it'
-import NotFoundView from './NotFoundView.vue';
+import UnexpectedErrorView from './UnexpectedErrorView.vue';
 import { formatDate } from 'date-fns';
 import ShareLinks from '../components/ShareLinks.vue';
 
@@ -63,29 +63,29 @@ async function stringToDate(date) {
       <p class="md:text-xl">Loading ...</p>
     </div>
     <div v-if="error">
-      <NotFoundView />
+      <UnexpectedErrorView />
     </div>
     <div v-if="postItem" class="flex justify-center my-3">
       <div class="flex flex-col items-center pt-5 max-w-[1024px]">
         <div class="w-full">
-          <h1 class="flex lg:max-w-[600px] max-w-[510px] sm:max-sm:max-w-[200px] md:text-5xl text-3xl my-1 font-bold">
-            {{ postItem.title }}
+          <h1 class="flex lg:max-w-[600px] max-w-[510px] sm:max-sm:max-w-[200px] md:text-5xl text-2xl my-1 font-bold">
+            {{ postItem.title }}??
           </h1>
-          <div class="flex space-x-4 my-5">
+          <div class="flex my-5 items-center">
             <div>
               <img class="object-cover object-top rounded-full h-[55px] w-[55px] border border-neutral-900"
                 src="../assets/images/user-placeholder-image.png" alt="">
             </div>
-            <div class="flex flex-col justify-center">
+            <div class="flex flex-col justify-center ml-5">
               <p class="md:text-lg text-base">{{ postItem.author }}</p>
               <p class="md:text- text-sm font-light">{{ postItem.date }}</p>
             </div>
-            <ShareLinks v-if="postItem" :title="postItem.title"/>
+            <div class="ml-auto"><ShareLinks v-if="postItem" :title="postItem.title"/></div>
           </div>
         </div>
         <img class="my-3 md:max-h-72 max-h-36" :src="postItem.coverImageUrl" alt="">
         <div class="mt-5">
-          <article class="prose prose-sm lg:prose-lg my-3" v-html="postContent">
+          <article class="prose prose-base lg:prose-lg my-3" v-html="postContent">
           </article>
         </div>
       </div>

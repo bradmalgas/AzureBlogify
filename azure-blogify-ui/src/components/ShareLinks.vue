@@ -1,20 +1,24 @@
 <template>
     <button class="md:hidden" @click="shareContentMobile">
-        <div class="flex items-center bg-gray-300 text-black font-bold py-2 px-4 rounded-full max-w-20 md:max-w-full">
-            <ShareIcon colorClass="text-gray-800 h-8" />
+        <div class="flex items-center bg-gray-300 text-black font-bold py-2 px-1 rounded-full max-w-20 md:max-w-full">
+            <ShareIcon colorClass="text-gray-800 h-6" />
         </div>
     </button>
-    <div class="hidden md:flex share-pane p-4 border border-gray-300 rounded">
-        <h2 class="text-lg font-bold mb-4 mr-3">Share this post:</h2>
-        <button @click="shareOnFacebook" class="share-button bg-blue-500 text-white mb-2">Share on Facebook</button>
-        <button @click="shareOnTwitter" class="share-button bg-blue-400 text-white mb-2">Share on Twitter</button>
-        <button @click="shareOnLinkedIn" class="share-button bg-blue-800 text-white mb-2">Share on LinkedIn</button>
-        <button @click="shareViaEmail" class="share-button bg-gray-500 text-white mb-2">Share via Email</button>
+    <div class="hidden md:flex flex-col">
+        <h2 class="text-lg font-bold">Share this post:</h2>
+        <div class="flex flex-row justify-between">
+            <FacebookIcon @click="shareOnFacebook" class="w-8"></FacebookIcon>
+            <TwitterIcon @click="shareOnTwitter" class="w-8"></TwitterIcon>
+            <LinkedInLogo @click="shareOnLinkedIn" class="w-8"></LinkedInLogo>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import ShareIcon from './icons/ShareIcon.vue';
+import FacebookIcon from './icons/FacebookIcon.vue';
+import TwitterIcon from './icons/TwitterIcon.vue';
+import LinkedInLogo from './icons/LinkedInLogo.vue';
 const props = defineProps({
     title: String
 }
