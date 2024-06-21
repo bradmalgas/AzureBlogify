@@ -69,7 +69,7 @@ async function stringToDate(date) {
       <div class="flex flex-col items-center pt-5 max-w-[1024px]">
         <div class="w-full">
           <h1 class="flex lg:max-w-[600px] max-w-[510px] sm:max-sm:max-w-[200px] md:text-5xl text-2xl my-1 font-bold">
-            {{ postItem.title }}??
+            {{ postItem.title }}
           </h1>
           <div class="flex my-5 items-center">
             <div>
