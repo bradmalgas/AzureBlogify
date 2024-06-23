@@ -39,7 +39,10 @@ onMounted(async () => {
       <router-link v-if="responseData.length > 0" :to="'/post/' + responseData[0].category + '/' + responseData[0].id">
         <FeaturedPost class="my-5" :key="responseData[0].id" :title="responseData[0].title"
           :category="responseData[0].category" :date="responseData[0].date"
-          :coverImageUrl="responseData[0].coverImageUrl" />
+          :coverImageUrl="responseData[0].coverImageUrl"
+          :author="responseData[0].author" 
+          :summary="responseData[0].summary"
+          :tags="responseData[0].tags"/>
       </router-link>
       <router-link v-for="post in responseData.slice(1)" :key="post.id" :to="'/post/' + post.category + '/' + post.id">
         <PostListItem class="my-5" :key="post.id" :title="post.title" :category="post.category" :date="post.date"
