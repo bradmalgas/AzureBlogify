@@ -34,7 +34,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="responseData" class="flex flex-col items-center mx-10">
+  <div v-if="responseData" class="flex flex-col items-center mx-5">
     <div class="space-y-3 mb-8">
       <router-link v-if="responseData.length > 0" :to="'/post/' + responseData[0].category + '/' + responseData[0].id">
         <FeaturedPost class="my-5" :key="responseData[0].id" :title="responseData[0].title"
