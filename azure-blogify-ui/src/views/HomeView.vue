@@ -44,10 +44,13 @@ onMounted(async () => {
           :summary="responseData[0].summary"
           :tags="responseData[0].tags"/>
       </router-link>
+      <div v-if="responseData.length > 0" >
+        <h1 class="md:text-3xl text-2xl font-semibold mb-2 font-serif">Latest Posts</h1>
       <router-link v-for="post in responseData.slice(1)" :key="post.id" :to="'/post/' + post.category + '/' + post.id">
         <PostListItem class="my-5" :key="post.id" :title="post.title" :category="post.category" :date="post.date"
           :coverImageUrl="post.coverImageUrl" />
       </router-link>
+    </div>
       <button v-if="continuationToken && !loading"
         class="border-solid border-2 border-black rounded-lg w-full h-12 md:text-lg text-base" @click="fetchData">More
         Posts</button>
