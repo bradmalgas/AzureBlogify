@@ -23,7 +23,7 @@ const formattedDate = computed(() => {
 <template>
     <div class="md:mb-6">
         <h1 class="md:text-4xl text-3xl font-semibold mb-2 font-serif">Featured Post</h1>
-        <div class="p-4 shadow-lg space-y-3">
+        <div class="rounded-md p-4 shadow-lg space-y-3">
             <div class="max-h-[300px] max-w-[800px] overflow-clip">
                 <img class="max-w-full h-auto rounded-md" :src="coverImageUrl" alt="">
             </div>
