@@ -4,7 +4,10 @@ import { computed } from 'vue';
 
 const props = defineProps({
     title: String,
+author: String,
     category: String,
+summary: String,
+    tags: { type: Array<string> },
     date: { type: String, required: true },
     coverImageUrl: String
 });
