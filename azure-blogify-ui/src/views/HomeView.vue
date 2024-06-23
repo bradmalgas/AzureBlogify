@@ -5,7 +5,7 @@ import { onMounted, ref } from 'vue';
 
 const responseData = ref([]);
 const continuationToken = ref(null);
-const pageSize = ref(10);
+const pageSize = ref(4);
 const error = ref(null);
 const loading = ref(false);
 
@@ -35,24 +35,24 @@ onMounted(async () => {
 
 <template>
   <div v-if="responseData" class="flex flex-col items-center mx-5">
-    <div class="space-y-3 mb-8">
+    <div class="mb-5">
       <router-link v-if="responseData.length > 0" :to="'/post/' + responseData[0].category + '/' + responseData[0].id">
         <FeaturedPost class="my-5" :key="responseData[0].id" :title="responseData[0].title"
           :category="responseData[0].category" :date="responseData[0].date"
-          :coverImageUrl="responseData[0].coverImageUrl"
-          :author="responseData[0].author" 
-          :summary="responseData[0].summary"
-          :tags="responseData[0].tags"/>
+          :coverImageUrl="responseData[0].coverImageUrl" :author="responseData[0].author"
+          :summary="responseData[0].summary" :tags="responseData[0].tags" />
       </router-link>
-      <div v-if="responseData.length > 0" >
+      <div v-if="responseData.length > 0">
         <h1 class="md:text-3xl text-2xl font-semibold mb-2 font-serif">Latest Posts</h1>
-      <router-link v-for="post in responseData.slice(1)" :key="post.id" :to="'/post/' + post.category + '/' + post.id">
-        <PostListItem class="my-5" :key="post.id" :title="post.title" :category="post.category" :date="post.date"
-          :coverImageUrl="post.coverImageUrl" />
-      </router-link>
-    </div>
+        <router-link v-for="post in responseData.slice(1)" :key="post.id"
+          :to="'/post/' + post.category + '/' + post.id">
+          <PostListItem class="my-5" :key="post.id" :title="post.title" :category="post.category" :date="post.date"
+            :coverImageUrl="post.coverImageUrl" />
+        </router-link>
+      </div>
       <button v-if="continuationToken && !loading"
-        class="bg-black rounded-xl w-full h-12 md:text-lg text-base uppercase text-white font-serif" @click="fetchData">More
+        class="bg-black rounded-xl w-full h-14 md:text-lg text-base uppercase text-white font-serif"
+        @click="fetchData">More
         Posts</button>
     </div>
   </div>
