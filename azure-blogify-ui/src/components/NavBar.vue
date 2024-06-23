@@ -5,6 +5,7 @@ import SideNav from './SideNav.vue';
 </script>
 
 <template>
+    <!-- Tablet/Laptop NavBar -->
     <div class="bg-babyblue truncate hidden md:flex justify-between items-center py-1 lg:sticky top-0">
         <div class="px-3">
             <SideNav class="icon" />
@@ -26,17 +27,18 @@ import SideNav from './SideNav.vue';
             <SearchIcon class="h-6 pr-2" />
         </div>
     </div>
-    <div class="flex justify-between items-center bg-babyblue overflow-hidden md:hidden min-w-80 py-1">
+
+    <!-- Mobile NavBar -->
+    <div class="flex justify-between items-center bg-white overflow-hidden md:hidden min-w-80 px-5 py-7 max-h-[52px] border-0 border-black border-b">
+        <div class="flex items-center relative">
+            <router-link to="/" key="home"><p class="text-3xl font-semibold font-serif">AzureBlogify</p></router-link>
+        </div>
         <div class="px-3">
             <SideNav />
         </div>
-        <div class="flex items-center relative h-full">
-            <LogoSmall class="max-h-[52px] h-full w-full object-cover" />
-            <p class="text-lg font-semibold">AzureBlogify</p>
-        </div>
-        <div class="px-3">
+        <!-- <div class="px-3">
             <SearchIcon class="h-8 pr-2" />
-        </div>
+        </div> -->
     </div>
 </template>
 
