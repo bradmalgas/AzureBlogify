@@ -5,6 +5,7 @@ import markdownit from 'markdown-it'
 import UnexpectedErrorView from './UnexpectedErrorView.vue';
 import { formatDate } from 'date-fns';
 import ShareLinks from '../components/ShareLinks.vue';
+import SpinLoader from '../components/SpinLoader.vue';
 
 
 const route = useRoute();
@@ -12,7 +13,7 @@ const route = useRoute();
 const postItem = ref({});
 const postContent = ref({});
 const error = ref({});
-const loading = ref(false);
+const loading = ref(true);
 
 watch(() => route.params, fetchData, { immediate: true });
 
@@ -57,11 +58,11 @@ async function stringToDate(date) {
 </script>
 
 
-<template>
-  <div class="flex flex-col items-center mx-10">
-    <div v-if="loading">
-      <p class="md:text-xl">Loading ...</p>
-    </div>
+<template>    
+  <div v-if="loading" class="flex min-h-svh items-center justify-center">
+    <SpinLoader colour="#000000" class="h-32"/>
+  </div>
+  <div v-else class="flex flex-col items-center mx-10">
     <div v-if="error">
       <UnexpectedErrorView />
     </div>
