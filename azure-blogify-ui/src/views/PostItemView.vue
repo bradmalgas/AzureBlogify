@@ -18,6 +18,7 @@ const loading = ref(true);
 watch(() => route.params, fetchData, { immediate: true });
 
 async function fetchData(params) {
+  window.scrollTo(0,0);
   error.value = postItem.value = null;
   loading.value = true;
   const md = markdownit();
