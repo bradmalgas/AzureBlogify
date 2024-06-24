@@ -1,6 +1,7 @@
 <script setup>
 import FeaturedPost from '@/components/FeaturedPost.vue';
 import PostListItem from '@/components/PostListItem.vue';
+import SpinLoader from '@/components/SpinLoader.vue';
 import { onMounted, ref } from 'vue';
 
 const responseData = ref([]);
@@ -34,6 +35,9 @@ onMounted(async () => {
 </script>
 
 <template>
+  <div v-if="loading" class="flex min-h-svh items-center justify-center">
+    <SpinLoader class="h-32" colour="#000000"/>
+  </div>
   <div v-if="responseData" class="flex flex-col items-center mx-5">
     <div class="mb-5">
       <router-link v-if="responseData.length > 0" :to="'/post/' + responseData[0].category + '/' + responseData[0].id">
