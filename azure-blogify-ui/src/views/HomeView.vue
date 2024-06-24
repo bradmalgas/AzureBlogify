@@ -35,7 +35,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="loading" class="flex min-h-svh items-center justify-center">
+  <div v-if="loading || error" class="flex min-h-svh items-center justify-center">
     <SpinLoader class="h-32" colour="#000000"/>
   </div>
   <div v-if="responseData" class="flex flex-col items-center mx-5">
