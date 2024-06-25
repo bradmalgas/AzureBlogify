@@ -16,7 +16,7 @@ const toggleSideNav = () => {
         <MenuIcon class="h-full" @click="toggleSideNav()" />
       </div>
       <div v-else class="fixed inset-0 z-30 flex justify-end">
-        <div class="bg-black opacity-30 w-2/5" @click="toggleSideNav()"></div>
+        <div class="bg-black opacity-30 w-full" @click="toggleSideNav()"></div>
         <div class="bg-black text-white w-3/5 max-w-sm h-full p-5 pt-8 relative">
           <div class="absolute top-3 right-8">
             <CloseIcon colour="#ffffff" class="h-full" @click="toggleSideNav()" />
