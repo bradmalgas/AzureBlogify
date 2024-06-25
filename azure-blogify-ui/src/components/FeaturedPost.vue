@@ -41,7 +41,7 @@ const formattedDate = computed(() => {
                     <p class="md:text-sm text-[10px]">{{ author }}</p>
                 </div>
                 <div class="flex space-x-2 text-right">
-                    <TagButton v-for="value in tags" :text="value" />
+                    <TagButton class="md:text-[10px]" v-for="value in tags" :text="value" />
                 </div>
             </div>
         </div>
