@@ -24,8 +24,6 @@ const toggleSideNav = () => {
           <div class="grid gap-4 text-xl rounded">
             <router-link to="/" key="home" @click="toggleSideNav()">Home</router-link>
             <router-link to="/about" key="about" @click="toggleSideNav()">About</router-link>
-            <router-link to="/posts" key="posts" @click="toggleSideNav()">Post</router-link>
-            <router-link to="/contact" key="contact" @click="toggleSideNav()">Contact</router-link>
           </div>
         </div>
       </div>
