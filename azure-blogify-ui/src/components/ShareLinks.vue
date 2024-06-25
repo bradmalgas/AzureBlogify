@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col">
         <div class="flex flex-row md:space-x-5 justify-between items-center">
-            <LinkIcon @click="shareOnTwitter" class="md:flex hidden md:w-8 md:h-8 w-5 h-5" colour="#4E4E4E"></LinkIcon>
+            <LinkIcon @click="shareOnTwitter" class="md:flex hidden md:w-8 md:h-8 w-5 h-5" color="#4E4E4E"></LinkIcon>
             <ShareIcon @click="shareContentMobile" class="md:hidden md:w-8 md:h-8 w-5 h-5" colorClass="text-gray-700"></ShareIcon>
             <TwitterIcon @click="shareOnTwitter" class="md:w-8 md:h-8 w-5 h-5" colour="#4E4E4E"></TwitterIcon>
             <LinkedInLogo @click="shareOnLinkedIn" class="md:w-8 md:h-8 w-5 h-5" colour="#4E4E4E"></LinkedInLogo>
