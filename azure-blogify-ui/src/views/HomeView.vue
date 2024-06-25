@@ -55,9 +55,10 @@ onMounted(async () => {
         </router-link>
       </div>
       <button v-if="continuationToken && !loading"
-        class="bg-black rounded-xl w-full h-14 md:text-lg text-base uppercase text-white font-serif"
-        @click="fetchData">More
-        Posts</button>
+        class="bg-black rounded-xl w-full h-14 md:text-base text-sm uppercase text-white font-serif"
+        @click="fetchData">
+          More Posts
+      </button>
     </div>
   </div>
 </template>
