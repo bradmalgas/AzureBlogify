@@ -38,24 +38,27 @@ onMounted(async () => {
   <div v-if="loading || error" class="flex min-h-svh items-center justify-center">
     <SpinLoader class="h-32" colour="#000000"/>
   </div>
-  <div v-if="responseData" class="flex flex-col items-center mx-5">
-    <div class="mb-5">
-      <router-link v-if="responseData.length > 0" :to="'/post/' + responseData[0].category + '/' + responseData[0].id">
+  <div v-if="responseData.length && !loading" class="flex flex-col items-center mx-5">
+    <div class="my-5">
+        <h1 class="md:text-4xl text-3xl font-semibold mb-2 font-serif">Featured Post</h1>
+      <router-link class="hover:cursor-pointer" v-if="responseData.length > 0" :to="'/post/' + responseData[0].category + '/' + responseData[0].id">
         <FeaturedPost class="my-5" :key="responseData[0].id" :title="responseData[0].title"
           :category="responseData[0].category" :date="responseData[0].date"
           :coverImageUrl="responseData[0].coverImageUrl" :author="responseData[0].author"
           :summary="responseData[0].summary" :tags="responseData[0].tags" />
       </router-link>
-      <div v-if="responseData.length > 0">
+      <div v-if="responseData.length > 1">
         <h1 class="md:text-3xl text-2xl font-semibold mb-2 font-serif">Latest Posts</h1>
-        <router-link v-for="post in responseData.slice(1)" :key="post.id"
+        <router-link class="hover:cursor-pointer" v-for="post in responseData.slice(1)" :key="post.id"
           :to="'/post/' + post.category + '/' + post.id">
+          <div>
           <PostListItem class="my-5" :key="post.id" :title="post.title" :category="post.category" :date="post.date"
             :coverImageUrl="post.coverImageUrl" />
+          </div>
         </router-link>
       </div>
       <button v-if="continuationToken && !loading"
-        class="bg-black rounded-xl w-full h-14 md:text-base text-sm uppercase text-white font-serif"
+        class="bg-black rounded-xl w-full h-14 md:text-base text-sm uppercase text-white font-serif hover:cursor-pointer"
         @click="fetchData">
           More Posts
       </button>
