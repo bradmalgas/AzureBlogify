@@ -38,7 +38,7 @@ onMounted(async () => {
   <div v-if="loading || error" class="flex min-h-svh items-center justify-center">
     <SpinLoader class="h-32" colour="#000000"/>
   </div>
-  <div v-if="responseData.length && !loading" class="flex flex-col items-center mx-5">
+  <div v-if="responseData.length && !loading" class="flex flex-col items-center mx-5 lg:mx-96">
     <div class="my-5">
         <h1 class="md:text-4xl text-3xl font-semibold mb-2 font-serif">Featured Post</h1>
       <router-link class="hover:cursor-pointer" v-if="responseData.length > 0" :to="'/post/' + responseData[0].category + '/' + responseData[0].id">
