@@ -9,8 +9,8 @@ import TwitterIcon from './icons/TwitterIcon.vue';
         <div class="flex flex-col items-center">
             <p class="text-xs">Subscribe to our newsletter</p>
             <div class="flex mt-7 rounded-full outline outline-2 outline-white">
-                <textarea class="w-52 rounded-full h-full bg-black text-xs pl-5 flex content-center" name="emailTextField"
-                    id="newsletter-email-address-text-field">Enter your email</textarea>
+                <input type="email" placeholder="Enter your email" class="w-52 rounded-full h-full bg-black text-xs pl-5 flex placeholder:text-white" name="emailTextField"
+                    id="newsletter-email-address-text-field"></input>
                 <button class="text-xs bg-white text-black font-bold rounded-full py-2 px-6 h-full">Subscribe</button>
             </div>
         </div>
