@@ -9,7 +9,7 @@ import BradLogo from './icons/BradLogo.vue';
     <!-- Tablet/Laptop NavBar -->
     <div class="bg-babyblue truncate hidden md:flex justify-between items-center py-1 lg:sticky top-0">
         <div class="px-3">
-            <SideNav class="icon" />
+            <SideNav />
         </div>
         <div class="lg:pl-5">
             <router-link to="/" class="">
@@ -30,18 +30,18 @@ import BradLogo from './icons/BradLogo.vue';
     </div>
 
     <!-- Mobile NavBar -->
-    <div class="flex justify-between items-center bg-white overflow-hidden md:hidden min-w-80 px-5 py-7 max-h-[52px] border-0 border-black border-b">
+    <div class="flex justify-between items-center bg-white overflow-hidden md:hidden min-w-80 px-5 py-7 max-h-[52px] border-0 border-black border-b">        
+        <div>
+            <SideNav />
+        </div>
         <div class="flex items-center relative">
             <router-link to="/" key="home">
                 <BradLogo/>
             </router-link>
         </div>
-        <div class="px-3">
-            <SideNav />
-        </div>
-        <!-- <div class="px-3">
+        <div>
             <SearchIcon class="h-8 pr-2" />
-        </div> -->
+        </div>
     </div>
 </template>
 
