@@ -3,21 +3,20 @@ import CloseIcon from './icons/CloseIcon.vue';
 import MenuIcon from './icons/MenuIcon.vue';
 import { ref } from 'vue';
 
-const isClosed = ref(true);
+const isOpen = ref(false);
 
 const toggleSideNav = () => {
-    isClosed.value = !isClosed.value;
+    isOpen.value = !isOpen.value;
 };
 </script>
 
 <template>
     <div>
-      <div v-if="isClosed" class="relative z-20">
+      <div class="relative z-20">
         <MenuIcon class="h-full" @click="toggleSideNav()" />
       </div>
-      <div v-else class="fixed inset-0 z-30 flex justify-end">
-        <div class="bg-black opacity-30 w-full" @click="toggleSideNav()"></div>
-        <div class="bg-black text-white w-full max-w-sm h-full p-5 pt-8 relative">
+      <div v-if="isOpen" class="fixed inset-0 z-30 flex">
+        <div class="bg-black text-white w-full md:max-w-md max-w-full h-full p-5 pt-8 relative">
           <div class="absolute top-3 right-8">
             <CloseIcon colour="#ffffff" class="h-full" @click="toggleSideNav()" />
           </div>
@@ -26,6 +25,7 @@ const toggleSideNav = () => {
             <router-link to="/about" key="about" @click="toggleSideNav()">About</router-link>
           </div>
         </div>
+        <div class="bg-black opacity-30 w-full" @click="toggleSideNav()"></div>
       </div>
     </div>
   </template>
