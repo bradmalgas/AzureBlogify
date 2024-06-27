@@ -37,12 +37,12 @@ const toggleSideNav = () => {
 <style scoped>
 .slide-out {
   transform: translateX(-100%);
-  transition: transform 0.4s ease;
+  transition: transform 0.4s ease-in;
 }
 
 .slide-in {
   transform: translateX(0);
-  transition: transform 0.4s ease;
+  transition: transform 0.4s ease-out;
 }
 
 .fade-in {
@@ -53,6 +53,6 @@ const toggleSideNav = () => {
 .fade-out {
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.4s ease, visibility 0.4s ease;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 </style>
