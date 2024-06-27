@@ -16,12 +16,12 @@ const toggleSideNav = () => {
       <div>
         <MenuIcon class="h-full hover:cursor-pointer" @click="toggleSideNav()" />
       </div>
-      <div class="fixed inset-0 z-20" :class="{'slide-out': !isOpen, 'slide-in': isOpen}">
-        <div id="slide-nav-component" class="bg-black text-white max-sm:max-w-[60%] w-full md:max-w-md h-screen p-5 pt-8 relative">
+      <div class="fixed inset-0 z-20 w-[50%]" :class="{'slide-out': !isOpen, 'slide-in': isOpen}">
+        <div id="slide-nav-component" class="bg-black text-white w-full md:max-w-md h-screen p-5 pt-8 relative">
           <div class="absolute top-3 right-8">
             <CloseIcon colour="#ffffff" class="h-full hover:cursor-pointer" @click="toggleSideNav()" />
           </div>
-          <div class="grid gap-4 font-bold text-xl md:text-2xl lg:text-2xl rounded ml-5">
+          <div class="grid gap-4 font-semibold lg:font-normal text-xl md:text-2xl lg:text-2xl rounded ml-5">
             <BradLogo class="h-16 border-0 border-b border-white" colour="#ffffff"/>
             <router-link class="hover:cursor-pointer max-w-fit" to="/" key="home" @click="toggleSideNav()">Home</router-link>
             <router-link class="hover:cursor-pointer max-w-fit" to="/about" key="about" @click="toggleSideNav()">About</router-link>
