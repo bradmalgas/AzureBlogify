@@ -13,7 +13,7 @@ import BradLogo from './icons/BradLogo.vue';
             <SideNav />
         </div>
         <div>
-            <router-link to="/" class="">
+            <router-link to="/">
                 <BradLogo />
             </router-link>
         </div>
