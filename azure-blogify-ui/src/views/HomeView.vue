@@ -47,7 +47,7 @@ onMounted(async () => {
           :coverImageUrl="responseData[0].coverImageUrl" :author="responseData[0].author"
           :summary="responseData[0].summary" :tags="responseData[0].tags" />
       </router-link>
-      <div class="relative -z-10" v-if="responseData.length > 1">
+      <div v-if="responseData.length > 1">
         <h1 class="md:text-3xl text-2xl font-semibold mb-2 font-serif">Latest Posts</h1>
         <router-link class="hover:cursor-pointer" v-for="post in responseData.slice(1)" :key="post.id"
           :to="'/post/' + post.category + '/' + post.id">
