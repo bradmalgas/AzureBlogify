@@ -1,10 +1,10 @@
 <template>
     <div class="flex flex-col">
-        <div class="flex flex-row md:space-x-5 justify-between items-center">
-            <LinkIcon @click="shareOnTwitter" class="md:flex hidden md:w-8 md:h-8 w-5 h-5" color="#4E4E4E"></LinkIcon>
-            <ShareIcon @click="shareContentMobile" class="md:hidden md:w-8 md:h-8 w-5 h-5" colorClass="text-gray-700"></ShareIcon>
-            <TwitterIcon @click="shareOnTwitter" class="md:w-8 md:h-8 w-5 h-5" colour="#4E4E4E"></TwitterIcon>
-            <LinkedInLogo @click="shareOnLinkedIn" class="md:w-8 md:h-8 w-5 h-5" colour="#4E4E4E"></LinkedInLogo>
+        <div class="flex flex-row lg:space-x-5 justify-between items-center">
+            <LinkIcon @click="copyToClipboard" class="lg:flex hidden lg:w-8 lg:h-8" color="#4E4E4E"></LinkIcon>
+            <ShareIcon @click="shareContentMobile" class="lg:hidden lg:w-8 lg:h-8 md:w-7 md:h-7 w-5 h-5" colorClass="text-gray-700"></ShareIcon>
+            <TwitterIcon @click="shareOnTwitter" class="lg:w-8 lg:h-8 md:w-7 md:h-7 w-5 h-5" colour="#4E4E4E"></TwitterIcon>
+            <LinkedInLogo @click="shareOnLinkedIn" class="lg:w-8 lg:h-8 md:w-7 md:h-7 w-5 h-5" colour="#4E4E4E"></LinkedInLogo>
         </div>
     </div>
 </template>
@@ -51,7 +51,7 @@ const shareOnLinkedIn = () => {
 
 const copyToClipboard = () => {
     const textarea = document.createElement('textarea');
-    textarea.value = url;
+    textarea.value = window.location.href;
     textarea.setAttribute('readonly', '');
     textarea.style.position = 'absolute';
     textarea.style.left = '-9999px';
