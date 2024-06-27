@@ -29,7 +29,7 @@ async function fetchData(params) {
     postContent.value = md.render(data.content);
     postItem.value = data;
     postItem.value.date = await stringToDate(data.date);
-    document.title = `${postItem.value.title} - AzureBlogify`;
+    document.title = `${postItem.value.title} - Brad Malgas Blog`;
   } catch (err) {
     error.value = err.toString();
   } finally {
@@ -53,7 +53,7 @@ async function stringToDate(date) {
       <UnexpectedErrorView />
     </div>
     <div v-if="postItem" class="flex my-3">
-      <div class="flex flex-col md:mx-96 mx-6 space-y-3 md:space-y-7">
+      <div class="flex flex-col lg:mx-96 md:mx-28 mx-6 space-y-3 md:space-y-7">
         <div>
           <h1 class="flex md:text-5xl text-2xl mt-3 font-semibold font-serif leading-tight tracking-wide">
             {{ postItem.title }}
@@ -73,18 +73,18 @@ async function stringToDate(date) {
         <Disclaimer :text="postItem.disclaimer" />
         <div class="flex py-3 items-start pb-6">
           <div>
-            <p class="text-[10px] font-bold mb-2">Written by:</p>
+            <p class="md:text-base text-[10px] font-bold mb-2">Written by:</p>
             <div class="flex items-center space-x-2">
               <img class="object-cover object-top rounded-full h-[30px] w-[30px]"
                 src="../assets/images/user-placeholder-image.png" alt="">
               <div>
                 <p class="md:text-base text-[10px] font-bold">{{ postItem.author }}</p>
-                <p class="text-[7px] text-gray-700">Azure Cloud Engineer</p>
+                <p class="md:text-[10px] text-[7px] text-gray-700">Azure Cloud Engineer</p>
               </div>
             </div>
           </div>
           <div class="ml-auto">
-            <p class="text-[10px] font-semibold mb-2">Share this post:</p>
+            <p class="md:text-base text-[10px] font-semibold mb-2">Share this post:</p>
             <div>
               <ShareLinks v-if="postItem" :title="postItem.title" />
             </div>
