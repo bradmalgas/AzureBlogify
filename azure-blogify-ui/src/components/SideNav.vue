@@ -4,7 +4,7 @@ import CloseIcon from './icons/CloseIcon.vue';
 import MenuIcon from './icons/MenuIcon.vue';
 import { ref } from 'vue';
 
-const isOpen = ref(true);
+const isOpen = ref(false);
 
 const toggleSideNav = () => {
     isOpen.value = !isOpen.value;
@@ -13,11 +13,11 @@ const toggleSideNav = () => {
 
 <template>
     <div>
-      <div class="relative z-20">
+      <div class="left-8 relative hover:cursor-pointer" :class="{'slide-out z-30': !isOpen, 'slide-in z-0': isOpen}">
         <MenuIcon class="h-full" @click="toggleSideNav()" />
       </div>
-      <div v-if="isOpen" class="fixed inset-0 z-30 flex">
-        <div class="bg-black text-white max-sm:min-w-[80%] w-full md:max-w-md h-full p-5 pt-8 relative">
+      <div class="fixed inset-0 flex z-10">
+        <div id="slide-nav-component" class="bg-black text-white max-sm:min-w-[80%] w-full md:max-w-md h-screen p-5 pt-8 relative z-40" :class="{'slide-out': !isOpen, 'slide-in': isOpen}">
           <div class="absolute top-3 right-8">
             <CloseIcon colour="#ffffff" class="h-full" @click="toggleSideNav()" />
           </div>
@@ -27,11 +27,21 @@ const toggleSideNav = () => {
             <router-link class="hover:cursor-pointer max-w-fit" to="/about" key="about" @click="toggleSideNav()">About</router-link>
           </div>
         </div>
-        <div class="bg-black opacity-30 w-full" @click="toggleSideNav()"></div>
       </div>
+        <div class="bg-black opacity-30 inset-0 fixed flex" :class="{'slide-out hidden': !isOpen, 'slide-in flex': isOpen}" @click="toggleSideNav()"></div>
     </div>
   </template>
   
 
 
-<style lang="postcss" scoped></style>
+<style scoped>
+.slide-out {
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+}
+
+.slide-in {
+  transform: translateX(0);
+  transition: transform 0.4s ease;
+}
+</style>
