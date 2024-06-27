@@ -8,7 +8,7 @@ import BradLogo from './icons/BradLogo.vue';
 <template>
     <!-- Tablet/Laptop NavBar -->
     <div
-        class="bg-white border-0 border-black border-b truncate hidden md:flex justify-between items-center max-h-[100px] lg:sticky top-0">
+        class="bg-white border-0 border-black border-b truncate hidden md:flex justify-between items-center max-h-[100px] lg:sticky top-0 z-10">
         <div class="px-3">
             <SideNav />
         </div>
@@ -34,7 +34,7 @@ import BradLogo from './icons/BradLogo.vue';
 
     <!-- Mobile NavBar -->
     <div
-        class="flex justify-between items-center bg-white overflow-hidden md:hidden min-w-80 px-5 max-h-[52px] border-0 border-black border-b">
+        class="flex justify-between items-center bg-white overflow-hidden md:hidden min-w-80 px-5 max-h-[52px] border-0 border-black border-b z-10">
         <div>
             <SideNav />
         </div>
