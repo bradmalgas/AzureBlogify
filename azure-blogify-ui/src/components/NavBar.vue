@@ -8,7 +8,7 @@ import BradLogo from './icons/BradLogo.vue';
 <template>
     <!-- Tablet/Laptop NavBar -->
     <div
-        class="bg-white border-0 border-black border-b truncate hidden md:flex justify-between items-center max-h-[100px] sticky top-0 z-10 px-3">
+        class="bg-white border-0 border-black border-b truncate hidden md:flex justify-between items-center max-h-[80px] sticky top-0 z-10 px-3">
         <div>
             <SideNav />
         </div>
@@ -22,7 +22,7 @@ import BradLogo from './icons/BradLogo.vue';
                 <router-link to="/" key="home">Home</router-link>
                 <router-link to="/about" key="about">About</router-link>
             </div>
-            <div class="flex bg-gray-200 rounded-[13px] p-2s mr-3">
+            <div class="flex bg-gray-200 rounded-[13px] p-2 mr-3">
                 <input class="bg-gray-200 rounded-[13px] min-w-52" type="text" placeholder="Search..">
                 <SearchIcon class="h-6 pr-2" />
             </div>
