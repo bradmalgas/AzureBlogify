@@ -18,7 +18,7 @@ import BradLogo from './icons/BradLogo.vue';
             </router-link>
         </div>
         <div class="hidden lg:flex items-center">
-            <div class="space-x-6 mr-6">
+            <div class="space-x-6 mr-6 font-semibold">
                 <router-link to="/" key="home">Home</router-link>
                 <router-link to="/about" key="about">About</router-link>
             </div>
