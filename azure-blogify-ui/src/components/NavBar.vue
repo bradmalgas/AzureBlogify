@@ -23,7 +23,7 @@ import BradLogo from './icons/BradLogo.vue';
                 <router-link to="/about" key="about">About</router-link>
             </div>
             <div class="flex bg-gray-200 rounded-[13px] p-2 mr-3">
-                <input class="bg-gray-200 rounded-[13px] min-w-52" type="text" placeholder="Search..">
+                <input class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2" type="text" placeholder="Search..">
                 <SearchIcon class="h-6 pr-2" />
             </div>
         </div>
