@@ -9,6 +9,7 @@ const continuationToken = ref(null);
 const pageSize = ref(4);
 const error = ref(null);
 const loading = ref(false);
+const scrollContainer = ref(null);
 
 const fetchData = async () => {
   loading.value = true;
@@ -20,7 +21,9 @@ const fetchData = async () => {
       throw new Error('Failed to fetch data.');
     }
     const data = await response.json();
+    const currentScroll = document.body.offsetHeight - (window.innerHeight + window.scrollY);
     responseData.value.push(...data.posts);
+    window.scrollTo(0, document.body.offsetHeight - (currentScroll || 0));
     continuationToken.value = data.continuationToken ? encodeURIComponent(JSON.stringify(data.continuationToken)) : null;
   } catch (err) {
     error.value = err.message;
@@ -40,7 +43,7 @@ onMounted(async () => {
   </div>
   <div v-if="responseData.length && !loading" class="flex flex-col items-center mx-5 lg:mx-96">
     <div class="my-5">
-        <h1 class="md:text-4xl text-3xl font-semibold mb-2 font-serif">Featured Post</h1>
+      <h1 class="md:text-4xl text-3xl font-semibold mb-2 font-serif">Featured Post</h1>
       <router-link class="hover:cursor-pointer" v-if="responseData.length > 0" :to="'/post/' + responseData[0].category + '/' + responseData[0].id">
         <FeaturedPost class="my-5" :key="responseData[0].id" :title="responseData[0].title"
           :category="responseData[0].category" :date="responseData[0].date"
@@ -52,15 +55,15 @@ onMounted(async () => {
         <router-link class="hover:cursor-pointer" v-for="post in responseData.slice(1)" :key="post.id"
           :to="'/post/' + post.category + '/' + post.id">
           <div>
-          <PostListItem class="my-5" :key="post.id" :title="post.title" :category="post.category" :date="post.date"
-            :coverImageUrl="post.coverImageUrl" />
+            <PostListItem class="my-5" :key="post.id" :title="post.title" :category="post.category" :date="post.date"
+              :coverImageUrl="post.coverImageUrl" />
           </div>
         </router-link>
       </div>
       <button v-if="continuationToken && !loading"
         class="bg-black rounded-xl w-full h-14 md:text-base text-sm uppercase text-white font-serif hover:cursor-pointer"
         @click="fetchData">
-          More Posts
+        More Posts
       </button>
     </div>
   </div>
