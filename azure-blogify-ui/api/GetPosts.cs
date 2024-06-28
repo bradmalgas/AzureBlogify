@@ -25,13 +25,23 @@ namespace api
         {
             // Continuation used to facilitate pagination
             string contToken = req.Query["contToken"];
+            string querySubstring = req.Query["query"];
 
             int pageSize = int.TryParse(req.Query["pageSize"], out int size) ? size : 10;
             List<Post> posts = new List<Post>();
 
-            // Order posts from most recent
-            var queryDefinition = new QueryDefinition("SELECT * FROM blogPosts ORDER BY blogPosts.date DESC");
-
+            QueryDefinition queryDefinition;
+            if (String.IsNullOrEmpty(querySubstring))
+            {
+                // Order posts from most recent
+                queryDefinition = new QueryDefinition("SELECT * FROM blogPosts ORDER BY blogPosts.date DESC");
+            }
+            else
+            {
+                // Query based on search string
+                queryDefinition = new QueryDefinition("SELECT * FROM blogPosts WHERE CONTAINS(LOWER(blogPosts.title), @query) OR CONTAINS(LOWER(blogPosts.summary), @query) ORDER BY blogPosts.date DESC")
+                                            .WithParameter("@query", querySubstring.ToLower());
+            }
             // Specifiy the number of results to return
             var requestOptions = new QueryRequestOptions { MaxItemCount = pageSize };
 
@@ -46,7 +56,8 @@ namespace api
                 FeedResponse<Post> response = await feed.ReadNextAsync();
                 posts.AddRange(response);
                 // If there are more results available, return posts with the new continuation token
-                if(response.ContinuationToken != null) {
+                if (response.ContinuationToken != null)
+                {
                     var newContinuationToken = response.ContinuationToken;
                     return new OkObjectResult(new { posts, continuationToken = JsonConvert.DeserializeObject(newContinuationToken) });
                 }
