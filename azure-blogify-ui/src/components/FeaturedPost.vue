@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { format } from 'date-fns';
 import { computed } from 'vue';
+import CalendarIcon from './icons/CalendarIcon.vue';
+import TagButton from '../components/TagButton.vue';
 
 const props = defineProps({
     title: String,
+    author: String,
     category: String,
+    summary: String,
+    tags: { type: Array<string> },
     date: { type: String, required: true },
     coverImageUrl: String
 });
@@ -16,13 +21,29 @@ const formattedDate = computed(() => {
 </script>
 
 <template>
-    <div class="md:mb-6">
-        <h1 class="md:text-3xl text-2xl font-bold mb-2">Featured Post</h1>
-        <div class="max-h-[300px] max-w-[800px] overflow-clip"><img class="max-w-full h-auto" :src="coverImageUrl"
-                alt=""></div>
-        <h2 class="lg:max-w-[600px] max-w-[510px] sm:max-sm:max-w-[200px] md:text-xl my-1 font-bold leading-tight">
-            {{ title }}</h2>
-        <p class="md:text-sm text-xs">{{ formattedDate }}</p>
+    <div class="md:mb-6 min-w-[360px]">
+        <div class="rounded-md p-4 shadow-lg space-y-3">
+            <div class="max-h-[300px] max-w-[800px] overflow-clip">
+                <img class="max-w-full h-auto rounded-md" :src="coverImageUrl" alt="">
+            </div>
+            <div class="flex items-center space-x-2">
+                <CalendarIcon class="w-3 h-3" colour="#4e4e4e" />
+                <p class="md:text-sm text-xs text-slate-600">{{ formattedDate }}</p>
+            </div>
+            <h2 class="lg:max-w-[600px] max-w-[510px] sm:max-sm:max-w-[200px] md:text-xl my-1 font-bold leading-tight">
+                {{ title }}</h2>
+            <p class="md:text-sm text-xs text-slate-600">{{ summary }}</p>
+            <div class="flex items-center md:space-x-2 space-x-5">
+                <div class="flex items-center flex-grow">
+                    <img class="object-cover object-top rounded-full h-[40px] w-[40px] p-2"
+                        src="../assets/images/user-placeholder-image.png" alt="">
+                    <p class="md:text-sm text-[10px]">{{ author }}</p>
+                </div>
+                <div class="space-x-2 text-right">
+                    <TagButton class="md:text-[10px]" v-for="value in tags" :text="value" />
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

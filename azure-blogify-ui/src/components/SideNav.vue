@@ -1,33 +1,58 @@
 <script setup lang="ts">
+import BradLogo from './icons/BradLogo.vue';
 import CloseIcon from './icons/CloseIcon.vue';
 import MenuIcon from './icons/MenuIcon.vue';
 import { ref } from 'vue';
 
-const isClosed = ref(true);
+const isOpen = ref(false);
 
 const toggleSideNav = () => {
-    isClosed.value = !isClosed.value;
+    isOpen.value = !isOpen.value;
 };
 </script>
 
 <template>
-    <div class="relative z-20">
-        <div v-if="isClosed">
-            <MenuIcon class="h-6" @click="toggleSideNav()" />
+    <div>
+      <div>
+        <MenuIcon class="h-full hover:cursor-pointer" @click="toggleSideNav()" />
+      </div>
+      <div class="fixed inset-0 z-20 md:w-[50%] w-[70%]" :class="{'slide-out': !isOpen, 'slide-in': isOpen}">
+        <div id="slide-nav-component" class="bg-black text-white w-full md:max-w-md h-screen p-5 pt-8 relative">
+          <div class="absolute top-3 right-8">
+            <CloseIcon colour="#ffffff" class="h-full hover:cursor-pointer" @click="toggleSideNav()" />
+          </div>
+          <div class="grid gap-4 font-semibold lg:font-normal text-xl md:text-2xl lg:text-2xl rounded ml-5">
+            <BradLogo class="h-16 border-0 border-b border-white" colour="#ffffff"/>
+            <router-link class="hover:cursor-pointer max-w-fit" to="/" key="home" @click="toggleSideNav()">Home</router-link>
+            <router-link class="hover:cursor-pointer max-w-fit" to="/about" key="about" @click="toggleSideNav()">About</router-link>
+          </div>
         </div>
-        <div v-else class="inset-0 z-30 bg-babyblue w-screen p-5 pt-8 relative">
-            <div class="absolute top-3 right-8">
-                <CloseIcon class="h-6" @click="toggleSideNav()" />
-            </div>
-            <div class="grid gap-4 text-xl rounded">
-                <router-link to="/" key="home" @click="toggleSideNav()">Home</router-link>
-                <router-link to="/about" key="about" @click="toggleSideNav()">About</router-link>
-                <router-link to="/posts" key="posts" @click="toggleSideNav()">Post</router-link>
-                <router-link to="/about" key="contact" @click="toggleSideNav()">Contact</router-link>
-            </div>
-        </div>
+      </div>
+      <div class="bg-black opacity-30 inset-0 fixed z-10" :class="{'fade-out': !isOpen, 'fade-in': isOpen}" @click="toggleSideNav()"></div>
     </div>
-</template>
+  </template>
+  
 
 
-<style lang="postcss" scoped></style>
+<style scoped>
+.slide-out {
+  transform: translateX(-100%);
+  transition: transform 0.4s ease-in;
+}
+
+.slide-in {
+  transform: translateX(0);
+  transition: transform 0.4s ease-out;
+}
+
+.fade-in {
+  opacity: 0.3;
+  transition: opacity 0.5s ease;
+}
+
+.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+</style>

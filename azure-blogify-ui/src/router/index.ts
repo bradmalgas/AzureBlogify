@@ -9,7 +9,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      meta: { title: 'Home - AzureBlogify' }
+      meta: { title: 'Home - Brad Malgas Blog' }
     },
     {
       path: '/about',
@@ -18,7 +18,7 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
-      meta: { title: 'About - AzureBlogify' }
+      meta: { title: 'About - Brad Malgas Blog' }
     },
     {
       path: '/post/:category/:id', component: PostItemView, props: true
@@ -31,7 +31,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  document.title = (to.meta.title as string) || "Loading... | AzureBlogify";
+  document.title = (to.meta.title as string) || "Loading... | Brad Malgas Blog";
   next();
 });
 
