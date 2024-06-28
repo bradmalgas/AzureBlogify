@@ -16,7 +16,7 @@ const toggleSideNav = () => {
       <div>
         <MenuIcon class="h-full hover:cursor-pointer" @click="toggleSideNav()" />
       </div>
-      <div class="fixed inset-0 z-20 w-[50%]" :class="{'slide-out': !isOpen, 'slide-in': isOpen}">
+      <div class="fixed inset-0 z-20 md:w-[50%] w-[70%]" :class="{'slide-out': !isOpen, 'slide-in': isOpen}">
         <div id="slide-nav-component" class="bg-black text-white w-full md:max-w-md h-screen p-5 pt-8 relative">
           <div class="absolute top-3 right-8">
             <CloseIcon colour="#ffffff" class="h-full hover:cursor-pointer" @click="toggleSideNav()" />
