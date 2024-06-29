@@ -3,6 +3,16 @@ import LogoSmall from './icons/LogoSmall.vue';
 import SearchIcon from './icons/SearchIcon.vue';
 import SideNav from './SideNav.vue';
 import BradLogo from './icons/BradLogo.vue';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const searchString = ref("");
+const router = useRouter();
+const search = () => {
+    //console.log("Search string is:", searchString.value);
+    router.push({ path: `/search/${searchString.value}`});
+    //if(searchString.value !== "") router.push(`search/${searchString.value}`);
+}
 </script>
 
 <template>
@@ -23,8 +33,8 @@ import BradLogo from './icons/BradLogo.vue';
                 <router-link to="/about" key="about">About</router-link>
             </div>
             <div class="flex bg-gray-200 rounded-[13px] p-2 mr-3">
-                <input class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2" type="text" placeholder="Search..">
-                <SearchIcon class="h-6 pr-2" />
+                <input v-model="searchString" class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2" type="text" placeholder="Search..">
+                <SearchIcon @click="search" class="h-6 pr-2 hover:cursor-pointer" />
             </div>
         </div>
         <div class="lg:hidden">

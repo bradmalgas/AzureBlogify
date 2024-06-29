@@ -25,7 +25,7 @@ const router = createRouter({
       path: '/post/:category/:id', component: PostItemView, props: true
     },
     {
-      path: '/search/q=:query', component: SearchResults, props: true
+      path: '/search/:query', component: SearchResults, props: true
     },
     {
       path: '/:catchAll(.*)',
