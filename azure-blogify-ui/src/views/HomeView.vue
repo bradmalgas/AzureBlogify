@@ -21,9 +21,7 @@ const fetchData = async () => {
       throw new Error('Failed to fetch data.');
     }
     const data = await response.json();
-    const currentScroll = document.body.offsetHeight - (window.innerHeight + window.scrollY);
     responseData.value.push(...data.posts);
-    window.scrollTo(0, document.body.offsetHeight - (currentScroll || 0));
     continuationToken.value = data.continuationToken ? encodeURIComponent(JSON.stringify(data.continuationToken)) : null;
   } catch (err) {
     error.value = err.message;
@@ -56,7 +54,7 @@ onMounted(async () => {
           :to="'/post/' + post.category + '/' + post.id">
           <div>
             <PostListItem class="my-5" :key="post.id" :title="post.title" :category="post.category" :date="post.date"
-              :coverImageUrl="post.coverImageUrl" />
+              :coverImageUrl="post.coverImageUrl" :summary="post.summary" />
           </div>
         </router-link>
       </div>
