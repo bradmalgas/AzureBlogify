@@ -9,7 +9,7 @@ import CloseIcon from './icons/CloseIcon.vue';
 
 const searchString = ref("");
 const router = useRouter();
-const showSearchBar = ref(true);
+const showSearchBar = ref(false);
 
 const search = () => {
     var searchquery = searchString.value.trim();
