@@ -36,7 +36,7 @@ const formattedDate = computed(() => {
             <div class="flex items-center md:space-x-2 space-x-5">
                 <div class="flex items-center flex-grow">
                     <img class="object-cover object-top rounded-full h-[40px] w-[40px] p-2"
-                        src="../assets/images/user-placeholder-image.png" alt="">
+                        src="https://storageazureblogify.blob.core.windows.net/blogimages/brad-author-picture.jpeg" alt="">
                     <p class="md:text-sm text-[10px]">{{ author }}</p>
                 </div>
                 <div class="space-x-2 text-right">

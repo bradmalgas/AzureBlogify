@@ -76,7 +76,7 @@ async function stringToDate(date) {
             <p class="md:text-base text-[10px] font-bold mb-2">Written by:</p>
             <div class="flex items-center space-x-2">
               <img class="object-cover object-top rounded-full h-[30px] w-[30px]"
-                src="../assets/images/user-placeholder-image.png" alt="">
+                src="https://storageazureblogify.blob.core.windows.net/blogimages/brad-author-picture.jpeg" alt="">
               <div>
                 <p class="md:text-base text-[10px] font-bold">{{ postItem.author }}</p>
                 <p class="md:text-[10px] text-[7px] text-gray-700">Azure Cloud Engineer</p>
