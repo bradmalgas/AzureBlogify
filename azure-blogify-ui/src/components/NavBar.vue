@@ -5,19 +5,26 @@ import SideNav from './SideNav.vue';
 import BradLogo from './icons/BradLogo.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import CloseIcon from './icons/CloseIcon.vue';
 
 const searchString = ref("");
 const router = useRouter();
+const showSearchBar = ref(true);
+
 const search = () => {
     var searchquery = searchString.value.trim();
     if(searchquery !== "") router.push(`/search/${searchquery}`);
-}
+};
+
+const toggleSearchBar = () => {
+    showSearchBar.value = !showSearchBar.value;
+};
 </script>
 
 <template>
-    <!-- Tablet/Laptop NavBar -->
+    <!-- Laptop NavBar -->
     <div
-        class="bg-white border-0 border-black border-b truncate hidden md:flex justify-between items-center max-h-[80px] sticky top-0 z-10 px-3">
+        class="bg-white border-0 border-black border-b truncate hidden lg:flex justify-between items-center max-h-[80px] sticky top-0 z-10 px-3">
         <div>
             <SideNav />
         </div>
@@ -26,24 +33,21 @@ const search = () => {
                 <BradLogo />
             </router-link>
         </div>
-        <div class="hidden lg:flex items-center">
+        <div class="flex items-center">
             <div class="space-x-6 mr-6 font-semibold">
                 <router-link to="/" key="home">Home</router-link>
                 <router-link to="/about" key="about">About</router-link>
             </div>
             <div class="flex bg-gray-200 rounded-[13px] p-2 mr-3">
-                <input v-model="searchString" class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2" type="text" placeholder="Search..">
+                <input v-model="searchString" class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2" type="text" placeholder="Search.." @keyup.enter="search">
                 <SearchIcon @click="search" class="h-6 pr-2 hover:cursor-pointer" />
             </div>
         </div>
-        <div class="lg:hidden">
-            <SearchIcon class="h-8 mr-6" />
-        </div>
     </div>
 
-    <!-- Mobile NavBar -->
+    <!-- Mobile/Tablet NavBar -->
     <div
-        class="flex justify-between items-center bg-white overflow-hidden md:hidden min-w-80 max-h-[52px] border-0 border-black border-b sticky top-0 z-10 px-3">
+        class="flex justify-between items-center bg-white overflow-hidden lg:hidden min-w-80 max-h-[60px] border-0 border-black border-b sticky top-0 z-10 px-3">
         <div>
             <SideNav />
         </div>
@@ -52,8 +56,10 @@ const search = () => {
                 <BradLogo />
             </router-link>
         </div>
-        <div>
-            <SearchIcon class="h-8 pr-2" />
+        <div class="flex">
+            <input v-if="showSearchBar" v-model="searchString" class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2" type="text" placeholder="Search.." @keyup.enter="search">
+            <SearchIcon v-if="!showSearchBar" @click="toggleSearchBar" class="'h-8 pr-2" />
+            <CloseIcon v-if="showSearchBar" @click="toggleSearchBar" class="'h-6 px-2" />
         </div>
     </div>
 </template>
