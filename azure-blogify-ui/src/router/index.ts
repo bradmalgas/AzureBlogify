@@ -25,7 +25,8 @@ const router = createRouter({
       path: '/post/:category/:id', component: PostItemView, props: true
     },
     {
-      path: '/search/:query', component: SearchResults, props: true
+      path: '/search/:query', component: SearchResults, props: true,
+      meta: { title: 'Search - Brad Malgas Blog' }
     },
     {
       path: '/:catchAll(.*)',
