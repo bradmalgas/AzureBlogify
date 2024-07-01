@@ -57,12 +57,12 @@ async function fetchData(params) {
     </div>
   <div v-else-if="responseData && !loading" class="flex flex-col items-center mx-5 lg:mx-96 min-h-svh">
     <div class="my-5">
-    <div v-if="responseData.length == 0" class="flex flex-col items-center justify-center">
+    <h1 class="md:text-4xl text-3xl font-semibold font-serif">Search results for "{{ queryString }}":</h1>
+    <div v-if="responseData.length == 0" class="flex flex-col items-center">
       <ShrugIcon colour="#000000" class="h-44 w-44" />
       <h1 class="text-3xl mb-4">No results found</h1>
     </div>
     <div v-else>
-      <h1 class="md:text-4xl text-3xl font-semibold font-serif">Search results found for "{{ queryString }}"</h1>
       <router-link class="hover:cursor-pointer" v-for="post in responseData" :key="post.id"
         :to="'/post/' + post.category + '/' + post.id">
         <div>
