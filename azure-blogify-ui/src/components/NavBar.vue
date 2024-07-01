@@ -9,9 +9,8 @@ import { useRouter } from 'vue-router';
 const searchString = ref("");
 const router = useRouter();
 const search = () => {
-    //console.log("Search string is:", searchString.value);
-    router.push({ path: `/search/${searchString.value}`});
-    //if(searchString.value !== "") router.push(`search/${searchString.value}`);
+    var searchquery = searchString.value.trim();
+    if(searchquery !== "") router.push(`/search/${searchquery}`);
 }
 </script>
 
