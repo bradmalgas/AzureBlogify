@@ -19,14 +19,16 @@ async function fetchData(params) {
   queryString.value = params.query;
   loading.value = true;
   try {
-    let url = `http://localhost:7071/api/GetPosts?pageSize=${pageSize.value}&query=${params.query}`;
+    let url = `/api/GetPosts?pageSize=${pageSize.value}&query=${params.query}`;
     if (continuationToken.value) url += `&contToken=${continuationToken.value}`;
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error('Failed to fetch data.');
     }
     const data = await response.json();
-    responseData.value.push(...data.posts);
+    const existingIds = new Set(responseData.value.map(post => post.id));
+    const newPosts = data.posts.filter(post => !existingIds.has(post.id));
+    responseData.value.push(...newPosts);
     continuationToken.value = data.continuationToken ? encodeURIComponent(JSON.stringify(data.continuationToken)) : null;
     document.title = `Search for "${params.query}" - Brad Malgas Blog`;
   } catch (err) {
