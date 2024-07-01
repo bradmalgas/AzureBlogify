@@ -9,7 +9,7 @@ import TwitterIcon from './icons/TwitterIcon.vue';
     <div
         class="md:mb-6 flex flex-col items-center text-center space-y-3 lg:max-w-[800px] max-w-[510px] sm:max-sm:max-w-[200px] min-w-[150px]">
         <img class="object-cover object-top rounded-full h-[100px] w-[100px] border mt-3"
-            src="https://storageazureblogify.blob.core.windows.net/blogimages/IMG-4128.jpeg" alt="">
+            src="https://storageazureblogify.blob.core.windows.net/blogimages/brad-author-picture.jpeg" alt="">
         <h1 class="md:text-3xl text-3xl font-semibold my-2 font-serif uppercase">Brad Malgas</h1>
         <p class="text-[15px] leading-snug text-gray-600">Intermediate .NET Developer & Azure Cloud Engineer | 4 x Microsoft Certified | Experienced in Cloud-Native
             Solutions</p>
