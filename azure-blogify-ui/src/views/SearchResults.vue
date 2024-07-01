@@ -21,15 +21,23 @@ async function fetchData(params) {
   loading.value = true;
   try {
     let url = `/api/GetPosts?pageSize=${pageSize.value}&query=${params.query}`;
-    if (continuationToken.value) url += `&contToken=${continuationToken.value}`;
+    if (continuationToken.value) url = `/api/GetPosts?pageSize=${pageSize.value}&contToken=${continuationToken.value}`;
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error('Failed to fetch data.');
     }
     const data = await response.json();
-    const existingIds = new Set(responseData.value.map(post => post.id));
-    const newPosts = data.posts.filter(post => !existingIds.has(post.id));
-    responseData.value.push(...newPosts);
+    // If this a continuation search request, don't add any existing IDs to list of posts
+    if (continuationToken.value)
+    {
+      const existingIds = new Set(responseData.value.map(post => post.id));
+      const newPosts = data.posts.filter(post => !existingIds.has(post.id));
+      responseData.value.push(...newPosts);
+    }
+    // If this is a new search request, replace old list of posts
+    else {
+      responseData.value = data.posts;
+    }
     continuationToken.value = data.continuationToken ? encodeURIComponent(JSON.stringify(data.continuationToken)) : null;
     document.title = `Search for "${params.query}" - Brad Malgas Blog`;
   } catch (err) {
@@ -65,7 +73,7 @@ async function fetchData(params) {
     </div>
     <button v-if="continuationToken && !loading"
       class="bg-black rounded-xl w-full h-14 md:text-base text-sm uppercase text-white font-serif hover:cursor-pointer"
-      @click="fetchData">
+      @click="fetchData(route.params)">
       More Posts
     </button>
     </div>
