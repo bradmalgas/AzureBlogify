@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router';
 import SpinLoader from '@/components/SpinLoader.vue';
 import PostListItem from '@/components/PostListItem.vue';
 import ShrugIcon from '@/components/icons/ShrugIcon.vue';
+import UnexpectedErrorView from './UnexpectedErrorView.vue';
 
 const route = useRoute();
 const responseData = ref([]);
@@ -43,7 +44,10 @@ async function fetchData(params) {
   <div v-if="loading" class="flex min-h-svh items-center justify-center">
     <SpinLoader colour="#000000" class="h-32" />
   </div>
-  <div v-if="responseData && !loading" class="flex flex-col items-center mx-5 lg:mx-96 min-h-svh">
+  <div v-if="error">
+      <UnexpectedErrorView />
+    </div>
+  <div v-else-if="responseData && !loading" class="flex flex-col items-center mx-5 lg:mx-96 min-h-svh">
     <div class="my-5">
     <div v-if="responseData.length == 0" class="flex flex-col items-center justify-center">
       <ShrugIcon colour="#000000" class="h-44 w-44" />
