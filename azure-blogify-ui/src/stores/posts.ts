@@ -78,9 +78,17 @@ export const usePostStore = defineStore('posts', () => {
   async function fetchPostItem(id: string, category: string) {
     postItemLoading.value = true
     const md = new markdownit()
+    const itemIndex = latestPosts.value.findIndex((post) => post.id == id);
+    var data
     try {
-      const response = await fetch('/api/GetPostById?' + 'id=' + id + '&category=' + category)
-      const data = await response.json()
+      if (itemIndex == -1)
+        {
+          const response = await fetch('/api/GetPostById?' + 'id=' + id + '&category=' + category)
+          data = await response.json()
+      }
+      else { 
+        data = latestPosts.value[itemIndex]
+      }
       postItemContent.value = md.render(data.content)
       postItem.value = data
       postItem.value.date = await stringToDate(data.date)
