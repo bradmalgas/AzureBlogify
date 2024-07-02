@@ -75,6 +75,25 @@ export const usePostStore = defineStore('posts', () => {
     }
   }
 
+  async function fetchPostItem(id: string, category: string) {
+    postItemLoading.value = true
+    const md = new markdownit()
+    try {
+      const response = await fetch('/api/GetPostById?' + 'id=' + id + '&category=' + category)
+      const data = await response.json()
+      postItemContent.value = md.render(data.content)
+      postItem.value = data
+      postItem.value.date = await stringToDate(data.date)
+      postItemError.value = null
+    } catch (err: any) {
+      await clearPostItem()
+      postItemError.value = err.toString()
+    } finally {
+      postItemLoading.value = false
+      return
+    }
+  }
+
   async function clearSearchResults() {
     searchResults.value = []
     searchContinuationToken.value = null
@@ -98,25 +117,6 @@ export const usePostStore = defineStore('posts', () => {
   async function getSearchResults(query: string) {
     if (searchQueryString.value !== query) await fetchSearchResults(query)
     return
-  }
-
-  async function fetchPostItem(id: string, category: string) {
-    postItemLoading.value = true
-    const md = new markdownit()
-    try {
-      const response = await fetch('/api/GetPostById?' + 'id=' + id + '&category=' + category)
-      const data = await response.json()
-      postItemContent.value = md.render(data.content)
-      postItem.value = data
-      postItem.value.date = await stringToDate(data.date)
-      postItemError.value = null
-    } catch (err: any) {
-      await clearPostItem()
-      postItemError.value = err.toString()
-    } finally {
-      postItemLoading.value = false
-      return
-    }
   }
 
   async function getPostItem(id: string, category: string) {
