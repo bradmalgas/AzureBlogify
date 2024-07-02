@@ -8,9 +8,9 @@ import ShrugIcon from '@/components/icons/ShrugIcon.vue'
     <div class="bg-white p-8 rounded-lg text-center">
       <h1 class="text-4xl font-bold mb-4">Oops!</h1>
       <p class="text-gray-700 text-lg">Something went wrong. Please try again later.</p>
-      <a href="/"><button class="mt-6 px-6 py-2 bg-black text-white rounded-3xl hover:bg-gray-600 focus:outline-none">
+      <router-link to="/" key="home"><button class="mt-6 px-6 py-2 bg-black text-white rounded-3xl hover:bg-gray-600 focus:outline-none">
           Go Back
-        </button></a>
+        </button></router-link>
     </div>
   </div>
 </template>
