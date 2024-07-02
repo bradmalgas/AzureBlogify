@@ -7,13 +7,13 @@ import markdownit from 'markdown-it'
 export const usePostStore = defineStore('posts', () => {
   const latestPosts = ref([] as Post[])
   const latestPostsContinuationToken = ref(null as any)
-  const latestPostsPageSize = ref(1)
+  const latestPostsPageSize = ref(4)
   const latestPostsError = ref(null)
   const latestPostsLoading = ref(false)
 
   const searchResults = ref([] as Post[])
   const searchContinuationToken = ref(null as any)
-  const searchPageSize = ref(1)
+  const searchPageSize = ref(4)
   const searchError = ref(null)
   const searchLoading = ref(false)
   const searchQueryString = ref('')
