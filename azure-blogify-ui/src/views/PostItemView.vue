@@ -8,51 +8,32 @@ import ShareLinks from '../components/ShareLinks.vue';
 import SpinLoader from '../components/SpinLoader.vue';
 import TagButton from '../components/TagButton.vue';
 import Disclaimer from '../components/Disclaimer.vue';
+import { usePostStore } from '@/stores/posts';
+import { storeToRefs } from 'pinia';
 
 
 const route = useRoute();
 
-const postItem = ref({});
-const postContent = ref({});
-const error = ref({});
-const loading = ref(true);
+const store = usePostStore();
+const { postItem,postItemContent,postItemError,postItemLoading } = storeToRefs(store);
 
 watch(() => route.params, fetchData, { immediate: true });
 
 async function fetchData(params) {
-  error.value = postItem.value = null;
-  loading.value = true;
-  const md = markdownit();
-  try {
-    const response = await fetch("/api/GetPostById?" + "id=" + params.id + "&category=" + params.category);
-    const data = await response.json();
-    postContent.value = md.render(data.content);
-    postItem.value = data;
-    postItem.value.date = await stringToDate(data.date);
-    document.title = `${postItem.value.title} - Brad Malgas Blog`;
-  } catch (err) {
-    error.value = err.toString();
-  } finally {
-    window.scrollTo(0, 0);
-    loading.value = false;
-  }
+  await store.getPostItem(params.id, params.category);
+  document.title = `${postItem.value.title} - Brad Malgas Blog`;
 };
-
-async function stringToDate(date) {
-  return formatDate(date, "dd MMM yyyy");
-}
 </script>
 
-
 <template>
-  <div v-if="loading" class="flex min-h-svh items-center justify-center">
+  <div v-if="postItemLoading" class="flex min-h-svh items-center justify-center">
     <SpinLoader colour="#000000" class="h-32" />
   </div>
   <div v-else class="flex flex-col items-center">
-    <div v-if="error">
+    <div v-if="postItemError">
       <UnexpectedErrorView />
     </div>
-    <div v-if="postItem" class="flex my-3">
+    <div v-else-if="postItem" class="flex my-3">
       <div class="flex flex-col lg:mx-96 md:mx-28 mx-6 space-y-3 md:space-y-7">
         <div>
           <h1 class="flex md:text-5xl text-2xl mt-3 font-semibold font-serif leading-tight tracking-wide">
@@ -67,7 +48,7 @@ async function stringToDate(date) {
         </div>
         <img class="rounded-md md:max-h-72 max-h-52 object-cover" :src="postItem.coverImageUrl" alt="">
         <div>
-          <article class="prose prose-base lg:prose-lg" v-html="postContent">
+          <article class="prose prose-base lg:prose-lg" v-html="postItemContent">
           </article>
         </div>
         <Disclaimer :text="postItem.disclaimer" />
