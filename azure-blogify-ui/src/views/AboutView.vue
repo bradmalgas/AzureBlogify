@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import AboutMe from '@/components/AboutMe.vue';
 import { onMounted } from 'vue';
-
-onMounted(async () => {
-  window.scrollTo(0, 0);
-})
 </script>
 
 <template>
