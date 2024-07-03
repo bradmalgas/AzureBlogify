@@ -32,7 +32,11 @@ const router = createRouter({
       path: '/:catchAll(.*)',
       component: () => import('../views/NotFoundView.vue')
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) return savedPosition
+    return { top: 0 }
+  }
 });
 
 router.beforeEach((to, from, next) => {
