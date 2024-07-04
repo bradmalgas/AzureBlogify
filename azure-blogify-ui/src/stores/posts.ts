@@ -1,24 +1,24 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { Post } from '@/models/post-model'
+import type { PostModel } from '@/models/post-model'
 import { formatDate } from 'date-fns'
 import markdownit from 'markdown-it'
 
 export const usePostStore = defineStore('posts', () => {
-  const latestPosts = ref([] as Post[])
+  const latestPosts = ref([] as PostModel[])
   const latestPostsContinuationToken = ref(null as any)
   const latestPostsPageSize = ref(4)
   const latestPostsError = ref(null)
   const latestPostsLoading = ref(false)
 
-  const searchResults = ref([] as Post[])
+  const searchResults = ref([] as PostModel[])
   const searchContinuationToken = ref(null as any)
   const searchPageSize = ref(4)
   const searchError = ref(null)
   const searchLoading = ref(false)
   const searchQueryString = ref('')
 
-  const postItem = ref({} as Post)
+  const postItem = ref({} as PostModel)
   const postItemContent = ref(null as any)
   const postItemError = ref(null)
   const postItemLoading = ref(false)
@@ -110,7 +110,7 @@ export const usePostStore = defineStore('posts', () => {
   }
 
   async function clearPostItem() {
-    postItem.value = {} as Post
+    postItem.value = {} as PostModel
     postItemContent.value = null
     postItemError.value = null
     postItemLoading.value = false
