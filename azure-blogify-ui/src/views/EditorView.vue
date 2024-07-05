@@ -3,9 +3,11 @@ import markdownIt from 'markdown-it';
 import { debounce } from 'lodash';
 import { ref, watch } from 'vue';
 import type { PostModel } from '@/models/post-model';
+import SpinLoader from '@/components/SpinLoader.vue';
 import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
 import csharp from 'highlight.js/lib/languages/csharp';
+import json from 'highlight.js/lib/languages/json';
 import 'highlight.js/styles/atom-one-dark.css';
 import { useRouter } from 'vue-router';
 
@@ -13,6 +15,7 @@ const router = useRouter();
 const postContent = ref("");
 const renderedContent = ref("");
 const showSubmitForm = ref(false);
+const showModal = ref(false);
 
 const postTitle = ref("")
 const postCategory = ref("")
@@ -22,12 +25,21 @@ const postCoverImageUrl = ref("")
 const postDate = ref("")
 const postSummary = ref("")
 const postDisclaimer = ref("")
+const submitFormLoading = ref(false)
+
+const modalTitle = ref("")
+const modalText = ref("")
 
 const toggleFormVisibility = () => {
     showSubmitForm.value = !showSubmitForm.value
 }
 
+const toggleModalVisibility = () => {
+    showModal.value = !showModal.value
+}
+
 const submitPost = async () => {
+    submitFormLoading.value = true
     const PostItem = {
         title: postTitle.value,
         category: postCategory.value,
@@ -41,7 +53,6 @@ const submitPost = async () => {
     } as PostModel
 
     try {
-        // Add loader
         const response = await fetch('/api/CreatePost', {
             method: 'POST',
             body: JSON.stringify(PostItem),
@@ -50,15 +61,24 @@ const submitPost = async () => {
             }
         });
         if (!response.ok) {
-            // Add a pop up to say it was not successfully added
+            modalTitle.value = "Error"
+            modalText.value = await response.json();
+            showModal.value = true
         }
         else {
-            // Add a pop up to say it was successfully added
             var responseBody = await response.json();
+            modalTitle.value = "Success"
+            modalText.value = responseBody
+            showModal.value = true
             router.push(`/post/${encodeURIComponent(responseBody.category)}/${responseBody.id}`);
         }
-    } catch (error) {
-        console.error('Error:', error)
+    } catch (error: any) {
+        modalTitle.value = "Error"
+        modalText.value = `Could not post item to API. Reason: ${error}`
+        showModal.value = true
+    } finally {
+        submitFormLoading.value = false
+        showSubmitForm.value = false
     }
 }
 
@@ -79,9 +99,11 @@ const md = new markdownIt({
 });
 hljs.registerLanguage('javascript', javascript);
 hljs.registerLanguage('csharp', csharp);
+hljs.registerLanguage('json', json);
 </script>
 
 <template>
+    <!-- Markdown Editor -->
     <div class="mx-16 my-5">
         <div class="flex items-center mb-6">
             <h1 class="md:text-4xl text-3xl font-semibold font-serif">Edit Post</h1>
@@ -101,12 +123,14 @@ hljs.registerLanguage('csharp', csharp);
             </div>
         </div>
     </div>
+
+    <!-- Submit Blog Post Form -->
     <div @click="toggleFormVisibility" class="bg-black opacity-50 fixed inset-0 z-[10]"
         :class="{ 'block': showSubmitForm, 'hidden': !showSubmitForm }">
     </div>
-    <div class="absolute py-5 px-40 h-fit w-fit z-[11] self-center bg-black rounded-3xl overflow-y-scroll"
+    <div class="absolute py-5 px-40 max-h-fit max-w-fit z-[11] self-center bg-black rounded-3xl overflow-y-scroll"
         :class="{ 'block': showSubmitForm, 'hidden': !showSubmitForm }">
-        <form id="blog-details-form" class="flex flex-col items-center space-y-2">
+        <form @submit.prevent="submitPost" id="blog-details-form" class="flex flex-col items-center space-y-2">
 
             <h1 class="text-3xl text-white font-serif">Enter blog post details</h1>
 
@@ -168,18 +192,36 @@ hljs.registerLanguage('csharp', csharp);
                     placeholder='e.g. "Disclaimer: This article was written in part by AI. This was purely for grammatical and syntactic checks. All the views, opinions and ideas expressed in this article are my own and you can find all the source code on GitHub."'
                     required></textarea>
             </div>
+
+            <div class="w-full flex justify-evenly py-6">
+                <input type="submit" form="blog-details-form"
+                    class="max-w-fit px-6 py-2 bg-white  rounded-3xl hover:bg-gray-500 hover:text-white focus:outline-none transition-colors duration-200"
+                    value="Submit" />
+
+                <button @click="toggleFormVisibility"
+                    class="max-w-fit px-6 py-2 bg-white  rounded-3xl hover:bg-gray-500 hover:text-white focus:outline-none transition-colors duration-200">
+                    Back
+                </button>
+            </div>
         </form>
+    </div>
 
-        <div class="w-full flex justify-evenly py-6">
-            <button @click="submitPost"
-                class="max-w-fit px-6 py-2 bg-white  rounded-3xl hover:bg-gray-500 hover:text-white focus:outline-none transition-colors duration-200">
-                Submit
-            </button>
+    <!-- Result modal -->
+    <div class="bg-black opacity-50 fixed inset-0 z-[10]" :class="{ 'block': showModal, 'hidden': !showModal }">
+    </div>
 
-            <button @click="toggleFormVisibility"
-                class="max-w-fit px-6 py-2 bg-white  rounded-3xl hover:bg-gray-500 hover:text-white focus:outline-none transition-colors duration-200">
-                Back
-            </button>
-        </div>
+    <div class="absolute p-5 space-y-5 rounded-3xl mt-64 self-center bg-white w-96 h-fit z-[11] flex justify-center"
+        :class="{ 'block': showModal, 'hidden': !showModal }">
+
+
+        <SpinLoader v-if="submitFormLoading" class="h-32 w-32" colour="#000000"/>
+
+        <div v-else class="flex flex-col items-center justify-around space-y-5">
+        <h1 class="font-bold text-lg">{{ modalTitle }}</h1>
+        <p class="text-sm text-gray-600">{{ modalText }}</p>
+        <button @click="toggleModalVisibility"
+            class="max-w-fit px-6 py-2 bg-black text-white  rounded-3xl hover:bg-gray-500 focus:outline-none transition-colors duration-200">
+            Okay
+        </button></div>
     </div>
 </template>
