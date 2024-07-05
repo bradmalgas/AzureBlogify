@@ -47,6 +47,7 @@ async function fetchData(params) {
           <TagButton class="md:text-[10px] mb-3" v-for="value in postItem.tags" :text="value" />
         </div>
         <img class="rounded-md md:max-h-72 max-h-52 object-cover" :src="postItem.coverImageUrl" alt="">
+        <iframe v-if="postItem.id == '0ce10907-9836-4ffe-a4d9-395bc624bc1c'" class="self-center" width="560" height="315" src="https://www.youtube-nocookie.com/embed/H58vbez_m4E?si=io7bj8DN25dfhEaU&controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         <div>
           <article class="prose prose-base lg:prose-lg" v-html="postItemContent">
           </article>
