@@ -2,8 +2,17 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { PostModel } from '@/models/post-model'
 import { formatDate } from 'date-fns'
-import markdownit from 'markdown-it'
+import hljs from 'highlight.js/lib/core';
+import javascript from 'highlight.js/lib/languages/javascript';
+import csharp from 'highlight.js/lib/languages/csharp';
+import json from 'highlight.js/lib/languages/json';
+import 'highlight.js/styles/atom-one-dark.css';
+import markdownIt from 'markdown-it'
 
+
+hljs.registerLanguage('javascript', javascript);
+hljs.registerLanguage('csharp', csharp);
+hljs.registerLanguage('json', json);
 export const usePostStore = defineStore('posts', () => {
   const latestPosts = ref([] as PostModel[])
   const latestPostsContinuationToken = ref(null as any)
@@ -77,7 +86,17 @@ export const usePostStore = defineStore('posts', () => {
 
   async function fetchPostItem(id: string, category: string) {
     postItemLoading.value = true
-    const md = new markdownit()
+    const md = new markdownIt({
+      highlight(str, lang, attrs) {
+          if (lang) {
+              try {
+                  return `<pre class="hljs"><code>${hljs.highlight(lang, str, true).value}</code></pre>`;
+              } catch (__) {
+              }
+          }
+          return `<pre class="hljs"><code>${str}</code></pre>`;
+      },
+  });
     const itemIndex = latestPosts.value.findIndex((post) => post.id == id);
     var data
     try {
