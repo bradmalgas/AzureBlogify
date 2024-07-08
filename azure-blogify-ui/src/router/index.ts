@@ -22,6 +22,12 @@ const router = createRouter({
       meta: { title: 'About - Brad Malgas Blog' }
     },
     {
+      path: '/editor',
+      name: 'editor',
+      component: () => import('../views/EditorView.vue'),
+      meta: { title: 'Editor - Brad Malgas Blog' }
+    },
+    {
       path: '/post/:category/:id', component: PostItemView, props: true
     },
     {

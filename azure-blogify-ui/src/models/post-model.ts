@@ -1,13 +1,13 @@
-export interface Post {
-    id: string;
+export interface PostModel {
+    id?: string;
     title: string;
     author: string;
     category: string;
     date: string;
     content: string;
     summary: string;
-    tags: string;
+    tags: string[];
     coverImageUrl: string;
-    readingMinutes: string;
+    readingMinutes?: string;
     disclaimer: string;
   }
