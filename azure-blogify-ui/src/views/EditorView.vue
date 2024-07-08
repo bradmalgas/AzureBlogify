@@ -70,7 +70,6 @@ const submitPost = async () => {
             modalTitle.value = "Success"
             modalText.value = responseBody
             showModal.value = true
-            router.push(`/post/${encodeURIComponent(responseBody.category)}/${responseBody.id}`);
         }
     } catch (error: any) {
         modalTitle.value = "Error"
@@ -115,7 +114,7 @@ hljs.registerLanguage('json', json);
         <div class="flex h-svh space-x-3">
             <div class="flex flex-col h-full w-1/2 border border-gray-300 rounded-lg overflow-hidden shadow-sm">
                 <textarea v-model="postContent"
-                    class="h-full w-full p-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    class="h-full w-full p-4"
                     placeholder="Start typing to see the magic"></textarea>
             </div>
             <div class="overflow-y-scroll h-full w-1/2 border border-gray-300 rounded-lg py-5 px-3 shadow-sm">
