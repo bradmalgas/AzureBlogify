@@ -18,6 +18,10 @@
       "route": "/api/*",
       "methods": ["PUT", "POST", "PATCH", "DELETE"],
       "allowedRoles": ["administrator"]
+    },
+    {
+      "route": "/editor",
+      "allowedRoles": ["administrator"]
     }
   ],
   "navigationFallback": {
