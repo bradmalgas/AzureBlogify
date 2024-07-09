@@ -35,6 +35,12 @@ const router = createRouter({
       meta: { title: 'Search - Brad Malgas Blog' }
     },
     {
+      path: '/notfound',
+      name: 'notfound',
+      component: () => import('../views/NotFoundView.vue'),
+      meta: { title: 'Not Found - Brad Malgas Blog' }
+    },
+    {
       path: '/:catchAll(.*)',
       component: () => import('../views/NotFoundView.vue')
     }
