@@ -53,11 +53,6 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (from.path === '/login') {
-    const store = useUserStore();
-    store.getUserInfo();
-  }
-  
   document.title = (to.meta.title as string) || "Loading... | Brad Malgas Blog";
   next();
 });

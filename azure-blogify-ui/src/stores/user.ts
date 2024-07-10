@@ -17,7 +17,6 @@ export const useUserStore = defineStore('user', () => {
     const response = await fetch('/.auth/me')
     const payload = await response.json()
     user.value = payload.clientPrincipal
-    console.log(`User logged in = ${isLoggedIn.value}`)
   }
 
   function isEmpty() {
