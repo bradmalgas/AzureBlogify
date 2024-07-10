@@ -77,7 +77,7 @@ const submitPost = async () => {
     }
 }
 
-watch(postContent.value, debounce(() => {
+watch(postContent, debounce(() => {
     renderedContent.value = md.render(postContent.value)
 }, 400))
 
