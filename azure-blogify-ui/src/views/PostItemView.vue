@@ -9,6 +9,7 @@ import SpinLoader from '../components/SpinLoader.vue';
 import TagButton from '../components/TagButton.vue';
 import Disclaimer from '../components/Disclaimer.vue';
 import { usePostStore } from '@/stores/posts';
+import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 
 
@@ -16,6 +17,8 @@ const route = useRoute();
 const router = useRouter();
 
 const store = usePostStore();
+const userStore = useUserStore();
+const { isAdmin } = storeToRefs(userStore);
 const { postItem,postItemContent,postItemError,postItemLoading,editPostItemLoading } = storeToRefs(store);
 
 watch(() => route.params, fetchData, { immediate: true });
@@ -50,7 +53,7 @@ async function editPost() {
         <div class="flex items-center">
           <p class="md:text-base text-xs text-gray-600">{{ postItem.readingMinutes }} min read · {{ postItem.date }}</p>
           <div class="flex ml-auto items-center">
-            <button v-if="isLoggedIn" @click="editPost"
+            <button v-if="isAdmin" @click="editPost"
                 class="ml-auto max-w-fit px-6 py-2 bg-black text-white rounded-3xl hover:bg-gray-500 focus:outline-none transition-colors duration-200">
                 Edit Article
             </button>
