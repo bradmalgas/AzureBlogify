@@ -11,9 +11,9 @@ using Microsoft.Azure.Cosmos;
 
 namespace api
 {
-    public static class CreatePost
+    public static class UpsertPost
     {
-        [FunctionName("CreatePost")]
+        [FunctionName("UpsertPost")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
@@ -21,7 +21,7 @@ namespace api
             string requestBody;
             try
             {
-                 requestBody = await new StreamReader(req.Body).ReadToEndAsync();                
+                requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             }
             catch (Exception ex)
             {
@@ -38,7 +38,7 @@ namespace api
                 throw new Exception($"Could not parse the JSON: {requestBody}. Error: {ex}");
             }
 
-            log.LogInformation($"HTTP trigger: Create Post. [{DateTime.Now}]");
+            log.LogInformation($"HTTP trigger: Upsert Post. [{DateTime.Now}]");
 
             CosmosClient client = new(
                 connectionString: Environment.GetEnvironmentVariable("COSMOS_CONNECTION_STRING")!
@@ -47,17 +47,19 @@ namespace api
             Database db = client.GetDatabase("azure-blogify-cosmosdb");
             Container blogPosts = db.GetContainer("blogPosts");
 
-            data.Id = Guid.NewGuid();
+            if (data.Id == null) data.Id = Guid.NewGuid();
+            
             data.ReadingMinutes = calculateReadingTime(data.Content);
 
             if (data.IsValid)
             {
-                Post createdItem = await blogPosts.CreateItemAsync(data, partitionKey: new PartitionKey(data.Category));
+                Post createdItem = await blogPosts.UpsertItemAsync(data, partitionKey: new PartitionKey(data.Category));
                 return new OkObjectResult(createdItem);
             }
-            else {
+            else
+            {
                 return new BadRequestObjectResult("Could not post data - missing fields");
-                };
+            };
         }
 
         public static int calculateReadingTime(string postContent)
