@@ -43,8 +43,8 @@ const toggleSearchBar = () => {
                 <router-link to="/" key="home">Home</router-link>
                 <router-link to="/about" key="about">About</router-link>
                 <router-link v-if="isAdmin" to="/editor" key="editor">Editor</router-link>
-                <router-link v-if="!isLoggedIn" to="/login">Login</router-link>
-                <router-link v-if="isLoggedIn" to="/logout">Logout</router-link>
+                <a v-if="!isLoggedIn" href="/login">Login</a>
+                <a v-if="isLoggedIn" href="/logout">Logout</a>
             </div>
             <div class="flex bg-gray-200 rounded-[13px] p-2 mr-3">
                 <input v-model="searchString" class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2"
