@@ -1,10 +1,14 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
 import BradLogo from './icons/BradLogo.vue';
 import CloseIcon from './icons/CloseIcon.vue';
 import MenuIcon from './icons/MenuIcon.vue';
 import { ref } from 'vue';
+import { useUserStore } from '@/stores/user';
 
 const isOpen = ref(false);
+const store = useUserStore();
+const { isAdmin, isLoggedIn } = storeToRefs(store);
 
 const toggleSideNav = () => {
     isOpen.value = !isOpen.value;
@@ -25,7 +29,9 @@ const toggleSideNav = () => {
             <BradLogo class="h-16 border-0 border-b border-white" colour="#ffffff"/>
             <router-link class="hover:cursor-pointer max-w-fit" to="/" key="home" @click="toggleSideNav()">Home</router-link>
             <router-link class="hover:cursor-pointer max-w-fit" to="/about" key="about" @click="toggleSideNav()">About</router-link>
-            <router-link class="hover:cursor-pointer max-w-fit" to="/editor" key="editor" @click="toggleSideNav()">Editor</router-link>
+            <router-link v-if="isAdmin"  class="hover:cursor-pointer max-w-fit" to="/editor" key="editor" @click="toggleSideNav()">Editor</router-link>
+            <router-link v-if="!isLoggedIn" class="hover:cursor-pointer max-w-fit" to="/login" @click="toggleSideNav()">Login</router-link>
+            <router-link v-if="isLoggedIn" class="hover:cursor-pointer max-w-fit" to="/logout" @click="toggleSideNav()">Logout</router-link>
           </div>
         </div>
       </div>
@@ -56,4 +62,6 @@ const toggleSideNav = () => {
   visibility: hidden;
   transition: opacity 0.5s ease, visibility 0.5s ease;
 }
-</style>
+</style>import { useUserStore } from '@/stores/user';
+import { storeToRefs } from 'pinia';
+
