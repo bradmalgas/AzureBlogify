@@ -8,7 +8,7 @@ import { useUserStore } from '@/stores/user';
 
 const isOpen = ref(false);
 const store = useUserStore();
-const { isAdmin, isLoggedIn } = storeToRefs(store);
+const { isAdmin, isLoggedIn, user } = storeToRefs(store);
 
 const toggleSideNav = () => {
     isOpen.value = !isOpen.value;
@@ -27,6 +27,7 @@ const toggleSideNav = () => {
           </div>
           <div class="grid gap-4 font-semibold lg:font-normal text-xl md:text-2xl lg:text-2xl rounded ml-5">
             <BradLogo class="h-16 border-0 border-b border-white" colour="#ffffff"/>
+            <p v-if="isLoggedIn" class="text-xs text-gray-500 font-light">Logged in as: {{user.userDetails}}</p>
             <router-link class="hover:cursor-pointer max-w-fit" to="/" key="home" @click="toggleSideNav()">Home</router-link>
             <router-link class="hover:cursor-pointer max-w-fit" to="/about" key="about" @click="toggleSideNav()">About</router-link>
             <router-link v-if="isAdmin"  class="hover:cursor-pointer max-w-fit" to="/editor" key="editor" @click="toggleSideNav()">Editor</router-link>
