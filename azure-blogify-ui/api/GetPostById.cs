@@ -34,14 +34,23 @@ namespace api
             Database db = client.GetDatabase("azure-blogify-cosmosdb");
             Container blogPosts = db.GetContainer("blogPosts");
 
-            ItemResponse<Post> readItemResponse = await blogPosts.ReadItemAsync<Post>(
+            ItemResponse<Post> readItemResponse;
+
+            try
+            {
+            readItemResponse = await blogPosts.ReadItemAsync<Post>(
                 id: id,
                 partitionKey: new PartitionKey(partitionKey)
             );
 
             Post responseMessage = readItemResponse.Resource;
 
-            return new OkObjectResult(responseMessage);
+            return new OkObjectResult(responseMessage);                
+            }
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound) { }
+            {
+                return new BadRequestObjectResult("Could not get post - item does not exist");
+            }
         }
     }
 }
