@@ -25,6 +25,7 @@ const toggleSideNav = () => {
             <BradLogo class="h-16 border-0 border-b border-white" colour="#ffffff"/>
             <router-link class="hover:cursor-pointer max-w-fit" to="/" key="home" @click="toggleSideNav()">Home</router-link>
             <router-link class="hover:cursor-pointer max-w-fit" to="/about" key="about" @click="toggleSideNav()">About</router-link>
+            <router-link class="hover:cursor-pointer max-w-fit" to="/editor" key="editor" @click="toggleSideNav()">Editor</router-link>
           </div>
         </div>
       </div>

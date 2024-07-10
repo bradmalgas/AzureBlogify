@@ -37,6 +37,7 @@ const toggleSearchBar = () => {
             <div class="space-x-6 mr-6 font-semibold">
                 <router-link to="/" key="home">Home</router-link>
                 <router-link to="/about" key="about">About</router-link>
+                <router-link to="/editor" key="editor">Editor</router-link>
             </div>
             <div class="flex bg-gray-200 rounded-[13px] p-2 mr-3">
                 <input v-model="searchString" class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2" type="text" placeholder="Search.." @keyup.enter="search">
