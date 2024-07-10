@@ -9,10 +9,10 @@ import json from 'highlight.js/lib/languages/json';
 import 'highlight.js/styles/atom-one-dark.css';
 import markdownIt from 'markdown-it'
 
-
 hljs.registerLanguage('javascript', javascript);
 hljs.registerLanguage('csharp', csharp);
 hljs.registerLanguage('json', json);
+
 export const usePostStore = defineStore('posts', () => {
   const latestPosts = ref([] as PostModel[])
   const latestPostsContinuationToken = ref(null as any)
@@ -31,6 +31,12 @@ export const usePostStore = defineStore('posts', () => {
   const postItemContent = ref(null as any)
   const postItemError = ref(null)
   const postItemLoading = ref(false)
+
+  const editPostItem = ref({} as PostModel)
+  const editPostContent = ref("" as any)
+  const editPostRenderedContent = ref("")
+  const editPostItemError = ref(null)
+  const editPostItemLoading = ref(false)
 
   async function fetchPosts() {
     latestPostsLoading.value = true
@@ -80,6 +86,43 @@ export const usePostStore = defineStore('posts', () => {
       searchError.value = err.toString()
     } finally {
       searchLoading.value = false
+      return
+    }
+  }
+
+  async function fetchEditPostItem(id: string, category: string){
+    editPostItemLoading.value = true
+    const md = new markdownIt({
+      highlight(str, lang, attrs) {
+          if (lang) {
+              try {
+                  return `<pre class="hljs"><code>${hljs.highlight(lang, str, true).value}</code></pre>`;
+              } catch (__) {
+              }
+          }
+          return `<pre class="hljs"><code>${str}</code></pre>`;
+      },
+  });
+    const itemIndex = latestPosts.value.findIndex((post) => post.id == id);
+    var data
+    try {
+      if (itemIndex == -1)
+        {
+          console.log(`Item with id: ${id} and catergory: ${category} not found in latest posts. Calling API`)
+          const response = await fetch('/api/GetPostById?' + 'id=' + id + '&category=' + category)
+          data = await response.json()
+      }
+      else { 
+        data = latestPosts.value[itemIndex]
+      }
+      editPostRenderedContent.value = md.render(data.content)
+      editPostContent.value = data.content
+      editPostItem.value = data
+      editPostItemError.value = null
+    } catch (err: any) {
+      editPostItemError.value = err.toString()
+    } finally {
+      editPostItemLoading.value = false
       return
     }
   }
@@ -175,6 +218,12 @@ export const usePostStore = defineStore('posts', () => {
     fetchPosts,
     getPostItem,
     getSearchResults,
-    fetchSearchResults
+    fetchSearchResults,
+    editPostItem,
+    editPostContent,
+    editPostRenderedContent,
+    editPostItemError,
+    editPostItemLoading,
+    fetchEditPostItem
   }
 })
