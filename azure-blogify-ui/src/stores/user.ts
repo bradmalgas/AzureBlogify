@@ -27,6 +27,7 @@ export const useUserStore = defineStore('user', () => {
   return {
     getUserInfo,
     isLoggedIn,
-    isAdmin
+    isAdmin,
+    user
   }
 })
