@@ -23,12 +23,11 @@ const { upsertPostItem: postItem,
     upsertPostItemLoading,
     upsertPostItemSuccess,
     upsertPostItemError,
+    showSubmitForm,
+    showModal,
+    modalTitle,
+    modalText
 } = storeToRefs(store);
-const showSubmitForm = ref(false)
-const showModal = ref(false)
-
-const modalTitle = ref("")
-const modalText = ref("")
 
 const toggleFormVisibility = () => {
     showSubmitForm.value = !showSubmitForm.value
@@ -40,17 +39,10 @@ const toggleModalVisibility = () => {
 
 const deletePost = async () => {
     await store.deletePost()
-    if (deletePostItemSuccess.value !== null) { modalText.value = "Blog item successfully deleted."; modalTitle.value = "Success" }
-    else { modalText.value = `Could not delete blog item. Reason: ${deletePostItemError.value}`; modalTitle.value = "Error" }
-    showModal.value = true
 }
 
 const submitPost = async () => {
-    showSubmitForm.value = false
     await store.submitPost()
-    if (upsertPostItemSuccess.value !== null) { modalText.value = "Blog item successfully posted."; modalTitle.value = "Success" }
-    else { modalText.value = `Could not post blog item. Reason: ${upsertPostItemError.value}`; modalTitle.value = "Error" }
-    showModal.value = true
 }
 
 watch(postContent, debounce(() => {

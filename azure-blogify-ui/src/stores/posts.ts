@@ -38,9 +38,14 @@ export const usePostStore = defineStore('posts', () => {
   const upsertPostItemError = ref(null)
   const upsertPostItemSuccess = ref(null)
   const upsertPostItemLoading = ref(false)
+
   const isEdit = computed(() => {
     return upsertPostItem.value.id !== undefined
   })
+  const showSubmitForm = ref(false)
+  const showModal = ref(false)
+  const modalTitle = ref("")
+  const modalText = ref("")
 
   const deletePostItemError = ref(null)
   const deletePostItemSuccess = ref(null as any)
@@ -71,6 +76,8 @@ export const usePostStore = defineStore('posts', () => {
 
   async function submitPost() {
     upsertPostItemLoading.value = true
+    showSubmitForm.value = false
+    showModal.value = true
     const tagsArray = upsertPostItem.value.tags.toString().split(",")
     const PostItem = {
         title: upsertPostItem.value.title,
@@ -99,6 +106,8 @@ export const usePostStore = defineStore('posts', () => {
           throw new Error('Failed to create new post.')
         }
         upsertPostItemSuccess.value = data
+        modalText.value = "Blog item successfully posted.";
+        modalTitle.value = "Success"
         upsertPostItemError.value = null
         await clearUpsertItem()
         latestPostsContinuationToken.value = null
@@ -106,6 +115,8 @@ export const usePostStore = defineStore('posts', () => {
     } catch (error: any) {
       upsertPostItemError.value = error
       upsertPostItemSuccess.value = null
+      modalText.value = `Could not post blog item. Reason: ${upsertPostItemError.value}`;
+      modalTitle.value = "Error"
     } finally {
       upsertPostItemLoading.value = false
     }
@@ -116,6 +127,7 @@ export const usePostStore = defineStore('posts', () => {
     const category = upsertPostItem.value.category
 
     deletePostItemLoading.value = true
+    showModal.value = true
     try {
       let url = `/api/DeletePost?id=${id}&category=${category}`
       const response = await fetch(url, {
@@ -126,11 +138,15 @@ export const usePostStore = defineStore('posts', () => {
       }
       deletePostItemSuccess.value = "Item successfully deleted"
       deletePostItemError.value = null
+      modalText.value = deletePostItemSuccess.value;
+      modalTitle.value = "Success"
       await clearUpsertItem()
       latestPosts.value = latestPosts.value.filter((post) => post.id !== id)
     } catch (error: any) {
       deletePostItemSuccess.value = null
       deletePostItemError.value = error.message
+      modalText.value = `Could not delete blog item. Reason: ${deletePostItemError.value}`;
+      modalTitle.value = "Error"
     } finally {
       deletePostItemLoading.value = false
     }
@@ -307,6 +323,10 @@ export const usePostStore = defineStore('posts', () => {
     submitPost,
     deletePostItemError,
     deletePostItemSuccess,
-    deletePostItemLoading
+    deletePostItemLoading,
+    showSubmitForm,
+    showModal,
+    modalTitle,
+    modalText
   }
 })
