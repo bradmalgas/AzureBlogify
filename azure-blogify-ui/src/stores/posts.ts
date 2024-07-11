@@ -134,7 +134,7 @@ export const usePostStore = defineStore('posts', () => {
         method: 'DELETE'
       })
       if (!response.ok) {
-        throw new Error('Failed to fetch new posts.')
+        throw new Error('Failed to delete post.')
       }
       deletePostItemSuccess.value = "Item successfully deleted"
       deletePostItemError.value = null
