@@ -101,6 +101,7 @@ export const usePostStore = defineStore('posts', () => {
         upsertPostItemSuccess.value = data
         upsertPostItemError.value = null
         await clearUpsertItem()
+        latestPostsContinuationToken.value = null
         await fetchPosts()
     } catch (error: any) {
       upsertPostItemError.value = error
@@ -126,7 +127,7 @@ export const usePostStore = defineStore('posts', () => {
       deletePostItemSuccess.value = "Item successfully deleted"
       deletePostItemError.value = null
       await clearUpsertItem()
-      await fetchPosts()
+      latestPosts.value = latestPosts.value.filter((post) => post.id !== id)
     } catch (error: any) {
       deletePostItemSuccess.value = null
       deletePostItemError.value = error.message
