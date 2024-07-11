@@ -1,17 +1,17 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { PostModel } from '@/models/post-model'
 import { formatDate } from 'date-fns'
-import hljs from 'highlight.js/lib/core';
-import javascript from 'highlight.js/lib/languages/javascript';
-import csharp from 'highlight.js/lib/languages/csharp';
-import json from 'highlight.js/lib/languages/json';
-import 'highlight.js/styles/atom-one-dark.css';
+import hljs from 'highlight.js/lib/core'
+import javascript from 'highlight.js/lib/languages/javascript'
+import csharp from 'highlight.js/lib/languages/csharp'
+import json from 'highlight.js/lib/languages/json'
+import 'highlight.js/styles/atom-one-dark.css'
 import markdownIt from 'markdown-it'
 
-hljs.registerLanguage('javascript', javascript);
-hljs.registerLanguage('csharp', csharp);
-hljs.registerLanguage('json', json);
+hljs.registerLanguage('javascript', javascript)
+hljs.registerLanguage('csharp', csharp)
+hljs.registerLanguage('json', json)
 
 export const usePostStore = defineStore('posts', () => {
   const latestPosts = ref([] as PostModel[])
@@ -32,11 +32,19 @@ export const usePostStore = defineStore('posts', () => {
   const postItemError = ref(null)
   const postItemLoading = ref(false)
 
-  const editPostItem = ref({} as PostModel)
-  const editPostContent = ref("" as any)
-  const editPostRenderedContent = ref("")
-  const editPostItemError = ref(null)
-  const editPostItemLoading = ref(false)
+  const upsertPostItem = ref({} as PostModel)
+  const upsertPostContent = ref('' as any)
+  const upsertPostRenderedContent = ref('')
+  const upsertPostItemError = ref(null)
+  const upsertPostItemSuccess = ref(null)
+  const upsertPostItemLoading = ref(false)
+  const isEdit = computed(() => {
+    return upsertPostItem.value.id !== undefined
+  })
+
+  const deletePostItemError = ref(null)
+  const deletePostItemSuccess = ref(null as any)
+  const deletePostItemLoading = ref(false)
 
   async function fetchPosts() {
     latestPostsLoading.value = true
@@ -58,6 +66,72 @@ export const usePostStore = defineStore('posts', () => {
     } finally {
       latestPostsLoading.value = false
       return
+    }
+  }
+
+  async function submitPost() {
+    upsertPostItemLoading.value = true
+    const tagsArray = upsertPostItem.value.tags.toString().split(",")
+    const PostItem = {
+        title: upsertPostItem.value.title,
+        category: upsertPostItem.value.category,
+        author: upsertPostItem.value.author,
+        tags: tagsArray,
+        coverImageUrl: upsertPostItem.value.coverImageUrl,
+        date: upsertPostItem.value.date,
+        summary: upsertPostItem.value.summary,
+        disclaimer: upsertPostItem.value.disclaimer,
+        content: upsertPostContent.value
+    } as PostModel
+
+    if (isEdit.value) PostItem.id = postItem.value.id
+
+    try {
+        const response = await fetch('/api/UpsertPost', {
+            method: 'POST',
+            body: JSON.stringify(PostItem),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        });
+        const data = await response.json()
+        if (!response.ok) {
+          throw new Error('Failed to create new post.')
+        }
+        upsertPostItemSuccess.value = data
+        upsertPostItemError.value = null
+        await clearUpsertItem()
+        await fetchPosts()
+    } catch (error: any) {
+      upsertPostItemError.value = error
+      upsertPostItemSuccess.value = null
+    } finally {
+      upsertPostItemLoading.value = false
+    }
+}
+
+  async function deletePost() {
+    const id = upsertPostItem.value.id
+    const category = upsertPostItem.value.category
+
+    deletePostItemLoading.value = true
+    try {
+      let url = `/api/DeletePost?id=${id}&category=${category}`
+      const response = await fetch(url, {
+        method: 'DELETE'
+      })
+      if (!response.ok) {
+        throw new Error('Failed to fetch new posts.')
+      }
+      deletePostItemSuccess.value = "Item successfully deleted"
+      deletePostItemError.value = null
+      await clearUpsertItem()
+      await fetchPosts()
+    } catch (error: any) {
+      deletePostItemSuccess.value = null
+      deletePostItemError.value = error.message
+    } finally {
+      deletePostItemLoading.value = false
     }
   }
 
@@ -90,39 +164,35 @@ export const usePostStore = defineStore('posts', () => {
     }
   }
 
-  async function fetchEditPostItem(id: string, category: string){
-    editPostItemLoading.value = true
+  async function fetchEditPostItem(id: string, category: string) {
+    upsertPostItemLoading.value = true
     const md = new markdownIt({
       highlight(str, lang, attrs) {
-          if (lang) {
-              try {
-                  return `<pre class="hljs"><code>${hljs.highlight(lang, str, true).value}</code></pre>`;
-              } catch (__) {
-              }
-          }
-          return `<pre class="hljs"><code>${str}</code></pre>`;
-      },
-  });
-    const itemIndex = latestPosts.value.findIndex((post) => post.id == id);
+        if (lang) {
+          try {
+            return `<pre class="hljs"><code>${hljs.highlight(lang, str, true).value}</code></pre>`
+          } catch (__) {}
+        }
+        return `<pre class="hljs"><code>${str}</code></pre>`
+      }
+    })
+    const itemIndex = latestPosts.value.findIndex((post) => post.id == id)
     var data
     try {
-      if (itemIndex == -1)
-        {
-          console.log(`Item with id: ${id} and catergory: ${category} not found in latest posts. Calling API`)
-          const response = await fetch('/api/GetPostById?' + 'id=' + id + '&category=' + category)
-          data = await response.json()
-      }
-      else { 
+      if (itemIndex == -1) {
+        const response = await fetch('/api/GetPostById?' + 'id=' + id + '&category=' + category)
+        data = await response.json()
+      } else {
         data = latestPosts.value[itemIndex]
       }
-      editPostRenderedContent.value = md.render(data.content)
-      editPostContent.value = data.content
-      editPostItem.value = data
-      editPostItemError.value = null
+      upsertPostRenderedContent.value = md.render(data.content)
+      upsertPostContent.value = data.content
+      upsertPostItem.value = data
+      upsertPostItemError.value = null
     } catch (err: any) {
-      editPostItemError.value = err.toString()
+      upsertPostItemError.value = err.toString()
     } finally {
-      editPostItemLoading.value = false
+      upsertPostItemLoading.value = false
       return
     }
   }
@@ -131,24 +201,21 @@ export const usePostStore = defineStore('posts', () => {
     postItemLoading.value = true
     const md = new markdownIt({
       highlight(str, lang, attrs) {
-          if (lang) {
-              try {
-                  return `<pre class="hljs"><code>${hljs.highlight(lang, str, true).value}</code></pre>`;
-              } catch (__) {
-              }
-          }
-          return `<pre class="hljs"><code>${str}</code></pre>`;
-      },
-  });
-    const itemIndex = latestPosts.value.findIndex((post) => post.id == id);
+        if (lang) {
+          try {
+            return `<pre class="hljs"><code>${hljs.highlight(lang, str, true).value}</code></pre>`
+          } catch (__) {}
+        }
+        return `<pre class="hljs"><code>${str}</code></pre>`
+      }
+    })
+    const itemIndex = latestPosts.value.findIndex((post) => post.id == id)
     var data
     try {
-      if (itemIndex == -1)
-        {
-          const response = await fetch('/api/GetPostById?' + 'id=' + id + '&category=' + category)
-          data = await response.json()
-      }
-      else { 
+      if (itemIndex == -1) {
+        const response = await fetch('/api/GetPostById?' + 'id=' + id + '&category=' + category)
+        data = await response.json()
+      } else {
         data = latestPosts.value[itemIndex]
       }
       postItemContent.value = md.render(data.content)
@@ -176,6 +243,14 @@ export const usePostStore = defineStore('posts', () => {
     postItemContent.value = null
     postItemError.value = null
     postItemLoading.value = false
+  }
+
+  async function clearUpsertItem() {
+    upsertPostItem.value = {} as PostModel
+    upsertPostContent.value = '' as any
+    upsertPostRenderedContent.value = ''
+    upsertPostItemError.value = null
+    upsertPostItemLoading.value = false
   }
 
   async function getPosts() {
@@ -219,11 +294,18 @@ export const usePostStore = defineStore('posts', () => {
     getPostItem,
     getSearchResults,
     fetchSearchResults,
-    editPostItem,
-    editPostContent,
-    editPostRenderedContent,
-    editPostItemError,
-    editPostItemLoading,
-    fetchEditPostItem
+    upsertPostItem,
+    upsertPostContent,
+    upsertPostRenderedContent,
+    upsertPostItemError,
+    upsertPostItemSuccess,
+    upsertPostItemLoading,
+    isEdit,
+    fetchEditPostItem,
+    deletePost,
+    submitPost,
+    deletePostItemError,
+    deletePostItemSuccess,
+    deletePostItemLoading
   }
 })
