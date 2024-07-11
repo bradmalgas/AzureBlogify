@@ -9,19 +9,23 @@ import javascript from 'highlight.js/lib/languages/javascript';
 import csharp from 'highlight.js/lib/languages/csharp';
 import json from 'highlight.js/lib/languages/json';
 import 'highlight.js/styles/atom-one-dark.css';
-import { useRouter } from 'vue-router';
 import { usePostStore } from '@/stores/posts';
 import { storeToRefs } from 'pinia';
 
 const store = usePostStore();
-const { editPostItem: postItem,
-        editPostContent: postContent,
-        editPostRenderedContent: renderedContent,
-    } = storeToRefs(store);
+const { upsertPostItem: postItem,
+    upsertPostContent: postContent,
+    upsertPostRenderedContent: renderedContent,
+    isEdit: editMode,
+    deletePostItemError,
+    deletePostItemSuccess,
+    deletePostItemLoading,
+    upsertPostItemLoading,
+    upsertPostItemSuccess,
+    upsertPostItemError,
+} = storeToRefs(store);
 const showSubmitForm = ref(false)
 const showModal = ref(false)
-
-const submitFormLoading = ref(false)
 
 const modalTitle = ref("")
 const modalText = ref("")
@@ -34,47 +38,19 @@ const toggleModalVisibility = () => {
     showModal.value = !showModal.value
 }
 
-const submitPost = async () => {
-    submitFormLoading.value = true
-    const PostItem = {
-        title: postItem.value.title,
-        category: postItem.value.category,
-        author: postItem.value.author,
-        tags: postItem.value.tags,
-        coverImageUrl: postItem.value.coverImageUrl,
-        date: postItem.value.date,
-        summary: postItem.value.summary,
-        disclaimer: postItem.value.disclaimer,
-        content: postContent.value
-    } as PostModel
+const deletePost = async () => {
+    await store.deletePost()
+    if (deletePostItemSuccess.value !== null) { modalText.value = "Blog item successfully deleted."; modalTitle.value = "Success" }
+    else { modalText.value = `Could not delete blog item. Reason: ${deletePostItemError.value}`; modalTitle.value = "Error" }
+    showModal.value = true
+}
 
-    try {
-        const response = await fetch('/api/CreatePost', {
-            method: 'POST',
-            body: JSON.stringify(PostItem),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8'
-            }
-        });
-        if (!response.ok) {
-            modalTitle.value = "Error"
-            modalText.value = await response.json();
-            showModal.value = true
-        }
-        else {
-            var responseBody = await response.json();
-            modalTitle.value = "Success"
-            modalText.value = responseBody
-            showModal.value = true
-        }
-    } catch (error: any) {
-        modalTitle.value = "Error"
-        modalText.value = `Could not post item to API. Reason: ${error}`
-        showModal.value = true
-    } finally {
-        submitFormLoading.value = false
-        showSubmitForm.value = false
-    }
+const submitPost = async () => {
+    showSubmitForm.value = false
+    await store.submitPost()
+    if (upsertPostItemSuccess.value !== null) { modalText.value = "Blog item successfully posted."; modalTitle.value = "Success" }
+    else { modalText.value = `Could not post blog item. Reason: ${upsertPostItemError.value}`; modalTitle.value = "Error" }
+    showModal.value = true
 }
 
 watch(postContent, debounce(() => {
@@ -101,16 +77,22 @@ hljs.registerLanguage('json', json);
     <!-- Markdown Editor -->
     <div class="mx-16 my-5">
         <div class="flex items-center mb-6">
-            <h1 class="md:text-4xl text-3xl font-semibold font-serif">Edit Post</h1>
-            <button @click="toggleFormVisibility"
-                class="ml-auto max-w-fit px-6 py-2 bg-black text-white rounded-3xl hover:bg-gray-500 focus:outline-none transition-colors duration-200">
-                Post Article
-            </button>
+            <h1 class="md:text-4xl text-3xl font-semibold font-serif">{{ editMode ? 'Edit Post' : 'Create Post' }}</h1>
+            <div class="ml-auto space-x-3">
+                <button @click="toggleFormVisibility"
+                    class="max-w-fit px-6 py-2 bg-black text-white rounded-3xl hover:bg-gray-500 focus:outline-none transition-colors duration-200">
+                    {{ editMode ? 'Publish Changes' : 'Publish Post' }}
+                </button>
+
+                <button v-if="editMode" @click="deletePost"
+                    class="max-w-fit px-6 py-2 bg-black text-white rounded-3xl hover:bg-gray-500 focus:outline-none transition-colors duration-200">
+                    Delete Article
+                </button>
+            </div>
         </div>
         <div class="flex h-svh space-x-3">
             <div class="flex flex-col h-full w-1/2 border border-gray-300 rounded-lg overflow-hidden shadow-sm">
-                <textarea v-model="postContent"
-                    class="h-full w-full p-4"
+                <textarea v-model="postContent" class="h-full w-full p-4"
                     placeholder="Start typing to see the magic"></textarea>
             </div>
             <div class="overflow-y-scroll h-full w-1/2 border border-gray-300 rounded-lg py-5 px-3 shadow-sm">
@@ -131,9 +113,10 @@ hljs.registerLanguage('json', json);
 
             <div class="flex flex-col">
                 <label class="text-white" for="title">Title:</label>
-                <input v-model="postItem.title" class="min-w-[500px] rounded-md text-sm shadow-sm placeholder-slate-400 p-2"
-                    type="text" id="title" name="title"
-                    placeholder='e.g. "How I Used the OpenAI API to build an automated budgeting app"' required />
+                <input v-model="postItem.title"
+                    class="min-w-[500px] rounded-md text-sm shadow-sm placeholder-slate-400 p-2" type="text" id="title"
+                    name="title" placeholder='e.g. "How I Used the OpenAI API to build an automated budgeting app"'
+                    required />
             </div>
 
             <div class="flex flex-col">
@@ -145,14 +128,16 @@ hljs.registerLanguage('json', json);
 
             <div class="flex flex-col">
                 <label class="text-white" for="author">Author:</label>
-                <input v-model="postItem.author" class="min-w-[500px] rounded-md text-sm shadow-sm placeholder-slate-400 p-2"
-                    type="text" id="author" name="author" placeholder='e.g. "Tech TruthTalker"' required />
+                <input v-model="postItem.author"
+                    class="min-w-[500px] rounded-md text-sm shadow-sm placeholder-slate-400 p-2" type="text" id="author"
+                    name="author" placeholder='e.g. "Tech TruthTalker"' required />
             </div>
 
             <div class="flex flex-col">
                 <label class="text-white" for="tags">Tags:</label>
-                <input v-model="postItem.tags" class="min-w-[500px] rounded-md text-sm shadow-sm placeholder-slate-400 p-2"
-                    type="text" id="tags" name="tags" placeholder='e.g. "Truth, Science, nature"' required />
+                <input v-model="postItem.tags"
+                    class="min-w-[500px] rounded-md text-sm shadow-sm placeholder-slate-400 p-2" type="text" id="tags"
+                    name="tags" placeholder='e.g. "Truth, Science, nature"' required />
             </div>
 
             <div class="flex flex-col">
@@ -166,8 +151,9 @@ hljs.registerLanguage('json', json);
 
             <div class="flex flex-col">
                 <label class="text-white" for="date">Date:</label>
-                <input v-model="postItem.date" class="min-w-[500px] rounded-md text-sm shadow-sm placeholder-slate-400 p-2"
-                    type="text" id="date" name="date" placeholder='e.g. "20th April 2024' required />
+                <input v-model="postItem.date"
+                    class="min-w-[500px] rounded-md text-sm shadow-sm placeholder-slate-400 p-2" type="text" id="date"
+                    name="date" placeholder='e.g. "20th April 2024' required />
             </div>
 
             <div class="flex flex-col">
@@ -190,7 +176,7 @@ hljs.registerLanguage('json', json);
 
             <div class="w-full flex justify-evenly py-6">
                 <input type="submit" form="blog-details-form"
-                    class="max-w-fit px-6 py-2 bg-white  rounded-3xl hover:bg-gray-500 hover:text-white focus:outline-none transition-colors duration-200"
+                    class="max-w-fit px-6 py-2 bg-white  rounded-3xl hover:cursor-pointer hover:bg-gray-500 hover:text-white focus:outline-none transition-colors duration-200"
                     value="Submit" />
 
                 <button @click="toggleFormVisibility" type="button"
@@ -209,16 +195,15 @@ hljs.registerLanguage('json', json);
         :class="{ 'block': showModal, 'hidden': !showModal }">
 
 
-        <SpinLoader v-if="submitFormLoading" class="h-32 w-32" colour="#000000"/>
+        <SpinLoader v-if="upsertPostItemLoading || deletePostItemLoading" class="h-32 w-32" colour="#000000" />
 
         <div v-else class="flex flex-col items-center justify-around space-y-5">
-        <h1 class="font-bold text-lg">{{ modalTitle }}</h1>
-        <p class="text-sm text-gray-600">{{ modalText }}</p>
-        <button @click="toggleModalVisibility"
-            class="max-w-fit px-6 py-2 bg-black text-white  rounded-3xl hover:bg-gray-500 focus:outline-none transition-colors duration-200">
-            Okay
-        </button></div>
+            <h1 class="font-bold text-lg">{{ modalTitle }}</h1>
+            <p class="text-sm text-gray-600">{{ modalText }}</p>
+            <button @click="toggleModalVisibility"
+                class="max-w-fit px-6 py-2 bg-black text-white  rounded-3xl hover:bg-gray-500 focus:outline-none transition-colors duration-200">
+                Okay
+            </button>
+        </div>
     </div>
-</template>import { usePostStore } from '@/stores/posts';
-import { storeToRefs } from 'pinia';
-
+</template>
