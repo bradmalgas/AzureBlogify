@@ -59,7 +59,7 @@ export const usePostStore = defineStore('posts', () => {
         url += `&contToken=${latestPostsContinuationToken.value}`
       const response = await fetch(url)
       if (!response.ok) {
-        throw new Error('Failed to fetch new posts.')
+        throw new Error(`${response.status}: ${response.statusText}. Failed to fetch new posts.`)
       }
       const data = await response.json()
       latestPosts.value.push(...data.posts)
@@ -103,14 +103,14 @@ export const usePostStore = defineStore('posts', () => {
         });
         const data = await response.json()
         if (!response.ok) {
-          throw new Error('Failed to create new post.')
+          throw new Error(`${response.status}: ${response.statusText}. Failed to create new post.`)
         }
         upsertPostItemSuccess.value = data
         modalText.value = "Blog item successfully posted.";
         modalTitle.value = "Success"
         upsertPostItemError.value = null
         await clearUpsertItem()
-        latestPostsContinuationToken.value = null
+        await clearLatestPosts()
         await fetchPosts()
     } catch (error: any) {
       upsertPostItemError.value = error
@@ -122,6 +122,8 @@ export const usePostStore = defineStore('posts', () => {
     }
 }
 
+
+
   async function deletePost() {
     const id = upsertPostItem.value.id
     const category = upsertPostItem.value.category
@@ -129,12 +131,12 @@ export const usePostStore = defineStore('posts', () => {
     deletePostItemLoading.value = true
     showModal.value = true
     try {
-      let url = `/api/DeletePost?id=${id}&category=${category}`
+      let url = `/api/DeletePost?id=${id}&category=${encodeURIComponent(category)}`
       const response = await fetch(url, {
         method: 'DELETE'
       })
       if (!response.ok) {
-        throw new Error('Failed to delete post.')
+        throw new Error(`${response.status}: ${response.statusText}. Failed to delete post.`)
       }
       deletePostItemSuccess.value = "Item successfully deleted"
       deletePostItemError.value = null
@@ -160,7 +162,7 @@ export const usePostStore = defineStore('posts', () => {
         url = `/api/GetPosts?pageSize=${searchPageSize.value}&contToken=${searchContinuationToken.value}`
       const response = await fetch(url)
       if (!response.ok) {
-        throw new Error('Failed to fetch data.')
+        throw new Error(`${response.status}: ${response.statusText}. Failed to fetch search results.`)
       }
       const data = await response.json()
 
@@ -268,6 +270,13 @@ export const usePostStore = defineStore('posts', () => {
     upsertPostRenderedContent.value = ''
     upsertPostItemError.value = null
     upsertPostItemLoading.value = false
+  }
+
+  async function clearLatestPosts() {
+    latestPosts.value = [] as PostModel[]
+    latestPostsContinuationToken.value = null as any
+    latestPostsError.value = null
+    latestPostsLoading.value = false
   }
 
   async function getPosts() {
