@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import markdownit from 'markdown-it'
 import UnexpectedErrorView from './UnexpectedErrorView.vue';
 import { formatDate } from 'date-fns';
@@ -9,13 +9,17 @@ import SpinLoader from '../components/SpinLoader.vue';
 import TagButton from '../components/TagButton.vue';
 import Disclaimer from '../components/Disclaimer.vue';
 import { usePostStore } from '@/stores/posts';
+import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 
 
 const route = useRoute();
+const router = useRouter();
 
 const store = usePostStore();
-const { postItem,postItemContent,postItemError,postItemLoading } = storeToRefs(store);
+const userStore = useUserStore();
+const { isAdmin } = storeToRefs(userStore);
+const { postItem,postItemContent,postItemError,postItemLoading,editPostItemLoading } = storeToRefs(store);
 
 watch(() => route.params, fetchData, { immediate: true });
 
@@ -23,10 +27,16 @@ async function fetchData(params) {
   await store.getPostItem(params.id, params.category);
   document.title = `${postItem.value.title} - Brad Malgas Blog`;
 };
+
+async function editPost() {
+  const params = route.params
+  await store.fetchEditPostItem(params.id, params.category);
+  router.push('/editor');
+}
 </script>
 
 <template>
-  <div v-if="postItemLoading" class="flex min-h-svh items-center justify-center">
+  <div v-if="postItemLoading || editPostItemLoading" class="flex min-h-svh items-center justify-center">
     <SpinLoader colour="#000000" class="h-32" />
   </div>
   <div v-else class="flex flex-col items-center">
@@ -40,8 +50,14 @@ async function fetchData(params) {
             {{ postItem.title }}
           </h1>
         </div>
-        <div class="flex">
+        <div class="flex items-center">
           <p class="md:text-base text-xs text-gray-600">{{ postItem.readingMinutes }} min read · {{ postItem.date }}</p>
+          <div class="flex ml-auto items-center">
+            <button v-if="isAdmin" @click="editPost"
+                class="ml-auto max-w-fit px-6 py-2 bg-black text-white rounded-3xl hover:bg-gray-500 focus:outline-none transition-colors duration-200">
+                Edit Article
+            </button>
+        </div>
         </div>
         <div class="flex space-x-2 text-right">
           <TagButton class="md:text-[10px] mb-3" v-for="value in postItem.tags" :text="value" />

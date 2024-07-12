@@ -6,14 +6,19 @@ import BradLogo from './icons/BradLogo.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import CloseIcon from './icons/CloseIcon.vue';
+import { useUserStore } from '@/stores/user';
+import { storeToRefs } from 'pinia';
 
 const searchString = ref("");
 const router = useRouter();
 const showSearchBar = ref(false);
 
+const store = useUserStore();
+const { isAdmin, isLoggedIn } = storeToRefs(store);
+
 const search = () => {
     var searchquery = searchString.value.trim();
-    if(searchquery !== "") router.push(`/search/${searchquery}`);
+    if (searchquery !== "") router.push(`/search/${searchquery}`);
 };
 
 const toggleSearchBar = () => {
@@ -37,9 +42,13 @@ const toggleSearchBar = () => {
             <div class="space-x-6 mr-6 font-semibold">
                 <router-link to="/" key="home">Home</router-link>
                 <router-link to="/about" key="about">About</router-link>
+                <router-link v-if="isAdmin" to="/editor" key="editor">Editor</router-link>
+                <a v-if="!isLoggedIn" href="/login">Login</a>
+                <a v-if="isLoggedIn" href="/logout">Logout</a>
             </div>
             <div class="flex bg-gray-200 rounded-[13px] p-2 mr-3">
-                <input v-model="searchString" class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2" type="text" placeholder="Search.." @keyup.enter="search">
+                <input v-model="searchString" class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2"
+                    type="text" placeholder="Search.." @keyup.enter="search">
                 <SearchIcon @click="search" class="h-6 pr-2 hover:cursor-pointer" />
             </div>
         </div>
@@ -57,7 +66,9 @@ const toggleSearchBar = () => {
             </router-link>
         </div>
         <div class="flex">
-            <input v-if="showSearchBar" v-model="searchString" class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2" type="text" placeholder="Search.." @keyup.enter="search">
+            <input v-if="showSearchBar" v-model="searchString"
+                class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2" type="text" placeholder="Search.."
+                @keyup.enter="search">
             <SearchIcon v-if="!showSearchBar" @click="toggleSearchBar" class="'h-8 pr-2" />
             <CloseIcon v-if="showSearchBar" @click="toggleSearchBar" class="'h-6 px-2" />
         </div>
