@@ -68,11 +68,11 @@ const toggleSearchBar = () => {
             </router-link>
         </div>
         <div class="flex">
-            <input v-if="showSearchBar" v-model="searchString"
+            <input v-if="showSearchBar.valueOf()" v-model="searchString"
                 class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2" type="text" placeholder="Search.."
                 @keyup.enter="search">
-            <SearchIcon @click="toggleSearchBar" v-if="!showSearchBar.valueOf()" class="h-8 mx-2 pr-2 hover:cursor-pointer" />
-            <CloseIcon @click="toggleSearchBar" v-if="showSearchBar.valueOf()" class="h-6 mx-2 px-2 hover:cursor-pointer" />
+            <SearchIcon @click="toggleSearchBar" v-show="!showSearchBar.valueOf()" class="h-8 mx-2 pr-2 hover:cursor-pointer" />
+            <CloseIcon @click="toggleSearchBar" v-show="showSearchBar.valueOf()" class="h-6 mx-2 px-2 hover:cursor-pointer" />
         </div>
     </div>
 </template>
