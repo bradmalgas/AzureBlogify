@@ -43,8 +43,8 @@ async function editPost() {
     <div v-if="postItemError">
       <UnexpectedErrorView />
     </div>
-    <div v-else-if="postItem" class="flex my-3">
-      <div class="flex flex-col lg:px-96 md:px-28 max-sm:max-w-sm px-6 space-y-3 md:space-y-7">
+    <div v-else-if="postItem" class="flex my-3 w-full">
+      <div class="flex flex-col lg:px-96 md:px-28 min-w-full max-sm:max-w-sm px-6 space-y-3 md:space-y-7">
         <div>
           <h1 class="flex md:text-5xl text-2xl mt-3 font-semibold font-serif leading-tight tracking-wide">
             {{ postItem.title }}
