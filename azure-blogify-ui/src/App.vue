@@ -6,8 +6,9 @@ import { onMounted } from 'vue';
 
 const store = useUserStore()
 
-onMounted(async () => {await store.getUserInfo();
-});
+// onMounted(async () => {
+//   await store.getUserInfo();
+// });
 </script>
 
 <template>
