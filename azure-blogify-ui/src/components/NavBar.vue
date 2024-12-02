@@ -57,9 +57,11 @@ const { showSearchBar, searchString } = storeToRefs(navbar);
             <input v-show="showSearchBar" v-model="searchString"
                 class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2" type="text" placeholder="Search.."
                 @keyup.enter="navbar.search">
-            <div @click="navbar.toggleSearchBar" v-show="!showSearchBar" class="h-8 mx-2 pr-2 hover:cursor-pointer">Search</div>
-                <div @click="navbar.toggleSearchBar" v-show="showSearchBar" class="h-6 mx-2 px-2 hover:cursor-pointer">Close</div>
+            <!-- <div @click="navbar.toggleSearchBar" v-show="!showSearchBar" class="h-8 mx-2 pr-2 hover:cursor-pointer">Search</div>
+                <div @click="navbar.toggleSearchBar" v-show="showSearchBar" class="h-6 mx-2 px-2 hover:cursor-pointer">Close</div> -->
         </div>
+        <div @click="navbar.toggleSearchBar" v-show="!showSearchBar">Search</div>
+        <div @click="navbar.toggleSearchBar" v-show="showSearchBar">Close</div>
     </div>
 </template>
 
