@@ -69,8 +69,8 @@ const toggleSearchBar = () => {
             <input v-if="showSearchBar" v-model="searchString"
                 class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2" type="text" placeholder="Search.."
                 @keyup.enter="search">
-            <SearchIcon v-if="!showSearchBar" @click="toggleSearchBar()" class="'h-8 pr-2" />
-            <CloseIcon v-if="showSearchBar" @click="toggleSearchBar()" class="'h-6 px-2" />
+            <SearchIcon v-if="!showSearchBar" @click="toggleSearchBar()" class="h-8 pr-2" />
+            <CloseIcon v-if="showSearchBar" @click="toggleSearchBar()" class="h-6 px-2" />
         </div>
     </div>
 </template>
