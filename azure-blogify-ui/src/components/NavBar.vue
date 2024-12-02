@@ -22,8 +22,9 @@ const search = () => {
 };
 
 const toggleSearchBar = () => {
-    console.log("Search bar has been toggled");
+    console.log(`Search bar pressed. Old value ${showSearchBar.value}`);
     showSearchBar.value = !showSearchBar.value;
+    console.log(`Search bar toggled! New value ${showSearchBar.value}`);
 };
 </script>
 
