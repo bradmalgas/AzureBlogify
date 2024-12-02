@@ -14,12 +14,19 @@ export const useUserStore = defineStore('user', () => {
   })
 
   async function getUserInfo() {
-    const response = await fetch('/.auth/me')
+    try {
+      const response = await fetch('/.auth/me');
 
-    if (response == null) return;
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
 
-    const payload = await response.json()
-    if (payload?.clientPrincipal != null) user.value = payload.clientPrincipal
+      const payload = await response.json()
+      if (payload?.clientPrincipal != null) user.value = payload.clientPrincipal
+      
+    } catch (error: any) {
+      console.error('Error occured:', error.message)
+    }
   }
 
   function isEmpty() {
