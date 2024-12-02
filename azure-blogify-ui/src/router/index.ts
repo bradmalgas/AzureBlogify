@@ -3,15 +3,13 @@ import HomeView from '../views/HomeView.vue'
 import PostItemView from '@/views/PostItemView.vue'
 import SearchResults from '@/views/SearchResults.vue';
 import { useUserStore } from '@/stores/user';
-import TestPage from '@/views/TestPage.vue';
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
       name: 'home',
-      component: TestPage,
+      component: HomeView,
       meta: { title: 'Home - Brad Malgas Blog' }
     },
     {
