@@ -15,12 +15,15 @@ export const useUserStore = defineStore('user', () => {
 
   async function getUserInfo() {
     const response = await fetch('/.auth/me')
+
+    if (response == null) return;
+
     const payload = await response.json()
-    user.value = payload.clientPrincipal
+    if (payload?.clientPrincipal != null) user.value = payload.clientPrincipal
   }
 
   function isEmpty() {
-    return Object.keys(user.value).length == 0
+    return Object.keys(user?.value)?.length == 0
   }
 
   return {
