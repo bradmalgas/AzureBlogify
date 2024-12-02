@@ -23,16 +23,16 @@ const { showSearchBar, searchString } = storeToRefs(navbar);
         </div>
         <div class="flex items-center relative">
             <router-link to="/" key="home">
-                <BradLogo />
+                <BradLogo colour="#000000" />
             </router-link>
         </div>
         <div class="flex">
-            <input v-show="showSearchBar" v-model="searchString"
+            <input :style="{ display: showSearchBar ? 'block' : 'none' }" v-model="searchString"
                 class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2" type="text" placeholder="Search.."
                 @keyup.enter="navbar.search">
-            <SearchIcon @click="navbar.toggleSearchBar" v-show="!showSearchBar"
+            <SearchIcon @click="navbar.toggleSearchBar" :style="{ display: !showSearchBar ? 'block' : 'none' }"
                 class="h-8 mx-2 pr-2 hover:cursor-pointer" />
-            <CloseIcon @click="navbar.toggleSearchBar" v-show="showSearchBar"
+            <CloseIcon colour="#000000" @click="navbar.toggleSearchBar" :style="{ display: showSearchBar ? 'block' : 'none' }"
                 class="h-6 mx-2 px-2 hover:cursor-pointer" />
         </div>
     </div>
@@ -45,7 +45,7 @@ const { showSearchBar, searchString } = storeToRefs(navbar);
         </div>
         <div>
             <router-link to="/">
-                <BradLogo />
+                <BradLogo colour="#000000" />
             </router-link>
         </div>
         <div class="flex items-center">

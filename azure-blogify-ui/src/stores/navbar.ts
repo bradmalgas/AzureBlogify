@@ -9,6 +9,7 @@ export const useNavBarStore = defineStore('navbar', () => {
 
     function toggleSearchBar() {
         showSearchBar.value = !showSearchBar.value
+        console.log(`Toggle activated, new value: ", ${showSearchBar.value}`)
     }
 
     async function search() {
