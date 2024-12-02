@@ -1,31 +1,17 @@
 <script setup lang="ts">
-import LogoSmall from './icons/LogoSmall.vue';
 import SearchIcon from './icons/SearchIcon.vue';
 import SideNav from './SideNav.vue';
 import BradLogo from './icons/BradLogo.vue';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import CloseIcon from './icons/CloseIcon.vue';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
-
-const searchString = ref("");
-const router = useRouter();
-const showSearchBar = ref(false);
+import { useNavBarStore } from '@/stores/navbar';
 
 const store = useUserStore();
+const navbar = useNavBarStore();
+
 const { isAdmin, isLoggedIn } = storeToRefs(store);
-
-const search = () => {
-    var searchquery = searchString.value.trim();
-    if (searchquery !== "") router.push(`/search/${searchquery}`);
-};
-
-const toggleSearchBar = () => {
-    console.log(`Search bar pressed. Old value ${showSearchBar.value}`);
-    showSearchBar.value = !showSearchBar.value;
-    console.log(`Search bar toggled! New value ${showSearchBar.value}`);
-};
+const { showSearchBar, searchString } = storeToRefs(navbar);
 </script>
 
 <template>
@@ -50,8 +36,8 @@ const toggleSearchBar = () => {
             </div>
             <div class="flex bg-gray-200 rounded-[13px] p-2 mr-3">
                 <input v-model="searchString" class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2"
-                    type="text" placeholder="Search.." @keyup.enter="search">
-                <SearchIcon @click="search" class="h-6 pr-2 hover:cursor-pointer" />
+                    type="text" placeholder="Search.." @keyup.enter="navbar.search">
+                <SearchIcon @click="navbar.search" class="h-6 pr-2 hover:cursor-pointer" />
             </div>
         </div>
     </div>
@@ -70,9 +56,9 @@ const toggleSearchBar = () => {
         <div class="flex">
             <input v-show="showSearchBar" v-model="searchString"
                 class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2" type="text" placeholder="Search.."
-                @keyup.enter="search">
-            <SearchIcon @click="toggleSearchBar" v-show="!showSearchBar" class="h-8 mx-2 pr-2 hover:cursor-pointer" />
-            <CloseIcon @click="toggleSearchBar" v-show="showSearchBar" class="h-6 mx-2 px-2 hover:cursor-pointer" />
+                @keyup.enter="navbar.search">
+            <SearchIcon @click="navbar.toggleSearchBar" v-show="!showSearchBar" class="h-8 mx-2 pr-2 hover:cursor-pointer" />
+            <CloseIcon @click="navbar.toggleSearchBar" v-show="showSearchBar" class="h-6 mx-2 px-2 hover:cursor-pointer" />
         </div>
     </div>
 </template>
