@@ -19,7 +19,7 @@ const router = useRouter();
 const store = usePostStore();
 const userStore = useUserStore();
 const { isAdmin } = storeToRefs(userStore);
-const { postItem,postItemContent,postItemError,postItemLoading,editPostItemLoading } = storeToRefs(store);
+const { postItem, postItemContent, postItemError, postItemLoading, editPostItemLoading } = storeToRefs(store);
 
 watch(() => route.params, fetchData, { immediate: true });
 
@@ -44,7 +44,8 @@ async function editPost() {
       <UnexpectedErrorView />
     </div>
     <div v-else-if="postItem" class="flex my-3 w-full">
-      <div class="flex flex-col lg:px-96 md:px-28 min-w-full max-sm:max-w-sm px-6 space-y-3 md:space-y-7">
+      <div class="flex flex-col max-w-[90%] md:max-w-[55%] lg:max-w-[50%] xl:max-w-[45%] 2xl:max-w-[40%] mx-auto space-y-3
+        md:space-y-7">
         <div>
           <h1 class="flex md:text-5xl text-2xl mt-3 font-semibold font-serif leading-tight tracking-wide">
             {{ postItem.title }}
@@ -54,18 +55,17 @@ async function editPost() {
           <p class="md:text-base text-xs text-gray-600">{{ postItem.readingMinutes }} min read · {{ postItem.date }}</p>
           <div class="flex ml-auto items-center">
             <button v-if="isAdmin" @click="editPost"
-                class="ml-auto max-w-fit px-6 py-2 bg-black text-white rounded-3xl hover:bg-gray-500 focus:outline-none transition-colors duration-200">
-                Edit Article
+              class="ml-auto max-w-fit px-6 py-2 bg-black text-white rounded-3xl hover:bg-gray-500 focus:outline-none transition-colors duration-200">
+              Edit Article
             </button>
+          </div>
         </div>
+        <div class="flex flex-wrap">
+          <TagButton class="mr-2 md:mr-3 md:text-[10px] mb-3" v-for="value in postItem.tags" :text="value" />
         </div>
-        <div class="flex space-x-2 text-right">
-          <TagButton class="md:text-[10px] mb-3" v-for="value in postItem.tags" :text="value" />
-        </div>
-        <img class="rounded-md md:max-h-72 max-h-52 object-cover" :src="postItem.coverImageUrl" alt="">
-        <iframe v-if="postItem.id == '0ce10907-9836-4ffe-a4d9-395bc624bc1c'" class="md:hidden self-center" src="https://www.youtube-nocookie.com/embed/H58vbez_m4E?si=io7bj8DN25dfhEaU&controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <img class="rounded-md md:max-h-72 max-h-52 w-full object-cover" :src="postItem.coverImageUrl" alt="">
         <div>
-          <article class="prose prose-base lg:prose-lg" v-html="postItemContent">
+          <article class="w-full prose prose-base lg:prose-lg !max-w-none" v-html="postItemContent">
           </article>
         </div>
         <Disclaimer :text="postItem.disclaimer" />

@@ -22,9 +22,9 @@ const formattedDate = computed(() => {
 
 <template>
     <div class="md:mb-6 min-w-[360px]">
-        <div class="rounded-md p-4 shadow-lg space-y-3">
-            <div class="2xl:min-w-fit 2xl:min-h-[600px] max-h-[300px] max-w-[800px] overflow-clip">
-                <img class="max-w-full h-auto rounded-md" :src="coverImageUrl" alt="">
+        <div class="rounded-md p-4 shadow-lg space-y-3 flex-col">
+            <div class="2xl:min-w-fit 2xl:min-h-[600px] h-96 max-h-[300px] w-full">
+                <img class="h-full mx-auto" :src="coverImageUrl" alt="">
             </div>
             <div class="flex items-center space-x-2">
                 <CalendarIcon class="w-3 h-3" colour="#4e4e4e" />
@@ -36,7 +36,8 @@ const formattedDate = computed(() => {
             <div class="flex items-center md:space-x-2 space-x-5">
                 <div class="flex items-center flex-grow">
                     <img class="object-cover object-top rounded-full h-[40px] w-[40px] p-2"
-                        src="https://storageazureblogify.blob.core.windows.net/blogimages/brad-author-picture.jpeg" alt="">
+                        src="https://storageazureblogify.blob.core.windows.net/blogimages/brad-author-picture.jpeg"
+                        alt="">
                     <p class="md:text-sm text-[10px]">{{ author }}</p>
                 </div>
                 <div class="space-x-2 text-right">
