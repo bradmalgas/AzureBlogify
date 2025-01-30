@@ -41,7 +41,7 @@ const toggleSearchBar = () => {
         <div class="flex items-center">
             <div class="space-x-6 mr-6 font-semibold">
                 <router-link to="/" key="home">Home</router-link>
-                <router-link to="/about" key="about">About</router-link>
+                <a href="https://bradmalgas.com" target="_blank">About</a>
                 <router-link v-if="isAdmin" to="/editor" key="editor">Editor</router-link>
                 <a v-if="!isLoggedIn" href="/login">Login</a>
                 <a v-if="isLoggedIn" href="/logout">Logout</a>
