@@ -10,22 +10,23 @@ import { onMounted, ref } from 'vue';
 const store = usePostStore();
 const { latestPosts, latestPostsContinuationToken, latestPostsError, latestPostsLoading } = storeToRefs(store);
 
-onMounted(async () => {await store.getPosts();
+onMounted(async () => {
+  await store.getPosts();
 });
 </script>
 
 <template>
   <div v-if="latestPostsLoading || latestPostsError" class="flex min-h-svh items-center justify-center">
-    <SpinLoader class="h-32" colour="#000000"/>
+    <SpinLoader class="h-32" colour="#000000" />
   </div>
-  <div v-if="latestPosts.length && !latestPostsLoading" class="flex flex-col items-center mx-5 lg:mx-96">
+  <div v-if="latestPosts.length && !latestPostsLoading" class="flex flex-col items-center mx-5 lg:mx-20">
     <div class="my-5">
       <h1 class="2xl:text-5xl md:text-4xl text-3xl font-semibold mb-2 font-serif">Featured Post</h1>
-      <router-link class="hover:cursor-pointer" v-if="latestPosts.length > 0" :to="'/post/' + latestPosts[0].category + '/' + latestPosts[0].id">
+      <router-link class="hover:cursor-pointer" v-if="latestPosts.length > 0"
+        :to="'/post/' + latestPosts[0].category + '/' + latestPosts[0].id">
         <FeaturedPost class="my-5" :key="latestPosts[0].id" :title="latestPosts[0].title"
-          :category="latestPosts[0].category" :date="latestPosts[0].date"
-          :coverImageUrl="latestPosts[0].coverImageUrl" :author="latestPosts[0].author"
-          :summary="latestPosts[0].summary" :tags="latestPosts[0].tags" />
+          :category="latestPosts[0].category" :date="latestPosts[0].date" :coverImageUrl="latestPosts[0].coverImageUrl"
+          :author="latestPosts[0].author" :summary="latestPosts[0].summary" :tags="latestPosts[0].tags" />
       </router-link>
       <div v-if="latestPosts.length > 1">
         <h1 class="md:text-3xl text-2xl font-semibold mb-2 font-serif">Latest Posts</h1>

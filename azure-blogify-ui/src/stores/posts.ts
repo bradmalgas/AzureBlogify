@@ -6,12 +6,14 @@ import hljs from 'highlight.js/lib/core'
 import javascript from 'highlight.js/lib/languages/javascript'
 import csharp from 'highlight.js/lib/languages/csharp'
 import json from 'highlight.js/lib/languages/json'
+import xml from 'highlight.js/lib/languages/xml'
 import 'highlight.js/styles/atom-one-dark.css'
 import markdownIt from 'markdown-it'
 
 hljs.registerLanguage('javascript', javascript)
 hljs.registerLanguage('csharp', csharp)
 hljs.registerLanguage('json', json)
+hljs.registerLanguage('xml', xml)
 
 export const usePostStore = defineStore('posts', () => {
   const latestPosts = ref([] as PostModel[])
@@ -44,8 +46,8 @@ export const usePostStore = defineStore('posts', () => {
   })
   const showSubmitForm = ref(false)
   const showModal = ref(false)
-  const modalTitle = ref("")
-  const modalText = ref("")
+  const modalTitle = ref('')
+  const modalText = ref('')
 
   const deletePostItemError = ref(null)
   const deletePostItemSuccess = ref(null as any)
@@ -78,51 +80,49 @@ export const usePostStore = defineStore('posts', () => {
     upsertPostItemLoading.value = true
     showSubmitForm.value = false
     showModal.value = true
-    const tagsArray = upsertPostItem.value.tags.toString().split(",")
+    const tagsArray = upsertPostItem.value.tags.toString().split(',')
     const PostItem = {
-        title: upsertPostItem.value.title,
-        category: upsertPostItem.value.category,
-        author: upsertPostItem.value.author,
-        tags: tagsArray,
-        coverImageUrl: upsertPostItem.value.coverImageUrl,
-        date: upsertPostItem.value.date,
-        summary: upsertPostItem.value.summary,
-        disclaimer: upsertPostItem.value.disclaimer,
-        content: upsertPostContent.value
+      title: upsertPostItem.value.title,
+      category: upsertPostItem.value.category,
+      author: upsertPostItem.value.author,
+      tags: tagsArray,
+      coverImageUrl: upsertPostItem.value.coverImageUrl,
+      date: upsertPostItem.value.date,
+      summary: upsertPostItem.value.summary,
+      disclaimer: upsertPostItem.value.disclaimer,
+      content: upsertPostContent.value
     } as PostModel
 
     if (isEdit.value) PostItem.id = postItem.value.id
 
     try {
-        const response = await fetch('/api/UpsertPost', {
-            method: 'POST',
-            body: JSON.stringify(PostItem),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8'
-            }
-        });
-        const data = await response.json()
-        if (!response.ok) {
-          throw new Error(`${response.status}: ${response.statusText}. Failed to create new post.`)
+      const response = await fetch('/api/UpsertPost', {
+        method: 'POST',
+        body: JSON.stringify(PostItem),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8'
         }
-        upsertPostItemSuccess.value = data
-        modalText.value = "Blog item successfully posted.";
-        modalTitle.value = "Success"
-        upsertPostItemError.value = null
-        await clearUpsertItem()
-        await clearLatestPosts()
-        await fetchPosts()
+      })
+      const data = await response.json()
+      if (!response.ok) {
+        throw new Error(`${response.status}: ${response.statusText}. Failed to create new post.`)
+      }
+      upsertPostItemSuccess.value = data
+      modalText.value = 'Blog item successfully posted.'
+      modalTitle.value = 'Success'
+      upsertPostItemError.value = null
+      await clearUpsertItem()
+      await clearLatestPosts()
+      await fetchPosts()
     } catch (error: any) {
       upsertPostItemError.value = error
       upsertPostItemSuccess.value = null
-      modalText.value = `Could not post blog item. Reason: ${upsertPostItemError.value}`;
-      modalTitle.value = "Error"
+      modalText.value = `Could not post blog item. Reason: ${upsertPostItemError.value}`
+      modalTitle.value = 'Error'
     } finally {
       upsertPostItemLoading.value = false
     }
-}
-
-
+  }
 
   async function deletePost() {
     const id = upsertPostItem.value.id
@@ -138,17 +138,17 @@ export const usePostStore = defineStore('posts', () => {
       if (!response.ok) {
         throw new Error(`${response.status}: ${response.statusText}. Failed to delete post.`)
       }
-      deletePostItemSuccess.value = "Item successfully deleted"
+      deletePostItemSuccess.value = 'Item successfully deleted'
       deletePostItemError.value = null
-      modalText.value = deletePostItemSuccess.value;
-      modalTitle.value = "Success"
+      modalText.value = deletePostItemSuccess.value
+      modalTitle.value = 'Success'
       await clearUpsertItem()
       latestPosts.value = latestPosts.value.filter((post) => post.id !== id)
     } catch (error: any) {
       deletePostItemSuccess.value = null
       deletePostItemError.value = error.message
-      modalText.value = `Could not delete blog item. Reason: ${deletePostItemError.value}`;
-      modalTitle.value = "Error"
+      modalText.value = `Could not delete blog item. Reason: ${deletePostItemError.value}`
+      modalTitle.value = 'Error'
     } finally {
       deletePostItemLoading.value = false
     }
@@ -162,7 +162,9 @@ export const usePostStore = defineStore('posts', () => {
         url = `/api/GetPosts?pageSize=${searchPageSize.value}&contToken=${searchContinuationToken.value}`
       const response = await fetch(url)
       if (!response.ok) {
-        throw new Error(`${response.status}: ${response.statusText}. Failed to fetch search results.`)
+        throw new Error(
+          `${response.status}: ${response.statusText}. Failed to fetch search results.`
+        )
       }
       const data = await response.json()
 
@@ -192,7 +194,7 @@ export const usePostStore = defineStore('posts', () => {
             return `<pre class="hljs"><code>${hljs.highlight(lang, str, true).value}</code></pre>`
           } catch (__) {}
         }
-        return `<pre class="hljs"><code>${str}</code></pre>`
+        return `<pre><code>${str}</code></pre>`
       }
     })
     const itemIndex = latestPosts.value.findIndex((post) => post.id == id)
@@ -225,7 +227,7 @@ export const usePostStore = defineStore('posts', () => {
             return `<pre class="hljs"><code>${hljs.highlight(lang, str, true).value}</code></pre>`
           } catch (__) {}
         }
-        return `<pre class="hljs"><code>${str}</code></pre>`
+        return `<pre><code>${str}</code></pre>`
       }
     })
     const itemIndex = latestPosts.value.findIndex((post) => post.id == id)

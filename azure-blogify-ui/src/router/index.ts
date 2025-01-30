@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import PostItemView from '@/views/PostItemView.vue'
-import SearchResults from '@/views/SearchResults.vue';
-import { useUserStore } from '@/stores/user';
+import SearchResults from '@/views/SearchResults.vue'
+import { useUserStore } from '@/stores/user'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,25 +14,20 @@ const router = createRouter({
       meta: { title: 'Home - Brad Malgas Blog' }
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
-      meta: { title: 'About - Brad Malgas Blog' }
-    },
-    {
       path: '/editor',
       name: 'editor',
       component: () => import('../views/EditorView.vue'),
       meta: { title: 'Editor - Brad Malgas Blog' }
     },
     {
-      path: '/post/:category/:id', component: PostItemView, props: true
+      path: '/post/:category/:id',
+      component: PostItemView,
+      props: true
     },
     {
-      path: '/search/:query', component: SearchResults, props: true,
+      path: '/search/:query',
+      component: SearchResults,
+      props: true,
       meta: { title: 'Search - Brad Malgas Blog' }
     },
     {
@@ -46,15 +41,15 @@ const router = createRouter({
       component: () => import('../views/NotFoundView.vue')
     }
   ],
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition
     return { top: 0 }
   }
-});
+})
 
 router.beforeEach((to, from, next) => {
-  document.title = (to.meta.title as string) || "Loading... | Brad Malgas Blog";
-  next();
-});
+  document.title = (to.meta.title as string) || 'Loading... | Brad Malgas Blog'
+  next()
+})
 
 export default router
