@@ -6,7 +6,7 @@ import TwitterIcon from './icons/TwitterIcon.vue';
 
 <template>
     <div class="flex flex-col h-[250px] bg-black text-white items-center py-6 font-serif">
-        <div class="flex flex-col items-center">
+        <!-- <div class="flex flex-col items-center">
             <p class="text-xs">Subscribe to our newsletter</p>
             <div class="flex mt-7 rounded-full outline outline-2 outline-white">
                 <input type="email" placeholder="Enter your email"
@@ -14,7 +14,7 @@ import TwitterIcon from './icons/TwitterIcon.vue';
                     name="emailTextField" id="newsletter-email-address-text-field"></input>
                 <button class="text-xs bg-white text-black font-bold rounded-full py-2 px-6 h-full">Subscribe</button>
             </div>
-        </div>
+        </div> -->
         <div class="flex flex-col mt-auto w-full items-center">
             <p class="text-xs font-thin">© 2025 Brad Malgas</p>
             <div class="flex space-x-3">
