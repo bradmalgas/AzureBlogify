@@ -24,7 +24,7 @@ const formattedDate = computed(() => {
     <div class="md:mb-6 min-w-[360px]">
         <div class="rounded-md p-4 shadow-lg space-y-3 flex-col">
             <div class="2xl:min-w-fit 2xl:min-h-[600px] h-96 max-h-[300px] w-full">
-                <img class="h-full mx-auto" :src="coverImageUrl" alt="">
+                <img class="h-full mx-auto object-cover w-full" :src="coverImageUrl" alt="">
             </div>
             <div class="flex items-center space-x-2">
                 <CalendarIcon class="w-3 h-3" colour="#4e4e4e" />
