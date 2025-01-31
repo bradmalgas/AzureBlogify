@@ -20,7 +20,7 @@ onMounted(async () => {
     <SpinLoader class="h-32" colour="#000000" />
   </div>
   <div v-if="latestPosts.length && !latestPostsLoading" class="flex flex-col items-center mx-5 lg:mx-20">
-    <div class="my-5">
+    <div class="my-5 lg:max-w-[60%] xl:max-w-[50%]">
       <h1 class="2xl:text-5xl md:text-4xl text-3xl font-semibold mb-2 font-serif">Featured Post</h1>
       <router-link class="hover:cursor-pointer" v-if="latestPosts.length > 0"
         :to="'/post/' + latestPosts[0].category + '/' + latestPosts[0].id">
