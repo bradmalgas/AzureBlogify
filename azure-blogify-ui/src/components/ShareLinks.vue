@@ -1,12 +1,25 @@
 <template>
-    <div class="flex flex-col">
-        <div class="flex flex-row lg:space-x-5 justify-between items-center">
-            <LinkIcon @click="copyToClipboard" class="lg:flex hidden lg:w-8 lg:h-8" color="#4E4E4E"></LinkIcon>
-            <ShareIcon @click="shareContentMobile" class="lg:hidden lg:w-8 lg:h-8 md:w-7 md:h-7 w-5 h-5" colorClass="text-gray-700"></ShareIcon>
-            <TwitterIcon @click="shareOnTwitter" class="lg:w-8 lg:h-8 md:w-7 md:h-7 w-5 h-5" colour="#4E4E4E"></TwitterIcon>
-            <LinkedInLogo @click="shareOnLinkedIn" class="lg:w-8 lg:h-8 md:w-7 md:h-7 w-5 h-5" colour="#4E4E4E"></LinkedInLogo>
+    <div class="relative flex flex-col">
+        <div class="flex flex-col">
+            <div class="flex flex-row lg:space-x-5 justify-between items-center">
+                <LinkIcon @click="copyToClipboard" class="lg:flex hidden lg:w-8 lg:h-8 hover:cursor-pointer"
+                    color="#4E4E4E"></LinkIcon>
+                <ShareIcon @click="shareContentMobile"
+                    class="lg:hidden lg:w-8 lg:h-8 hover:cursor-pointer md:w-7 md:h-7 w-5 h-5"
+                    colorClass="text-gray-700">
+                </ShareIcon>
+                <TwitterIcon @click="shareOnTwitter" class="lg:w-8 lg:h-8  hover:cursor-pointer md:w-7 md:h-7 w-5 h-5"
+                    colour="#4E4E4E"></TwitterIcon>
+                <LinkedInLogo @click="shareOnLinkedIn" class="lg:w-8 lg:h-8 hover:cursor-pointer md:w-7 md:h-7 w-5 h-5"
+                    colour="#4E4E4E"></LinkedInLogo>
+                <div class="lg:flex hidden absolute text-center mb-40 bg-black text-white text-sm py-2 px-8 rounded-3xl transition-opacity duration-500 ease-in-out -z-10"
+                    :class="{ 'opacity-100': copied, 'opacity-0': !copied }">
+                    Copied to clipboard!
+                </div>
+            </div>
         </div>
     </div>
+
 </template>
 
 <script setup lang="ts">
@@ -15,10 +28,13 @@ import FacebookIcon from './icons/FacebookIcon.vue';
 import TwitterIcon from './icons/TwitterIcon.vue';
 import LinkedInLogo from './icons/LinkedInLogo.vue';
 import LinkIcon from './icons/LinkIcon.vue';
+import { ref } from 'vue';
 const props = defineProps({
     title: String
 }
 );
+
+const copied = ref(false);
 
 const url = encodeURIComponent(window.location.href);
 // Function to share content
@@ -50,6 +66,8 @@ const shareOnLinkedIn = () => {
 };
 
 const copyToClipboard = () => {
+    copied.value = true;
+
     const textarea = document.createElement('textarea');
     textarea.value = window.location.href;
     textarea.setAttribute('readonly', '');
@@ -59,5 +77,21 @@ const copyToClipboard = () => {
     textarea.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);
+
+    setTimeout(() => {
+        copied.value = false;
+    }, 2000);
 };
 </script>
+
+<style scoped>
+.copied-message {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+</style>
