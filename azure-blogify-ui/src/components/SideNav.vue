@@ -30,7 +30,8 @@ const toggleSideNav = () => {
           <p v-if="isLoggedIn" class="text-xs text-gray-500 font-light">Logged in as: {{ user.userDetails }}</p>
           <router-link class="hover:cursor-pointer max-w-fit" to="/" key="home"
             @click="toggleSideNav()">Home</router-link>
-          <a @click="toggleSideNav()" href="https://bradmalgas.com" target="_blank">About</a>
+          <a class="hover:cursor-pointer max-w-fit" href="https://bradmalgas.com" target="_blank"
+            @click="toggleSideNav()">About</a>
           <router-link v-if="isAdmin" class="hover:cursor-pointer max-w-fit" to="/editor" key="editor"
             @click="toggleSideNav()">Editor</router-link>
           <a v-if="!isLoggedIn" class="hover:cursor-pointer max-w-fit" href="/login" @click="toggleSideNav()">Login</a>
