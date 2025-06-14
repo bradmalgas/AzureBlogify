@@ -27,27 +27,6 @@ const toggleSearchBar = () => {
 </script>
 
 <template>
-
-    <!-- Mobile/Tablet NavBar -->
-    <div
-        class="flex justify-between items-center bg-white overflow-hidden lg:hidden min-w-80 max-h-[60px] border-0 border-black border-b sticky top-0 z-10 px-3">
-        <div>
-            <SideNav />
-        </div>
-        <div class="flex items-center relative">
-            <router-link to="/" key="home">
-                <BradLogo />
-            </router-link>
-        </div>
-        <div class="flex">
-            <input v-if="showSearchBar" v-model="searchString"
-                class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2" type="text" placeholder="Search.."
-                @keyup.enter="search">
-            <SearchIcon v-if="!showSearchBar" @click="toggleSearchBar()" class="'h-8 pr-2" />
-            <CloseIcon v-if="showSearchBar" @click="toggleSearchBar()" class="'h-6 px-2" />
-        </div>
-    </div>
-
     <!-- Laptop NavBar -->
     <div
         class="bg-white border-0 border-black border-b truncate hidden lg:flex justify-between items-center max-h-[80px] sticky top-0 z-10 px-3">
@@ -72,6 +51,26 @@ const toggleSearchBar = () => {
                     type="text" placeholder="Search.." @keyup.enter="search">
                 <SearchIcon @click="search" class="h-6 pr-2 hover:cursor-pointer" />
             </div>
+        </div>
+    </div>
+
+    <!-- Mobile/Tablet NavBar -->
+    <div
+        class="flex justify-between items-center bg-white overflow-hidden lg:hidden min-w-80 max-h-[60px] border-0 border-black border-b sticky top-0 z-10 px-3">
+        <div>
+            <SideNav />
+        </div>
+        <div class="flex items-center relative">
+            <router-link to="/" key="home">
+                <BradLogo />
+            </router-link>
+        </div>
+        <div class="flex">
+            <input v-if="showSearchBar" v-model="searchString"
+                class="bg-gray-200 rounded-[13px] min-w-52 focus:outline-none pl-2" type="text" placeholder="Search.."
+                @keyup.enter="search">
+            <SearchIcon v-if="!showSearchBar" @click="toggleSearchBar()" class="'h-8 pr-2" />
+            <CloseIcon v-if="showSearchBar" @click="toggleSearchBar()" class="'h-6 px-2" />
         </div>
     </div>
 </template>
